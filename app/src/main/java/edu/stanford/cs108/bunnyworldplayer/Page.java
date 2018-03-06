@@ -1,6 +1,7 @@
 package edu.stanford.cs108.bunnyworldplayer;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by Jerry Chen on 3/5/2018.
@@ -9,7 +10,7 @@ import java.util.ArrayList;
 
 public class Page {
     private String name;
-    private ArrayList<Shape> shapes;
+    private HashMap<String,Shape> shapes;
     private float x;
     private float y;
     private float width;
@@ -17,7 +18,7 @@ public class Page {
     private boolean starter;
     public Page(String name, float width, float height) {
         this.name = name;
-        this.shapes = new ArrayList<Shape>();
+        this.shapes = new HashMap<String, Shape>();
         this.width = width;
         this.height = height; //how to pass these on?
         this.x = 0;
@@ -59,7 +60,7 @@ public class Page {
         this.y = y;
     }
 
-    public ArrayList<Shape> getShapes() {
+    public HashMap<String, Shape> getShapes() {
         return shapes;
     }
 }
