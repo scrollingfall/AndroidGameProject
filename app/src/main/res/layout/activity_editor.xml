@@ -15,25 +15,25 @@
         android:rowCount="1"
         android:id="@+id/top_grid">
         <TextView
-            android:id="@+id/actions_list"
+            android:id="@+id/actionsList"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_columnWeight="1"
             android:text="Actions: "/>
         <TextView
-            android:id="@+id/resources_list"
+            android:id="@+id/resourcesList"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_columnWeight="1"
             android:text="Resources: "/>
         <TextView
-            android:id="@+id/names_list"
+            android:id="@+id/namesList"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_columnWeight="1"
             android:text="Names: "/>
-        <TextView
-            android:id="@+id/add_page_btn"
+        <Button
+            android:id="@+id/add_pageBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_columnWeight="2"
@@ -58,19 +58,19 @@
         android:rowCount="1"
         android:id="@+id/bottom_grid">
         <TextView
-            android:id="@+id/page_list"
+            android:id="@+id/pageList"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_columnWeight="1"
             android:text="Page List: "/>
         <TextView
-            android:id="@+id/shape_list"
+            android:id="@+id/shapeList"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_columnWeight="1"
             android:text="Shape List: "/>
-        <TextView
-            android:id="@+id/save_btn"
+        <Button
+            android:id="@+id/saveBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_columnWeight="2"
