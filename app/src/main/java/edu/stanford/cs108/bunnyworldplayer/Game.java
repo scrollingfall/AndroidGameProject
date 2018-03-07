@@ -14,16 +14,21 @@ public class Game {
     private String name;
     private boolean valid = false; //might need to be appropriately updated upon adding anything
     private HashMap<String,Page> pages;
+    private String starter;
+    private String currentPage;
     private Page posessions;
     private Activity activity;
     private HashMap<String, BitmapDrawable> imgResources;
     private HashMap<String, Integer> musicResources;
 
-    public Game(String name, Activity activity) {
+    public Game(String name, Activity activity, String starter) {
         this.name = name;
+        this.starter = starter;
+        this.currentPage = starter;
         this.activity = activity;
         pages = new HashMap<String, Page>();
         posessions = new Page("posessions", 100, 100); //random values
+        initResources();
     }
 
     private void initResources() {
