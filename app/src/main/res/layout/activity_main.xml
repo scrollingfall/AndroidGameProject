@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="edu.stanford.cs108.bunnyworldplayer.MainActivity">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Welcome to BunnyWorld! Choose one of the following options to procees! "/>
+
+    <Button
+        android:id="@+id/create_game"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Create New Game"
+        android:onClick="createGame" />
+
+    <Button
+        android:id="@+id/play_game"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Play Existing Game"
+        android:onClick="playGame" />
+
+    <Button
+        android:id="@+id/edit_game"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Edit Existing Game"
+        android:onClick="editGame" />
+
+
+</LinearLayout>
+
+
