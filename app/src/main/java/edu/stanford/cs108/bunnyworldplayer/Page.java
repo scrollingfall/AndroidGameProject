@@ -16,6 +16,7 @@ public class Page {
     private float width;
     private float height;
     private boolean starter;
+    private static HashMap<String, Shape> resources = new HashMap<String, Shape>();
     public Page(String name, float width, float height) {
         this.name = name;
         this.shapes = new HashMap<String, Shape>();
@@ -62,5 +63,19 @@ public class Page {
 
     public HashMap<String, Shape> getShapes() {
         return shapes;
+    }
+
+    public boolean removeFromBackpack(String name){
+        if (!resources.containsKey(name))
+            return false;
+        resources.remove(name);
+        return true;
+    }
+
+    public boolean addToBackpack(String name, Shape shape) {
+        if (resources.containsKey(name))
+            return false;
+        resources.put(name, shape);
+        return true;
     }
 }
