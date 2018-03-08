@@ -22,13 +22,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void createGame(View view){
-        Intent intent = new Intent(this, Editor.class);
+        Intent intent = new Intent(this, EditorActivity.class);
         startActivity(intent);
     }
 
     public void editGame(View view){
 
-        Intent intent = new Intent(this, Editor.class);
+        Intent intent = new Intent(this, EditorActivity.class);
         startActivity(intent);
     }
 
