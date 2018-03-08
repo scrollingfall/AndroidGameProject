@@ -10,28 +10,32 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Welcome to BunnyWorld! Choose one of the following options to procees! "/>
+        android:text="Welcome to BunnyWorld! Choose one of the following options to proceed! "
+        android:layout_gravity="center" />
 
     <Button
         android:id="@+id/create_game"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Create New Game"
-        android:onClick="createGame" />
+        android:onClick="createGame"
+        android:layout_gravity="center"/>
 
     <Button
         android:id="@+id/edit_game"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Edit Existing Game"
-        android:onClick="editGame" />
+        android:onClick="editGame"
+        android:layout_gravity="center"/>
 
     <Button
         android:id="@+id/play_game"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="PLAY!"
-        android:onClick="playGame" />
+        android:onClick="playGame"
+        android:layout_gravity="center"/>
 
 
 </LinearLayout>
