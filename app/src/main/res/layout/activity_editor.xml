@@ -33,11 +33,11 @@
             android:layout_columnWeight="2"
             android:text="Names: "/>
         <Button
-            android:id="@+id/add_pageBtn"
+            android:id="@+id/saveBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_columnWeight="1"
-            android:text="ADD PAGE"/>
+            android:text="SAVE PAGE"/>
     </GridLayout>
 
     <GridLayout
@@ -81,12 +81,6 @@
             android:layout_height="wrap_content"
             android:layout_columnWeight="2"
             android:text="Shape List: "/>
-        <Button
-            android:id="@+id/saveBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_columnWeight="1"
-            android:text="SAVE"/>
     </GridLayout>
 
 </RelativeLayout>
