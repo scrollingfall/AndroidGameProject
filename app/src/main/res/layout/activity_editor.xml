@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="edu.stanford.cs108.bunnyworldplayer.MainActivity">
+    tools:context="edu.stanford.cs108.bunnyworldplayer.EditorActivity">
 
     <GridLayout
         android:layout_width="match_parent"
@@ -13,30 +13,30 @@
         android:layout_centerInParent="true"
         android:columnCount="4"
         android:rowCount="1"
-        android:id="@+id/top_grid">
+        android:id="@+id/topGrid">
         <TextView
-            android:id="@+id/actions_list"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_columnWeight="1"
-            android:text="Actions: "/>
-        <TextView
-            android:id="@+id/resources_list"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_columnWeight="1"
-            android:text="Resources: "/>
-        <TextView
-            android:id="@+id/names_list"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_columnWeight="1"
-            android:text="Names: "/>
-        <TextView
-            android:id="@+id/add_page_btn"
+            android:id="@+id/actionsList"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_columnWeight="2"
+            android:text="Actions: "/>
+        <TextView
+            android:id="@+id/resourcesList"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="2"
+            android:text="Resources: "/>
+        <TextView
+            android:id="@+id/namesList"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="2"
+            android:text="Names: "/>
+        <Button
+            android:id="@+id/add_pageBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
             android:text="ADD PAGE"/>
     </GridLayout>
 
@@ -46,6 +46,18 @@
         android:layout_centerInParent="true"
         android:columnCount="2"
         android:rowCount="1">
+        <TextView
+            android:layout_column="0"
+            android:id="@+id/previewArea"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Preview Area"/>
+        <TextView
+            android:layout_column="1"
+            android:id="@+id/Suggestions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Suggestion"/>
 
     </GridLayout>
 
@@ -58,22 +70,22 @@
         android:rowCount="1"
         android:id="@+id/bottom_grid">
         <TextView
-            android:id="@+id/page_list"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_columnWeight="1"
-            android:text="Page List: "/>
-        <TextView
-            android:id="@+id/shape_list"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_columnWeight="1"
-            android:text="Shape List: "/>
-        <TextView
-            android:id="@+id/save_btn"
+            android:id="@+id/pageList"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_columnWeight="2"
+            android:text="Page List: "/>
+        <TextView
+            android:id="@+id/shapeList"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="2"
+            android:text="Shape List: "/>
+        <Button
+            android:id="@+id/saveBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
             android:text="SAVE"/>
     </GridLayout>
 
