@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="edu.stanford.cs108.bunnyworldplayer.MainActivity">
+    tools:context="edu.stanford.cs108.bunnyworldplayer.EditorActivity">
 
     <GridLayout
         android:layout_width="match_parent"
@@ -13,7 +13,7 @@
         android:layout_centerInParent="true"
         android:columnCount="4"
         android:rowCount="1"
-        android:id="@+id/top_grid">
+        android:id="@+id/topGrid">
         <TextView
             android:id="@+id/actionsList"
             android:layout_width="wrap_content"
@@ -46,6 +46,18 @@
         android:layout_centerInParent="true"
         android:columnCount="2"
         android:rowCount="1">
+        <TextView
+            android:layout_column="0"
+            android:id="@+id/previewArea"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Preview Area"/>
+        <TextView
+            android:layout_column="1"
+            android:id="@+id/Suggestions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Suggestion"/>
 
     </GridLayout>
 
