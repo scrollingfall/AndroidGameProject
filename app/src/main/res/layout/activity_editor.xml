@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context="edu.stanford.cs108.bunnyworldplayer.EditorActivity">
 
-    <GridLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -14,37 +14,35 @@
         android:columnCount="4"
         android:rowCount="1"
         android:id="@+id/topGrid">
-        <TextView
-            android:id="@+id/actionsList"
+
+        <Spinner
+            android:id="@+id/pageSpinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_columnWeight="2"
-            android:text="Actions: "/>
-        <TextView
-            android:id="@+id/resourcesList"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_columnWeight="2"
-            android:text="Resources: "/>
-        <TextView
-            android:id="@+id/namesList"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_columnWeight="2"
-            android:text="Names: "/>
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:text="Page Dropdown" />
+
         <Button
-            android:id="@+id/saveBtn"
+            android:id="@+id/addPageBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_columnWeight="1"
+            android:text="Add Page"/>
+
+        <Button
+            android:id="@+id/savePageBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
             android:text="SAVE PAGE"/>
-    </GridLayout>
+    </LinearLayout>
 
     <GridLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:columnCount="2"
+        android:columnCount="1"
         android:rowCount="1">
         <TextView
             android:layout_column="0"
@@ -52,12 +50,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Preview Area"/>
-        <TextView
-            android:layout_column="1"
-            android:id="@+id/Suggestions"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Suggestion"/>
 
     </GridLayout>
 
@@ -66,21 +58,67 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerInParent="true"
-        android:columnCount="3"
+        android:columnCount="10"
         android:rowCount="1"
         android:id="@+id/bottom_grid">
-        <TextView
-            android:id="@+id/pageList"
+        <Button
+            android:id="@+id/addShapeBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_columnWeight="2"
-            android:text="Page List: "/>
-        <TextView
-            android:id="@+id/shapeList"
+            android:text="Add Shape"/>
+        <Button
+            android:id="@+id/editShapeBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_columnWeight="2"
-            android:text="Shape List: "/>
+            android:text="Edit Shape"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="X: "/>
+        <TextView
+            android:id="@+id/x_field"
+            android:inputType="numberDecimal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="2"
+            android:text="0"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Y: "/>
+        <TextView
+            android:id="@+id/y_field"
+            android:inputType="numberDecimal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="2"
+            android:text="0"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Width: "/>
+        <TextView
+            android:id="@+id/width_field"
+            android:inputType="numberDecimal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="2"
+            android:text="0"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Height: "/>
+        <TextView
+            android:id="@+id/height_field"
+            android:inputType="numberDecimal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="2"
+            android:text="0"/>
+
     </GridLayout>
 
 </RelativeLayout>
