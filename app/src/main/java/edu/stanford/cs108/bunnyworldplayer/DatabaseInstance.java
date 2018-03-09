@@ -17,8 +17,8 @@ public class DatabaseInstance {
     public SQLiteDatabase getCurrentDatabase(){ return database; }
 
     public ArrayList<Game> getAllGames(){
-
-
+        ArrayList<Game> games = new ArrayList<Game>();
+        return games;
     }
 
     public ArrayList<String> getAllGamesString(DatabaseInstance game){
