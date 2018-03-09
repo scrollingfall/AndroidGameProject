@@ -1,6 +1,8 @@
 package edu.stanford.cs108.bunnyworldplayer;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -15,20 +17,22 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
+//        setContentView(R.layout.shape_editor);
     }
 
     public void createGame(View view){
-        Intent intent = new Intent(this, Editor.class);
+        Intent intent = new Intent(this, SharedPreferences.Editor.class);
         startActivity(intent);
     }
 
     public void editGame(View view){
 
-        Intent intent = new Intent(this, Editor.class);
+        Intent intent = new Intent(this, SharedPreferences.Editor.class);
         startActivity(intent);
     }
 
