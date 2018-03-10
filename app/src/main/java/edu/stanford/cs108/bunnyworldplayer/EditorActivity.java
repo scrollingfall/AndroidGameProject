@@ -18,6 +18,7 @@ public class EditorActivity extends AppCompatActivity {
     ArrayAdapter<String> adapter;
 
     protected void onCreate(Bundle savedInstanceState) {
+        System.out.println("EditorActivity.java hit");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
 

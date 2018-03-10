@@ -19,27 +19,25 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // #SAM'S CODE FOR NOW
-
-        setContentView(R.layout.activity_editor);
+        setContentView(R.layout.activity_main);
 
     }
 
     public void createGame(View view){
-        Intent intent = new Intent(this, EditorActivity.class);
+        Intent intent = new Intent(MainActivity.this, EditorActivity.class);
         startActivity(intent);
     }
 
     public void editGame(View view){
 
-        Intent intent = new Intent(this, GameListEdit.class);
+        Intent intent = new Intent(MainActivity.this, GameListEdit.class);
         startActivity(intent);
     }
 
     public void playGame(View view){
 
 
-        Intent intent = new Intent(this, GameListPlay.class);
+        Intent intent = new Intent(MainActivity.this, GameListPlay.class);
         startActivity(intent);
     }
 }
