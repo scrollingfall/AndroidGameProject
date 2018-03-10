@@ -1,6 +1,7 @@
 package edu.stanford.cs108.bunnyworldplayer;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;
 
 import java.util.ArrayList;
@@ -17,16 +18,16 @@ public class Game {
     private String starter;
     private String currentPage;
     private Page posessions;
-    private Activity activity;
+    private Context context;
     private HashMap<String, BitmapDrawable> imgResources;
     private HashMap<String, Integer> musicResources;
     private boolean editorMode;
 
-    public Game(String name, Activity activity, String starter) {
+    public Game(String name, Context context, String starter) {
         this.name = name;
         this.starter = starter;
         this.currentPage = starter;
-        this.activity = activity;
+        this.context = context;
         pages = new HashMap<String, Page>();
         posessions = new Page("posessions", 100, 100); //random values
         this.editorMode = false;
@@ -41,12 +42,12 @@ public class Game {
 
     private void initResources() {
         imgResources = new HashMap<String, BitmapDrawable>();
-        imgResources.put("carrot", (BitmapDrawable) activity.getResources().getDrawable(R.drawable.carrot));
-        imgResources.put("carrot2", (BitmapDrawable) activity.getResources().getDrawable(R.drawable.carrot2));
-        imgResources.put("death", (BitmapDrawable) activity.getResources().getDrawable(R.drawable.death));
-        imgResources.put("duck", (BitmapDrawable) activity.getResources().getDrawable(R.drawable.duck));
-        imgResources.put("fire", (BitmapDrawable) activity.getResources().getDrawable(R.drawable.fire));
-        imgResources.put("mystic", (BitmapDrawable) activity.getResources().getDrawable(R.drawable.mystic));
+        imgResources.put("carrot", (BitmapDrawable) context.getResources().getDrawable(R.drawable.carrot));
+        imgResources.put("carrot2", (BitmapDrawable) context.getResources().getDrawable(R.drawable.carrot2));
+        imgResources.put("death", (BitmapDrawable) context.getResources().getDrawable(R.drawable.death));
+        imgResources.put("duck", (BitmapDrawable) context.getResources().getDrawable(R.drawable.duck));
+        imgResources.put("fire", (BitmapDrawable) context.getResources().getDrawable(R.drawable.fire));
+        imgResources.put("mystic", (BitmapDrawable) context.getResources().getDrawable(R.drawable.mystic));
         musicResources = new HashMap<String, Integer>();
         musicResources.put("carrotcarrotcarrot", R.raw.carrotcarrotcarrot);
         musicResources.put("evillaugh", R.raw.evillaugh);
@@ -101,14 +102,6 @@ public class Game {
 
     public void setCurrentPage(String currentPage) {
         this.currentPage = currentPage;
-    }
-
-    public Activity getActivity() {
-        return activity;
-    }
-
-    public void setActivity(Activity activity) {
-        this.activity = activity;
     }
 
     public HashMap<String, BitmapDrawable> getImgResources() {

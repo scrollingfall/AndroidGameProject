@@ -1,10 +1,10 @@
 package edu.stanford.cs108.bunnyworldplayer;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
@@ -13,16 +13,19 @@ import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 
+import java.util.HashMap;
+
 /**
  * Created by Jerry Chen on 3/5/2018.
  */
 
 public class Shape extends RectF {
-    private String nameShape;
+    private String name;
     private String owner;
     private String text;
-    private String imageString;
+    private String image;
     private boolean hidden;
+    private boolean editorMode;
     private int colorRectangle = Color.LTGRAY;
     private boolean moveable;
     private float x;
@@ -30,17 +33,20 @@ public class Shape extends RectF {
     private float width;
     private float height;
     private boolean inBackpack;
+    private String onClick;
+    private String onEnter;
+    private HashMap<String, String> onDrop;
     private Canvas canvas;
-    private Bitmap image;
+    private Bitmap imagePic;
     private Context context;
 
 
     // Constructor
-    public Shape (String name, float x, float y, float width, float height) {
-        this.nameShape = nameShape;
+    public Shape (Context context, String name, float x, float y, float width, float height) {
+        this.name = name;
         this.owner = "";
         this.text = "";
-        this.imageString = "";
+        this.image = "";
         this.hidden = true;
         this.moveable = false;
         this.x = x;
@@ -48,13 +54,23 @@ public class Shape extends RectF {
         this.width = width;
         this.height = height;
         this.inBackpack = false;
+        this.onClick = "";
+        this.onEnter = "";
+        this.onDrop = new HashMap<String, String>();
+        this.editorMode = false;
+        this.context = context;
     }
-    public Shape (String nameShape, String owner, String text, String imageString, boolean hidden, boolean moveable,
-                  float x, float y, float width, float height, boolean inBackpack, Context context) {
-        this.nameShape = nameShape;
+
+    public void setEditorMode (boolean editable){
+        editorMode = editable;
+    }
+
+    public Shape (Context context, String name, String owner, String text, String image, boolean hidden, boolean moveable,
+                  float x, float y, float width, float height, boolean inBackpack) {
+        this.name = name;
         this.owner = owner;
         this.text = text;
-        this.imageString = imageString;
+        this.image = image;
         this.hidden = hidden;
         this.moveable = moveable;
         this.x = x;
@@ -62,15 +78,19 @@ public class Shape extends RectF {
         this.width = width;
         this.height = height;
         this.inBackpack = inBackpack;
+        this.onClick = "";
+        this.onEnter = "";
+        this.onDrop = new HashMap<String, String>();
+        this.editorMode = false;
         this.context = context;
     }
 
-    public String getShapeName() {
-        return nameShape;
+    public String getName() {
+        return name;
     }
 
-    public void setShapeName(String nameShape) {
-        this.nameShape = nameShape;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getOwner() {
@@ -90,11 +110,11 @@ public class Shape extends RectF {
     }
 
     public String getImage() {
-        return imageString;
+        return image;
     }
 
-    public void setImage(String imageString) {
-        this.imageString = imageString;
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public boolean isHidden() {
@@ -117,8 +137,11 @@ public class Shape extends RectF {
         return x;
     }
 
-    public void setX(float x) {
-        this.x = x;
+    public void move(float x, float y) {
+        if (moveable || editorMode) {
+            this.x = x;
+            this.y = y;
+        }
     }
 
     public float getY() {
@@ -133,16 +156,13 @@ public class Shape extends RectF {
         return width;
     }
 
-    public void setWidth(float width) {
+    public void resize(float width, float height) {
         this.width = width;
+        this.height = height;
     }
 
     public float getHeight() {
         return height;
-    }
-
-    public void setHeight(float height) {
-        this.height = height;
     }
 
     public boolean isInBackpack() {
@@ -153,11 +173,35 @@ public class Shape extends RectF {
         this.inBackpack = inBackpack;
     }
 
+    public String getOnClick() {
+        return onClick;
+    }
+
+    public void setOnClick(String onClick) {
+        this.onClick = onClick;
+    }
+
+    public String getOnEnter() {
+        return onEnter;
+    }
+
+    public void setOnEnter(String onEnter) {
+        this.onEnter = onEnter;
+    }
+
+    public HashMap<String, String> getOnDrop() {
+        return onDrop;
+    }
+
+    public boolean containsOnDropFor(String name) {
+        return onDrop.containsKey(name);
+    }
+
     public void draw(Canvas canvas) {
         if (isHidden()) return;
         else{
             this.canvas = canvas;
-            if (imageString.isEmpty() && getText().isEmpty()){
+            if (image.isEmpty() && getText().isEmpty()){
                 Paint grayRect = new Paint();
                 grayRect.setColor(Color.LTGRAY);
                 grayRect.setStyle(Paint.Style.FILL);
@@ -165,23 +209,18 @@ public class Shape extends RectF {
                 canvas.drawRect(greyRectangle, grayRect);
             }
 
-            else if(!imageString.isEmpty()){
-                Resources res = context.getResources();
-                int resID = res.getIdentifier(imageString, "drawable", context.getPackageName());
-                BitmapDrawable imageDrawable = (BitmapDrawable) context.getResources().getDrawable(resID, context.getTheme());
-                image = imageDrawable.getBitmap();
+            else if(!image.isEmpty()){
+                Resources resource = context.getResources();
+                int resourceIdentifier = resource.getIdentifier(image, "drawable", context.getPackageName());
+                BitmapDrawable bitmapImageDrawable = (BitmapDrawable) context.getResources().getDrawable(resourceIdentifier);
+                imagePic = bitmapImageDrawable.getBitmap();
 
-                //rescale according to the rect
-                int width = image.getWidth();
-                int  height = image.getHeight();
-                float scaleWidth = this.width() / width;
-                float scaleHeight = this.height() / height;
-                Matrix matrix = new Matrix();
-                matrix.postScale(scaleWidth, scaleHeight);
-                image = image.createBitmap(image, 0, 0, width, height, matrix, false);
-                this.bottom = this.top + image.getHeight();
-                this.right = this.left + image.getWidth();
-                page.drawBitmap(image, left, top, null);
+                Matrix m1 = new Matrix();
+                m1.postScale((float) this.width() / imagePic.getWidth(), (float) this.height() / imagePic.getHeight());
+                imagePic = imagePic.createBitmap(imagePic, 0, 0, imagePic.getWidth() , imagePic.getHeight(), m1, false);
+                this.bottom = this.top + imagePic.getHeight();
+                this.right = this.left + imagePic.getWidth();
+                canvas.drawBitmap(imagePic, left, top, null);
 
             }
 
@@ -197,7 +236,9 @@ public class Shape extends RectF {
 
 
         }
+    }
 
-
+    public boolean isTouched (float xq, float yq) {
+        return xq >= x && xq <= x + width && yq >= y && yq <= y + height;
     }
 }
