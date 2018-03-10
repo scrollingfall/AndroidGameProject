@@ -1,5 +1,7 @@
 package edu.stanford.cs108.bunnyworldplayer;
 
+import android.graphics.Canvas;
+
 /**
  * Created by Jerry Chen on 3/5/2018.
  */
@@ -130,5 +132,9 @@ public class Shape {
 
     public void setInBackpack(boolean inBackpack) {
         this.inBackpack = inBackpack;
+    }
+
+    public void draw(Canvas canvas) {
+        //todo
     }
 }
