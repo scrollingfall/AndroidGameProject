@@ -11,6 +11,8 @@ import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 
+import java.util.HashMap;
+
 /**
  * Created by Jerry Chen on 3/5/2018.
  */
@@ -21,6 +23,7 @@ public class Shape extends RectF {
     private String text;
     private String image;
     private boolean hidden;
+    private boolean editorMode;
     private int colorRectangle = Color.LTGRAY;
     private boolean moveable;
     private float x;
@@ -28,7 +31,9 @@ public class Shape extends RectF {
     private float width;
     private float height;
     private boolean inBackpack;
-    private Canvas canvas;
+    private String onClick;
+    private String onEnter;
+    private HashMap<String, String> onDrop;
 
 
     // Constructor
@@ -44,7 +49,16 @@ public class Shape extends RectF {
         this.width = width;
         this.height = height;
         this.inBackpack = false;
+        this.onClick = "";
+        this.onEnter = "";
+        this.onDrop = new HashMap<String, String>();
+        this.editorMode = false;
     }
+
+    public void setEditorMode (boolean editable){
+        editorMode = editable;
+    }
+
     public Shape (String name, String owner, String text, String image, boolean hidden, boolean moveable,
                   float x, float y, float width, float height, boolean inBackpack) {
         this.name = name;
@@ -58,6 +72,10 @@ public class Shape extends RectF {
         this.width = width;
         this.height = height;
         this.inBackpack = inBackpack;
+        this.onClick = "";
+        this.onEnter = "";
+        this.onDrop = new HashMap<String, String>();
+        this.editorMode = false;
     }
 
     public String getName() {
@@ -112,8 +130,11 @@ public class Shape extends RectF {
         return x;
     }
 
-    public void setX(float x) {
-        this.x = x;
+    public void move(float x, float y) {
+        if (moveable || editorMode) {
+            this.x = x;
+            this.y = y;
+        }
     }
 
     public float getY() {
@@ -128,16 +149,13 @@ public class Shape extends RectF {
         return width;
     }
 
-    public void setWidth(float width) {
+    public void resize(float width, float height) {
         this.width = width;
+        this.height = height;
     }
 
     public float getHeight() {
         return height;
-    }
-
-    public void setHeight(float height) {
-        this.height = height;
     }
 
     public boolean isInBackpack() {
@@ -148,7 +166,35 @@ public class Shape extends RectF {
         this.inBackpack = inBackpack;
     }
 
+    public String getOnClick() {
+        return onClick;
+    }
+
+    public void setOnClick(String onClick) {
+        this.onClick = onClick;
+    }
+
+    public String getOnEnter() {
+        return onEnter;
+    }
+
+    public void setOnEnter(String onEnter) {
+        this.onEnter = onEnter;
+    }
+
+    public HashMap<String, String> getOnDrop() {
+        return onDrop;
+    }
+
+    public boolean containsOnDropFor(String name) {
+        return onDrop.containsKey(name);
+    }
+
     public void draw(Canvas canvas) {
         //todo
+    }
+
+    public boolean isTouched (float xq, float yq) {
+        return xq >= x && xq <= x + width && yq >= y && yq <= y + height;
     }
 }
