@@ -20,14 +20,23 @@ public class Player extends View {
     }
 
     private float startx, starty;
+    private Shape currentlySelected;
+
+    private Game game;
+    public void setGame(Game game) {
+        this.game = game;
+    }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()){
             case MotionEvent.ACTION_DOWN:
-                startx = event.getX();
-                starty = event.getY();
-                invalidate();
+                currentlySelected = getTopAt(event.getX(), event.getY());
+                if (currentlySelected != null) {
+                    startx = event.getX();
+                    starty = event.getY();
+                    invalidate();
+                }
                 break;
             case MotionEvent.ACTION_MOVE:
                 invalidate();
@@ -37,10 +46,19 @@ public class Player extends View {
         return true;
     }
 
+    private Shape getTopAt(float x, float y) {
+        for (int i = game.getCurrentPage().getShapeList().size() - 1; i >= 0; i--)
+            if (game.getCurrentPage().getShapeList().get(i).isTouched(x, y))
+                return game.getCurrentPage().getShapeList().get(i);
+        return null;
+    }
+
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        for (Shape s: game.getCurrentPage().getShapeList())
+            s.draw(canvas);
     }
 
     @Override
