@@ -2,6 +2,7 @@ package edu.stanford.cs108.bunnyworldplayer;
 
 import android.content.res.AssetManager;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
@@ -18,7 +19,7 @@ public class Shape extends RectF {
     private String name;
     private String owner;
     private String text;
-    private String image;
+    private String imageText;
     private boolean hidden;
     private int colorRectangle = Color.LTGRAY;
     private boolean moveable;
@@ -28,6 +29,7 @@ public class Shape extends RectF {
     private float height;
     private boolean inBackpack;
     private Canvas canvas;
+    private Bitmap image;
 
 
     // Constructor
@@ -35,7 +37,7 @@ public class Shape extends RectF {
         this.name = name;
         this.owner = "";
         this.text = "";
-        this.image = "";
+        this.imageText = "";
         this.hidden = true;
         this.moveable = false;
         this.x = x;
@@ -49,7 +51,7 @@ public class Shape extends RectF {
         this.name = name;
         this.owner = owner;
         this.text = text;
-        this.image = image;
+        this.imageText = image;
         this.hidden = hidden;
         this.moveable = moveable;
         this.x = x;

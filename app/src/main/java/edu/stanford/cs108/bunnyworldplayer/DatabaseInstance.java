@@ -10,10 +10,6 @@ import java.util.ArrayList;
 
 public class DatabaseInstance {
 
-
-
-
-
     private SQLiteDatabase database;
 
     public SQLiteDatabase getCurrentDatabase(){ return database; }
