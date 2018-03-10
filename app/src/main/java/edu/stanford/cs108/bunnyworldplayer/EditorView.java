@@ -41,7 +41,10 @@ public class EditorView extends View {
         // check if touching coordinates that a shape contains
         float shapeX = event.getX();
         float shapeY = event.getY();
-        // how do I know which page I'm looking at, so I can look at this page's shapes???
+
+        TextView pageName = (TextView) ((Activity) getContext()).findViewById(R.id.pageName);
+        System.out.println(pageName.getText());
+
         //for (int i = 0; i < )
 
         return true;

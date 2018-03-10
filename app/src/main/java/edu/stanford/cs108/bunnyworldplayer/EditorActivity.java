@@ -48,12 +48,14 @@ public class EditorActivity extends AppCompatActivity {
                 Toast.LENGTH_SHORT);
         toast.show();
 
-        // todo: more stuff here?
+        // todo: add new page object to Game's hashmap for pages
+
 
     }
 
     public void onSavePage(View view) {
-        // todo: save current page to game's data structure for pages
+        // todo: update current page in Game's hashmap for pages
+
         Toast toast = Toast.makeText(
                 getApplicationContext(),
                 "Page Saved!",
