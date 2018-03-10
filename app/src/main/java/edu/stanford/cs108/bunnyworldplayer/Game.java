@@ -23,10 +23,10 @@ public class Game {
     private HashMap<String, Integer> musicResources;
     private boolean editorMode;
 
-    public Game(String name, Context context, String starter) {
+    public Game(Page firstPage, String name, Context context) {
         this.name = name;
-        this.starter = starter;
-        this.currentPage = starter;
+        this.starter = firstPage.getName();
+        this.currentPage = firstPage.getName();
         this.context = context;
         pages = new HashMap<String, Page>();
         posessions = new Page("posessions", 100, 100); //random values

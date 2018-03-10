@@ -11,8 +11,8 @@ import java.util.*;
  */
 
 public class EditorActivity extends AppCompatActivity {
-    Page firstPage = new Page("page1", 200, 200);
-    Game newGame = new Game("game1", this, firstPage.getName());
+    Page firstPage;
+    Game newGame;
     ArrayList<String> pageList;
     Spinner pageSpinner;
     int pageCounter = 1;
@@ -21,6 +21,10 @@ public class EditorActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
+
+        // instantiate new game
+        firstPage = new Page("page1", 200, 200);
+        newGame = new Game(firstPage, "game1", getApplicationContext());
 
         pageList = new ArrayList<>();
         pageList.add("page" + Integer.toString(pageCounter));
@@ -34,11 +38,16 @@ public class EditorActivity extends AppCompatActivity {
     public void onAddPage(View view) {
         // add to arraylist, create new spinner
         pageCounter += 1;
-        pageList.add("page" + Integer.toString(pageCounter));
+        String pageName = "page" + Integer.toString(pageCounter);
+        pageList.add(pageName);
         adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, pageList);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         pageSpinner.setAdapter(adapter);
+
+        // todo: add new page object to Game's hashmap for pages
+        Page newPage = new Page(pageName, 200, 200);
+        newGame.addPage(pageName, newPage);
 
         Toast toast = Toast.makeText(
                 getApplicationContext(),
@@ -46,9 +55,8 @@ public class EditorActivity extends AppCompatActivity {
                 Toast.LENGTH_SHORT);
         toast.show();
 
-        // todo: add new page object to Game's hashmap for pages
-
-
+        // testing
+        System.out.println(newGame.getPages().keySet().toString());
     }
 
     public void onSavePage(View view) {
@@ -63,7 +71,6 @@ public class EditorActivity extends AppCompatActivity {
     }
 
     public void onAddShape(View view) {
-
         // todo: add shape to page's data structure for shapes
 
         Toast toast = Toast.makeText(
