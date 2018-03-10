@@ -1,21 +1,37 @@
 package edu.stanford.cs108.bunnyworldplayer;
 
+import android.graphics.Canvas;
+import android.content.res.AssetManager;
+import android.content.res.Resources;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.graphics.RectF;
+import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
+
 /**
  * Created by Jerry Chen on 3/5/2018.
  */
 
-public class Shape {
+public class Shape extends RectF {
     private String name;
     private String owner;
     private String text;
     private String image;
     private boolean hidden;
+    private int colorRectangle = Color.LTGRAY;
     private boolean moveable;
     private float x;
     private float y;
     private float width;
     private float height;
     private boolean inBackpack;
+    private Canvas canvas;
+
+
+    // Constructor
     public Shape (String name, float x, float y, float width, float height) {
         this.name = name;
         this.owner = "";
@@ -130,5 +146,9 @@ public class Shape {
 
     public void setInBackpack(boolean inBackpack) {
         this.inBackpack = inBackpack;
+    }
+
+    public void draw(Canvas canvas) {
+        //todo
     }
 }

@@ -31,7 +31,7 @@ public class GameListEdit extends AppCompatActivity{
 
         currentDatabase = recent.getCurrentDatabase();
 
-        //ArrayList<String> gameString = recent.getAllGamesString(recent);
+        ArrayList<String> gameString = recent.getAllGamesString(recent);
 //        ListAdapter adapter = new SimpleCursorAdapter(this, gameString);
 //        list.setAdapter(adapter);
     }

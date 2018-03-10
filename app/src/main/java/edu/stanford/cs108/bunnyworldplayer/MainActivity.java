@@ -32,14 +32,14 @@ public class MainActivity extends AppCompatActivity {
 
     public void editGame(View view){
 
-        Intent intent = new Intent(this, EditorActivity.class);
+        Intent intent = new Intent(this, GameListEdit.class);
         startActivity(intent);
     }
 
     public void playGame(View view){
 
 
-        Intent intent = new Intent(this, Game.class);
+        Intent intent = new Intent(this, GameListPlay.class);
         startActivity(intent);
     }
 }
