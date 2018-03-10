@@ -15,7 +15,7 @@ public class DatabaseInstance {
     public SQLiteDatabase getCurrentDatabase(){ return database; }
 
     public ArrayList<Game> getAllGames(){
-
+        return null;
 
     }
 
