@@ -12,7 +12,7 @@ import java.util.*;
 
 public class EditorActivity extends AppCompatActivity {
     Page firstPage = new Page("page1", 200, 200);
-    Game newGame = new Game("game1", firstPage.getName());
+    Game newGame = new Game("game1", this, firstPage.getName());
     ArrayList<String> pageList;
     Spinner pageSpinner;
     int pageCounter = 1;
