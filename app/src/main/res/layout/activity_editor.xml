@@ -6,87 +6,113 @@
     android:layout_height="match_parent"
     tools:context="edu.stanford.cs108.bunnyworldplayer.EditorActivity">
 
-    <GridLayout
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerInParent="true"
-        android:columnCount="4"
-        android:rowCount="1"
-        android:id="@+id/topGrid">
-        <TextView
-            android:id="@+id/actionsList"
-            android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_columnWeight="2"
-            android:text="Actions: "/>
-        <TextView
-            android:id="@+id/resourcesList"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_columnWeight="2"
-            android:text="Resources: "/>
-        <TextView
-            android:id="@+id/namesList"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_columnWeight="2"
-            android:text="Names: "/>
-        <Button
-            android:id="@+id/add_pageBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_columnWeight="1"
-            android:text="ADD PAGE"/>
-    </GridLayout>
-
-    <GridLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:columnCount="2"
-        android:rowCount="1">
-        <TextView
-            android:layout_column="0"
+            android:layout_alignParentTop="true"
+            android:layout_centerInParent="true"
+            android:id="@+id/topGrid">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="page1"/>
+            <Button
+                android:id="@+id/addPageBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add Page"
+                android:onClick="onAddPage"/>
+            <Button
+                android:id="@+id/savePageBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="SAVE PAGE"
+                android:onClick="onSavePage"/>
+            <Spinner
+                android:id="@+id/pageSpinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <edu.stanford.cs108.bunnyworldplayer.EditorView
             android:id="@+id/previewArea"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Preview Area"/>
-        <TextView
-            android:layout_column="1"
-            android:id="@+id/Suggestions"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Suggestion"/>
-
-    </GridLayout>
+            android:layout_height="match_parent" />
+    </LinearLayout>
 
     <GridLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerInParent="true"
-        android:columnCount="3"
+        android:columnCount="10"
         android:rowCount="1"
         android:id="@+id/bottom_grid">
-        <TextView
-            android:id="@+id/pageList"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_columnWeight="2"
-            android:text="Page List: "/>
-        <TextView
-            android:id="@+id/shapeList"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_columnWeight="2"
-            android:text="Shape List: "/>
         <Button
-            android:id="@+id/saveBtn"
+            android:id="@+id/addShapeBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_columnWeight="1"
-            android:text="SAVE"/>
+            android:layout_columnWeight="2"
+            android:text="Add Shape"
+            android:onClick="onAddShape"/>
+        <Button
+            android:id="@+id/editShapeBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="2"
+            android:text="Edit Shape"
+            android:onClick="onEditShape"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="X: "/>
+        <TextView
+            android:id="@+id/x_field"
+            android:inputType="numberDecimal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="2"
+            android:text="0"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Y: "/>
+        <TextView
+            android:id="@+id/y_field"
+            android:inputType="numberDecimal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="2"
+            android:text="0"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Width: "/>
+        <TextView
+            android:id="@+id/width_field"
+            android:inputType="numberDecimal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="2"
+            android:text="0"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Height: "/>
+        <TextView
+            android:id="@+id/height_field"
+            android:inputType="numberDecimal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="2"
+            android:text="0"/>
+
     </GridLayout>
 
 </RelativeLayout>

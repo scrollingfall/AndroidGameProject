@@ -78,4 +78,5 @@ public class Page {
         resources.put(name, shape);
         return true;
     }
+
 }
