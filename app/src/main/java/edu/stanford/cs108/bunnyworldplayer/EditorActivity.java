@@ -12,22 +12,19 @@ import java.util.*;
 
 public class EditorActivity extends AppCompatActivity {
     Page firstPage = new Page("page1", 200, 200);
+    Game newGame = new Game("game1", firstPage.getName());
     ArrayList<String> pageList;
     Spinner pageSpinner;
     int pageCounter = 1;
     ArrayAdapter<String> adapter;
 
     protected void onCreate(Bundle savedInstanceState) {
-        System.out.println("EditorActivity.java hit");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
 
         pageList = new ArrayList<>();
-
         pageList.add("page" + Integer.toString(pageCounter));
-
         pageSpinner = (Spinner) findViewById(R.id.pageSpinner);
-
         adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, pageList);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
