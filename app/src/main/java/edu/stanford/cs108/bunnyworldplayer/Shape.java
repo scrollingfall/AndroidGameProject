@@ -1,5 +1,6 @@
 package edu.stanford.cs108.bunnyworldplayer;
 
+import android.content.Context;
 import android.graphics.Canvas;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
@@ -17,10 +18,10 @@ import android.graphics.drawable.BitmapDrawable;
  */
 
 public class Shape extends RectF {
-    private String name;
+    private String nameShape;
     private String owner;
     private String text;
-    private String imageText;
+    private String imageString;
     private boolean hidden;
     private int colorRectangle = Color.LTGRAY;
     private boolean moveable;
@@ -31,14 +32,15 @@ public class Shape extends RectF {
     private boolean inBackpack;
     private Canvas canvas;
     private Bitmap image;
+    private Context context;
 
 
     // Constructor
     public Shape (String name, float x, float y, float width, float height) {
-        this.name = name;
+        this.nameShape = nameShape;
         this.owner = "";
         this.text = "";
-        this.imageText = "";
+        this.imageString = "";
         this.hidden = true;
         this.moveable = false;
         this.x = x;
@@ -47,12 +49,12 @@ public class Shape extends RectF {
         this.height = height;
         this.inBackpack = false;
     }
-    public Shape (String name, String owner, String text, String image, boolean hidden, boolean moveable,
-                  float x, float y, float width, float height, boolean inBackpack) {
-        this.name = name;
+    public Shape (String nameShape, String owner, String text, String imageString, boolean hidden, boolean moveable,
+                  float x, float y, float width, float height, boolean inBackpack, Context context) {
+        this.nameShape = nameShape;
         this.owner = owner;
         this.text = text;
-        this.imageText = image;
+        this.imageString = imageString;
         this.hidden = hidden;
         this.moveable = moveable;
         this.x = x;
@@ -60,14 +62,15 @@ public class Shape extends RectF {
         this.width = width;
         this.height = height;
         this.inBackpack = inBackpack;
+        this.context = context;
     }
 
-    public String getName() {
-        return name;
+    public String getShapeName() {
+        return nameShape;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setShapeName(String nameShape) {
+        this.nameShape = nameShape;
     }
 
     public String getOwner() {
@@ -87,11 +90,11 @@ public class Shape extends RectF {
     }
 
     public String getImage() {
-        return image;
+        return imageString;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setImage(String imageString) {
+        this.imageString = imageString;
     }
 
     public boolean isHidden() {
@@ -151,6 +154,50 @@ public class Shape extends RectF {
     }
 
     public void draw(Canvas canvas) {
-        //todo
+        if (isHidden()) return;
+        else{
+            this.canvas = canvas;
+            if (imageString.isEmpty() && getText().isEmpty()){
+                Paint grayRect = new Paint();
+                grayRect.setColor(Color.LTGRAY);
+                grayRect.setStyle(Paint.Style.FILL);
+                RectF greyRectangle = new RectF(left, top, right, bottom);
+                canvas.drawRect(greyRectangle, grayRect);
+            }
+
+            else if(!imageString.isEmpty()){
+                Resources res = context.getResources();
+                int resID = res.getIdentifier(imageString, "drawable", context.getPackageName());
+                BitmapDrawable imageDrawable = (BitmapDrawable) context.getResources().getDrawable(resID, context.getTheme());
+                image = imageDrawable.getBitmap();
+
+                //rescale according to the rect
+                int width = image.getWidth();
+                int  height = image.getHeight();
+                float scaleWidth = this.width() / width;
+                float scaleHeight = this.height() / height;
+                Matrix matrix = new Matrix();
+                matrix.postScale(scaleWidth, scaleHeight);
+                image = image.createBitmap(image, 0, 0, width, height, matrix, false);
+                this.bottom = this.top + image.getHeight();
+                this.right = this.left + image.getWidth();
+                page.drawBitmap(image, left, top, null);
+
+            }
+
+            else if (!getText().isEmpty()){
+                Paint textStyle = new Paint();
+                textStyle.setColor(Color.BLACK);
+                textStyle.setTextSize(20);
+                textStyle.setStyle(Paint.Style.FILL);
+                canvas.drawText(text, left, top, textStyle);
+
+            }
+
+
+
+        }
+
+
     }
 }

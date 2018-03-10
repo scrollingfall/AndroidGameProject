@@ -90,19 +90,19 @@ public class MainActivity extends AppCompatActivity {
 
     public void createGame(View view){
         Intent intent = new Intent(this, EditorActivity.class);
-        startActivity(intent);
+        this.startActivity(intent);
     }
 
     public void editGame(View view){
 
         Intent intent = new Intent(this, GameListEdit.class);
-        startActivity(intent);
+        this.startActivity(intent);
     }
 
     public void playGame(View view){
 
 
         Intent intent = new Intent(this, GameListPlay.class);
-        startActivity(intent);
+        this.startActivity(intent);
     }
 }
