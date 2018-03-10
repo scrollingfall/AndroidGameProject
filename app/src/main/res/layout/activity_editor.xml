@@ -7,51 +7,43 @@
     tools:context="edu.stanford.cs108.bunnyworldplayer.EditorActivity">
 
     <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerInParent="true"
-        android:columnCount="4"
-        android:rowCount="1"
-        android:id="@+id/topGrid">
-
-        <Spinner
-            android:id="@+id/pageSpinner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:text="Page Dropdown" />
-
-        <Button
-            android:id="@+id/addPageBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Add Page"/>
-
-        <Button
-            android:id="@+id/savePageBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:text="SAVE PAGE"/>
-    </LinearLayout>
-
-    <GridLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:columnCount="1"
-        android:rowCount="1">
-        <TextView
-            android:layout_column="0"
-            android:id="@+id/previewArea"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Preview Area"/>
-
-    </GridLayout>
+            android:layout_alignParentTop="true"
+            android:layout_centerInParent="true"
+            android:id="@+id/topGrid">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="page1"/>
+            <Button
+                android:id="@+id/addPageBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add Page"
+                android:onClick="onAddPage"/>
+            <Button
+                android:id="@+id/savePageBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="SAVE PAGE"
+                android:onClick="onSavePage"/>
+            <Spinner
+                android:id="@+id/pageSpinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <edu.stanford.cs108.bunnyworldplayer.EditorView
+            android:id="@+id/previewArea"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
 
     <GridLayout
         android:layout_width="match_parent"
@@ -66,13 +58,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_columnWeight="2"
-            android:text="Add Shape"/>
+            android:text="Add Shape"
+            android:onClick="onAddShape"/>
         <Button
             android:id="@+id/editShapeBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_columnWeight="2"
-            android:text="Edit Shape"/>
+            android:text="Edit Shape"
+            android:onClick="onEditShape"/>
 
         <TextView
             android:layout_width="wrap_content"

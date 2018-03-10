@@ -12,27 +12,69 @@ import java.util.*;
 
 public class EditorActivity extends AppCompatActivity {
     Page firstPage = new Page("page1", 200, 200);
+    ArrayList<String> pageList;
+    Spinner pageSpinner;
+    int pageCounter = 1;
+    ArrayAdapter<String> adapter;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
 
-        ArrayList<String> pageList = new ArrayList<String>();
-        pageList.add("page1"); //test cases
-        pageList.add("page2");
+        pageList = new ArrayList<>();
 
-        Spinner pageSpinner = (Spinner) findViewById(R.id.pageSpinner);
+        pageList.add("page" + Integer.toString(pageCounter));
 
-        ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(EditorActivity.this,
+        pageSpinner = (Spinner) findViewById(R.id.pageSpinner);
+
+        adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, pageList);
-        myAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        pageSpinner.setAdapter(myAdapter);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        pageSpinner.setAdapter(adapter);
     }
 
-    public void onAdd(View view) {
+    public void onAddPage(View view) {
+        // add to arraylist, create new spinner
+        pageCounter += 1;
+        pageList.add("page" + Integer.toString(pageCounter));
+        adapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item, pageList);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        pageSpinner.setAdapter(adapter);
+
+        Toast toast = Toast.makeText(
+                getApplicationContext(),
+                "Page Added!",
+                Toast.LENGTH_SHORT);
+        toast.show();
+
+        // todo: more stuff here?
 
     }
 
-    public void onSave(View view) {
+    public void onSavePage(View view) {
+        // todo: save current page to game's data structure for pages
+        Toast toast = Toast.makeText(
+                getApplicationContext(),
+                "Page Saved!",
+                Toast.LENGTH_SHORT);
+        toast.show();
 
+    }
+
+    public void onAddShape(View view) {
+
+        // todo: add shape to page's data structure for shapes
+
+        Toast toast = Toast.makeText(
+                getApplicationContext(),
+                "Shape Added!",
+                Toast.LENGTH_SHORT);
+        toast.show();
+
+    }
+
+    public void onEditShape(View view) {
+        // todo: for the current shape selected, goes to Uzair's shape editor
     }
 }
