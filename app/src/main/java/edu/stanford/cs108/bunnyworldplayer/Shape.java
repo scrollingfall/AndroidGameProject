@@ -1,5 +1,6 @@
 package edu.stanford.cs108.bunnyworldplayer;
 
+import android.graphics.Canvas;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -147,5 +148,9 @@ public class Shape extends RectF {
 
     public void setInBackpack(boolean inBackpack) {
         this.inBackpack = inBackpack;
+    }
+
+    public void draw(Canvas canvas) {
+        //todo
     }
 }
