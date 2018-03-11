@@ -15,7 +15,7 @@ import java.util.*;
 
 public class EditorActivity extends AppCompatActivity {
     Page firstPage;
-    Page currPage;
+    static Page currPage;
     static Game newGame;
     ArrayList<String> pageList;
     Spinner pageSpinner;
@@ -90,14 +90,12 @@ public class EditorActivity extends AppCompatActivity {
         EditorView editorview = (EditorView) findViewById(R.id.previewArea);
         editorview.drawShape(currPage);
 
-        // unselect any selected shape
+        // unselect the previously selected shape if there was one
         ArrayList<Shape> shapes = currPage.getShapeList();
-        for (int i = shapes.size() - 1; i >= 0; i--) {
-            if (shapes.get(i).isSelected()) {
-                shapes.get(i).setSelected(false);
-                break;
-            }
-        }
+        Shape selectedShape = currPage.getSelectedShape();
+        if (selectedShape != null) selectedShape.setSelected(false);
+
+        currPage.setSelectedShape(newShape);
 
         Toast toast = Toast.makeText(
                 getApplicationContext(),

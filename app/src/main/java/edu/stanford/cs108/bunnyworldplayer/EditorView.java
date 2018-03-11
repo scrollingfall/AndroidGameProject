@@ -74,17 +74,14 @@ public class EditorView extends View {
 
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
+                    this.page.setSelectedShape(touchedShape);
                     touchedShape.setSelected(true);
             }
 
         } else {
             // clear any existing selection
-            for (int i = shapes.size() - 1; i >= 0; i--) {
-                if (shapes.get(i).isSelected()) {
-                    shapes.get(i).setSelected(false);
-                    break;
-                }
-            }
+            Shape selectedShape = this.page.getSelectedShape();
+            selectedShape.setSelected(false);
         }
 
         invalidate();
