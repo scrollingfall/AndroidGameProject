@@ -39,24 +39,24 @@ public class DatabaseInstance {
     }
 
 
-    public void addShape(Shape shape){
-        String queryString1 = "INSERT INTO Shapes (id, name, x, y, text, image, movable, visible, actionScript, fontSize) VALUES ";
-        queryString1 +=  shape.getShapeId() + "," + shape.getName() + "," + shape.getX() + "," + shape.getY() + "," + shape.getText() + "," + shape.getImage() + "," + shape.isMoveable() + "," + shape.isHidden() + "," + shape.getScript() + "," + shape.getFontSize() ;
-        database.execSQL(queryString1);
-        String queryString2 = "INSERT INTO Pages VALUES ";
-        queryString2 += pageID + "," + pageNumber + "," + shape.getName();
-        database.execSQL(queryString2);
-    }
-
-    public void updateShape(Shape shape){
-
-        String queryString1 = "UPDATE  Shapes SET name=" + shape.getName() + ", x=" + shape.getX() + ", y=" + shape.getY() + ", text=" + shape.getText() + ", image=" + shape.getImage() + ", moveable =" + shape.isMoveable() + ", visible=" + shape.isHidden() + ", actionScript=" + shape.getScript() + ", fontSize=" + shape.getFontSize() ;
-        queryString1 += "where shapeId=" + shape.getShapeId();
-        database.execSQL(queryString1);
-        String queryString2 = "INSERT INTO Pages VALUES ";
-        queryString2 += pageNumber + "," + shape.getName();
-        database.execSQL(queryString2);
-    }
+//    public void addShape(Shape shape){
+//        String queryString1 = "INSERT INTO Shapes (id, name, x, y, text, image, movable, visible, actionScript, fontSize) VALUES ";
+//        queryString1 +=  shape.getShapeId() + "," + shape.getName() + "," + shape.getX() + "," + shape.getY() + "," + shape.getText() + "," + shape.getImage() + "," + shape.isMoveable() + "," + shape.isHidden() + "," + shape.getScript() + "," + shape.getFontSize() ;
+//        database.execSQL(queryString1);
+//        String queryString2 = "INSERT INTO Pages VALUES ";
+//        queryString2 += pageID + "," + pageNumber + "," + shape.getName();
+//        database.execSQL(queryString2);
+//    }
+//
+//    public void updateShape(Shape shape){
+//
+//        String queryString1 = "UPDATE  Shapes SET name=" + shape.getName() + ", x=" + shape.getX() + ", y=" + shape.getY() + ", text=" + shape.getText() + ", image=" + shape.getImage() + ", moveable =" + shape.isMoveable() + ", visible=" + shape.isHidden() + ", actionScript=" + shape.getScript() + ", fontSize=" + shape.getFontSize() ;
+//        queryString1 += "where shapeId=" + shape.getShapeId();
+//        database.execSQL(queryString1);
+//        String queryString2 = "INSERT INTO Pages VALUES ";
+//        queryString2 += pageNumber + "," + shape.getName();
+//        database.execSQL(queryString2);
+//    }
 
     public String getPageid() {
         return pageID;
@@ -76,23 +76,23 @@ public class DatabaseInstance {
         return returnVal;
     }
 
-    public void addPage(Page page){
-        ArrayList<Shape> shapeList = page.getShapeList();
-        database.execSQL("INSERT INTO PAGES VALUES id = " + page.getId() + " name = " + page.getName());
-        if (!shapeList.isEmpty()){
-            for (Shape shape : shapeList){
-                ContentValues vals = new ContentValues();
-                vals.put("Shapes_id", shape.getShapeId());
-                database.insert(this.page_table_name, null, vals);
-                if (!this.isShape(shape.getShapeId())){
-                    this.addShape(shape);
-                }
-
-            }
-
-
-        }
-    }
+//    public void addPage(Page page){
+//        ArrayList<Shape> shapeList = page.getShapeList();
+//        database.execSQL("INSERT INTO PAGES VALUES id = " + page.getId() + " name = " + page.getName());
+//        if (!shapeList.isEmpty()){
+//            for (Shape shape : shapeList){
+//                ContentValues vals = new ContentValues();
+//                vals.put("Shapes_id", shape.getShapeId());
+//                database.insert(this.page_table_name, null, vals);
+//                if (!this.isShape(shape.getShapeId())){
+//                    this.addShape(shape);
+//                }
+//
+//            }
+//
+//
+//        }
+//    }
 
 
     public SQLiteDatabase getCurrentDatabase(){ return database; }
