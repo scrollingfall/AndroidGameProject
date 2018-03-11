@@ -50,12 +50,12 @@ public class Shape extends RectF {
 
 
     // Constructor
-    public Shape (Context context, String name, String owner, float x, float y, float width, float height) {
+    public Shape (Context context, String name, float x, float y, float width, float height) {
         this.name = name;
-        this.owner = owner;
+        this.owner = "";
         this.text = "";
         this.image = "";
-        this.hidden = false;
+        this.hidden = true;
         this.moveable = false;
         this.x = x;
         this.y = y;
@@ -73,25 +73,25 @@ public class Shape extends RectF {
         editorMode = editable;
     }
 
-//    public Shape (Context context, String name, String owner, String text, String image, boolean hidden, boolean moveable,
-//                  float x, float y, float width, float height, boolean inBackpack) {
-//        this.name = name;
-//        this.owner = owner;
-//        this.text = text;
-//        this.image = image;
-//        this.hidden = hidden;
-//        this.moveable = moveable;
-//        this.x = x;
-//        this.y = y;
-//        this.width = width;
-//        this.height = height;
-//        this.inBackpack = inBackpack;
-//        this.onClick = "";
-//        this.onEnter = "";
-//        this.onDrop = new HashMap<String, String>();
-//        this.editorMode = false;
-//        this.context = context;
-//    }
+    public Shape (Context context, String name, String owner, String text, String image, boolean hidden, boolean moveable,
+                  float x, float y, float width, float height, boolean inBackpack) {
+        this.name = name;
+        this.owner = owner;
+        this.text = text;
+        this.image = image;
+        this.hidden = hidden;
+        this.moveable = moveable;
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.inBackpack = inBackpack;
+        this.onClick = "";
+        this.onEnter = "";
+        this.onDrop = new HashMap<String, String>();
+        this.editorMode = false;
+        this.context = context;
+    }
 
     public String getName() {
         return name;
@@ -214,16 +214,14 @@ public class Shape extends RectF {
     }
 
     public void draw(Canvas canvas) {
-        if (isHidden()) {
-            return;
-        }
+        if (isHidden()) return;
         else{
             this.canvas = canvas;
             if (image.isEmpty() && getText().isEmpty()){
                 Paint grayRect = new Paint();
                 grayRect.setColor(Color.LTGRAY);
                 grayRect.setStyle(Paint.Style.FILL);
-                RectF greyRectangle = new RectF(x, y, x+getWidth(), y+getHeight());
+                RectF greyRectangle = new RectF(left, top, right, bottom);
                 canvas.drawRect(greyRectangle, grayRect);
             }
 
@@ -257,7 +255,7 @@ public class Shape extends RectF {
             ArrayList<String> scriptWords = new ArrayList<>();
             StringTokenizer st = new StringTokenizer(script, " ");
             while (st.hasMoreTokens()) scriptWords.add(st.nextToken());
-            String triggerWords = scriptWords.get(0) + " " + scriptWords.get(1);
+            String triggerWords = scriptWords.get(0) + " " scriptWords.get(1);
             scriptWords.remove(scriptWords.get(0));
             scriptWords.remove(scriptWords.get(0));
             if (triggerWords.equals("on drop")){
@@ -292,7 +290,8 @@ public class Shape extends RectF {
             } else if (words[0].equals("hide")) actionHideShapes.add(words[1]);
             else if (words[0].equals("show")) actionShowShapes.add(words[1]);
             else if (words[0].equals("play")) {
-                MediaPlayer soundPlayer = MediaPlayer.create(context, context.getResources().getIdentifier(words[1], "raw", context.getPackageName()));
+                MediaPlayer soundPlayer = MediaPlayer.create(context, context.getResources().getIdentifier(words[1], "raw", context.getPackageName());)
+                ;
                 soundPlayer.start();
 
                 // Citation: https://stackoverflow.com/questions/24326269/setoncompletionlistener-mediaplayer-oncompletionlistener-in-the-type-mediaplay

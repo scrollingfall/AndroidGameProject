@@ -33,6 +33,8 @@ public class Page {
         this.editorMode = false;
     }
 
+
+
     public void setEditorMode (boolean editable) {
         editorMode = editable;
         for (Shape s : shapeList)
