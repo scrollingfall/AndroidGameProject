@@ -12,8 +12,11 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
+import android.media.MediaPlayer;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.StringTokenizer;
 
 /**
  * Created by Jerry Chen on 3/5/2018.
@@ -24,6 +27,7 @@ public class Shape extends RectF {
     private String owner;
     private String text;
     private String image;
+    private ArrayList<String> scripts;
     private boolean hidden;
     private boolean editorMode;
     private int colorRectangle = Color.LTGRAY;
@@ -39,15 +43,19 @@ public class Shape extends RectF {
     private Canvas canvas;
     private Bitmap imagePic;
     private Context context;
+    private HashMap<String, ArrayList<String>> MapOfScripts = new HashMap<String, ArrayList<String>>();
+    public String transitionPage = "";
+    public ArrayList<String> actionShowShapes = new ArrayList<String>();
+    public ArrayList<String> actionHideShapes = new ArrayList<String>();
 
 
     // Constructor
-    public Shape (Context context, String name, float x, float y, float width, float height) {
+    public Shape (Context context, String name, String owner, float x, float y, float width, float height) {
         this.name = name;
-        this.owner = "";
+        this.owner = owner;
         this.text = "";
         this.image = "";
-        this.hidden = true;
+        this.hidden = false;
         this.moveable = false;
         this.x = x;
         this.y = y;
@@ -65,25 +73,25 @@ public class Shape extends RectF {
         editorMode = editable;
     }
 
-    public Shape (Context context, String name, String owner, String text, String image, boolean hidden, boolean moveable,
-                  float x, float y, float width, float height, boolean inBackpack) {
-        this.name = name;
-        this.owner = owner;
-        this.text = text;
-        this.image = image;
-        this.hidden = hidden;
-        this.moveable = moveable;
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
-        this.inBackpack = inBackpack;
-        this.onClick = "";
-        this.onEnter = "";
-        this.onDrop = new HashMap<String, String>();
-        this.editorMode = false;
-        this.context = context;
-    }
+//    public Shape (Context context, String name, String owner, String text, String image, boolean hidden, boolean moveable,
+//                  float x, float y, float width, float height, boolean inBackpack) {
+//        this.name = name;
+//        this.owner = owner;
+//        this.text = text;
+//        this.image = image;
+//        this.hidden = hidden;
+//        this.moveable = moveable;
+//        this.x = x;
+//        this.y = y;
+//        this.width = width;
+//        this.height = height;
+//        this.inBackpack = inBackpack;
+//        this.onClick = "";
+//        this.onEnter = "";
+//        this.onDrop = new HashMap<String, String>();
+//        this.editorMode = false;
+//        this.context = context;
+//    }
 
     public String getName() {
         return name;
@@ -115,6 +123,14 @@ public class Shape extends RectF {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public ArrayList<String> getScripts() {
+        return scripts;
+    }
+
+    public void addScript(String script) {
+        scripts.add(script);
     }
 
     public boolean isHidden() {
@@ -198,14 +214,16 @@ public class Shape extends RectF {
     }
 
     public void draw(Canvas canvas) {
-        if (isHidden()) return;
+        if (isHidden()) {
+            return;
+        }
         else{
             this.canvas = canvas;
             if (image.isEmpty() && getText().isEmpty()){
                 Paint grayRect = new Paint();
                 grayRect.setColor(Color.LTGRAY);
                 grayRect.setStyle(Paint.Style.FILL);
-                RectF greyRectangle = new RectF(left, top, right, bottom);
+                RectF greyRectangle = new RectF(x, y, x+getWidth(), y+getHeight());
                 canvas.drawRect(greyRectangle, grayRect);
             }
 
@@ -233,6 +251,64 @@ public class Shape extends RectF {
             }
         }
     }
+
+    public void setScriptMap(){
+        for (String script: scripts){
+            ArrayList<String> scriptWords = new ArrayList<>();
+            StringTokenizer st = new StringTokenizer(script, " ");
+            while (st.hasMoreTokens()) scriptWords.add(st.nextToken());
+            String triggerWords = scriptWords.get(0) + " " + scriptWords.get(1);
+            scriptWords.remove(scriptWords.get(0));
+            scriptWords.remove(scriptWords.get(0));
+            if (triggerWords.equals("on drop")){
+                triggerWords += scriptWords.get(0);
+                scriptWords.remove(scriptWords.get(0));
+            }
+
+
+
+            ArrayList<String> actions = new ArrayList<>();
+            for(int i = 0; i< scriptWords.size(); i++) {
+                String actionWord = scriptWords.get(i);
+                if (actionWord.equals("hide") || actionWord.equals("show") || actionWord.equals("goto") || actionWord.equals("play") || actionWord.equals("transform")) {
+                    actions.add(actionWord + " " + scriptWords.get(i + 1));
+                }
+            }
+            MapOfScripts.put(triggerWords, actions);
+        }
+    }
+
+
+    public void performScriptAction(String triggerWords){
+        if (isHidden() || !MapOfScripts.containsKey(triggerWords)) return;
+        if (!triggerWords.equals("on click") || !triggerWords.equals("on enter") || !(triggerWords.contains("on drop"))) return;
+
+        ArrayList<String> actions = MapOfScripts.get(triggerWords);
+        for (String action: actions) {
+            // execute action
+            String[] words = action.split(" ");
+            if (words[0].equals("goto")) {
+                transitionPage = words[1];
+            } else if (words[0].equals("hide")) actionHideShapes.add(words[1]);
+            else if (words[0].equals("show")) actionShowShapes.add(words[1]);
+            else if (words[0].equals("play")) {
+                MediaPlayer soundPlayer = MediaPlayer.create(context, context.getResources().getIdentifier(words[1], "raw", context.getPackageName()));
+                soundPlayer.start();
+
+                // Citation: https://stackoverflow.com/questions/24326269/setoncompletionlistener-mediaplayer-oncompletionlistener-in-the-type-mediaplay
+                soundPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mediaPlayer) {
+                        mediaPlayer.release();
+                    }
+                });
+
+
+            }
+        }
+
+    }
+
 
     public boolean isTouched (float xq, float yq) {
         return xq >= x && xq <= x + width && yq >= y && yq <= y + height;
