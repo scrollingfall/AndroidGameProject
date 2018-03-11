@@ -13,6 +13,7 @@ import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -24,6 +25,7 @@ public class Shape extends RectF {
     private String owner;
     private String text;
     private String image;
+    private ArrayList<String> scripts;
     private boolean hidden;
     private boolean editorMode;
     private int colorRectangle = Color.LTGRAY;
@@ -115,6 +117,14 @@ public class Shape extends RectF {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public ArrayList<String> getScripts() {
+        return scripts;
+    }
+
+    public void addScript(String script) {
+        scripts.add(script);
     }
 
     public boolean isHidden() {
