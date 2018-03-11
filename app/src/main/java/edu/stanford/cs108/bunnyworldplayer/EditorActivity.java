@@ -28,8 +28,8 @@ public class EditorActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
 
-        editorview  = (EditorView) findViewById(R.id.previewArea);
-        editorView.addShape(shape);
+        editorview = (EditorView) findViewById(R.id.previewArea);
+        //editorView.addShape(shape);
 
         // instantiate new game
         firstPage = new Page("page1", 200, 200);
@@ -79,7 +79,6 @@ public class EditorActivity extends AppCompatActivity {
                 "Page Saved!",
                 Toast.LENGTH_SHORT);
         toast.show();
-
     }
 
     public void onAddShape(View view) {

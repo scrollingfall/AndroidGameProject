@@ -234,7 +234,7 @@ public class Shape extends RectF {
                 Paint grayRect = new Paint();
                 grayRect.setColor(Color.LTGRAY);
                 grayRect.setStyle(Paint.Style.FILL);
-                RectF greyRectangle = new RectF(left, top, right, bottom);
+                RectF greyRectangle = new RectF(x, y, x+getWidth(), y+getHeight());
                 canvas.drawRect(greyRectangle, grayRect);
             }
 
