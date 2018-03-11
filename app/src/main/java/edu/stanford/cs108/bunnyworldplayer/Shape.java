@@ -233,7 +233,6 @@ public class Shape extends RectF {
                 canvas.drawBitmap(imagePic, left, top, null);
 
             }
-
             else if (!getText().isEmpty()){
                 Paint textStyle = new Paint();
                 textStyle.setColor(Color.BLACK);
@@ -242,9 +241,6 @@ public class Shape extends RectF {
                 canvas.drawText(text, left, top, textStyle);
 
             }
-
-
-
         }
     }
 
