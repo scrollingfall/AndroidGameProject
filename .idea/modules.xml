@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://C:\Users\Jerry Chen\AndroidStudioProjects\BunnyWorldPlayer\.idea\BunnyWorldPlayer.iml" filepath="C:\Users\Jerry Chen\AndroidStudioProjects\BunnyWorldPlayer\.idea\BunnyWorldPlayer.iml" />
       <module fileurl="file://$PROJECT_DIR$/BunnyWorldPlayer.iml" filepath="$PROJECT_DIR$/BunnyWorldPlayer.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>

@@ -1,6 +1,7 @@
 package edu.stanford.cs108.bunnyworldplayer;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
@@ -15,16 +16,20 @@ import java.util.*;
 public class EditorActivity extends AppCompatActivity {
     Page firstPage;
     Page currPage;
-    public Game newGame;
+    static Game newGame;
     ArrayList<String> pageList;
     Spinner pageSpinner;
     int pageCounter;
     int shapeCounter = 0;
     ArrayAdapter<String> adapter;
+    EditorView editorview;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
+
+        editorview = (EditorView) findViewById(R.id.previewArea);
+        //editorView.addShape(shape);
 
         // instantiate new game
         firstPage = new Page("page1", 200, 200);
@@ -74,7 +79,6 @@ public class EditorActivity extends AppCompatActivity {
                 "Page Saved!",
                 Toast.LENGTH_SHORT);
         toast.show();
-
     }
 
     public void onAddShape(View view) {
@@ -82,25 +86,21 @@ public class EditorActivity extends AppCompatActivity {
 
         String shapeName = "shape" + Integer.toString(shapeCounter);
         Shape newShape = new Shape(this, shapeName, currPage.toString(), 0, 0, 200, 200);
-
-        //newShape.draw();
-        // need to use invalidate somehow
+        currPage.addShape(newShape);
         EditorView editorview = (EditorView) findViewById(R.id.previewArea);
         editorview.drawShape(currPage);
-
-
-        currPage.addShape(newShape);
 
         Toast toast = Toast.makeText(
                 getApplicationContext(),
                 "Shape Added!",
                 Toast.LENGTH_SHORT);
         toast.show();
-
     }
 
     public void onEditShape(View view) {
         // todo: for the current shape selected, goes to Uzair's shape editor
+        Intent intent = new Intent(this, ShapeEditor.class);
+        startActivity(intent);
     }
 
 

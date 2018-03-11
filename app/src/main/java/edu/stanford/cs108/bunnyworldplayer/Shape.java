@@ -36,6 +36,7 @@ public class Shape extends RectF {
     private float y;
     private float width;
     private float height;
+    private int fontSize;
     private boolean inBackpack;
     private String onClick;
     private String onEnter;
@@ -47,10 +48,13 @@ public class Shape extends RectF {
     public String transitionPage = "";
     public ArrayList<String> actionShowShapes = new ArrayList<String>();
     public ArrayList<String> actionHideShapes = new ArrayList<String>();
+    public static int shapeID;
 
 
     // Constructor
     public Shape (Context context, String name, String owner, float x, float y, float width, float height) {
+        this.shapeID = getPreviousShapeId() + 1;
+        setPreviousShapeId(shapeID);
         this.name = name;
         this.owner = owner;
         this.text = "";
@@ -67,7 +71,12 @@ public class Shape extends RectF {
         this.onDrop = new HashMap<String, String>();
         this.editorMode = false;
         this.context = context;
+        this.fontSize = 20;
+
     }
+    public int getPreviousShapeId(){ return shapeID;}
+    private void setPreviousShapeId(int shapeID) { this.shapeID = shapeID; }
+    public int getShapeId() { return shapeID; }
 
     public void setEditorMode (boolean editable){
         editorMode = editable;
@@ -75,6 +84,8 @@ public class Shape extends RectF {
 
 //    public Shape (Context context, String name, String owner, String text, String image, boolean hidden, boolean moveable,
 //                  float x, float y, float width, float height, boolean inBackpack) {
+//        this.shapeID = getPreviousShapeId() + 1;
+//        setPreviousShapeId(shapeID);
 //        this.name = name;
 //        this.owner = owner;
 //        this.text = text;
@@ -91,8 +102,10 @@ public class Shape extends RectF {
 //        this.onDrop = new HashMap<String, String>();
 //        this.editorMode = false;
 //        this.context = context;
+//        this.fontSize = 20;
 //    }
 
+    public int getFontSize(){ return fontSize;}
     public String getName() {
         return name;
     }
@@ -214,9 +227,7 @@ public class Shape extends RectF {
     }
 
     public void draw(Canvas canvas) {
-        if (isHidden()) {
-            return;
-        }
+        if (isHidden()) return;
         else{
             this.canvas = canvas;
             if (image.isEmpty() && getText().isEmpty()){
