@@ -17,7 +17,6 @@ import java.util.*;
 
 public class EditorView extends View {
     private int viewWidth, viewHeight;
-    TextView pageName = (TextView) ((Activity) getContext()).findViewById(R.id.pageName);
     Page page = new Page("page1", 200,200);
 
     public EditorView(Context context, AttributeSet attrs) {
@@ -49,16 +48,46 @@ public class EditorView extends View {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         // check if touching coordinates that a shape contains
-        float shapeX = event.getX();
-        float shapeY = event.getY();
-        //System.out.println(pageName.getText());
+        float touchX = event.getX();
+        float touchY = event.getY();
 
-        HashMap<String, Page> pages = EditorActivity.newGame.getPages();
+        TextView pageName = (TextView) ((Activity) getContext()).findViewById(R.id.pageName);
+        Page p = EditorActivity.newGame.getPage((String)pageName.getText());
+        ArrayList<Shape> shapes = p.getShapeList();
+        Shape touchedShape = null;
+        boolean touched = false;
 
-        for (int i = 0; i < pages.size(); i++) {
+        for (int i = shapes.size() - 1; i >= 0; i--) {
 
+            float x = shapes.get(i).getX();
+            float y = shapes.get(i).getY();
+            float width = shapes.get(i).getWidth();
+            float height = shapes.get(i).getHeight();
+            if (touchX >= x && touchX <= x + width && touchY >= y && touchY <= y + height) {
+                touchedShape = shapes.get(i);
+                touched = true;
+                break;
+            }
         }
 
+        if (touched) {
+
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    touchedShape.setSelected(true);
+            }
+
+        } else {
+            // clear any existing selection
+            for (int i = shapes.size() - 1; i >= 0; i--) {
+                if (shapes.get(i).isSelected()) {
+                    shapes.get(i).setSelected(false);
+                    break;
+                }
+            }
+        }
+
+        invalidate();
         return true;
     }
 }

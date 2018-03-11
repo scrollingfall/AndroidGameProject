@@ -90,6 +90,15 @@ public class EditorActivity extends AppCompatActivity {
         EditorView editorview = (EditorView) findViewById(R.id.previewArea);
         editorview.drawShape(currPage);
 
+        // unselect any selected shape
+        ArrayList<Shape> shapes = currPage.getShapeList();
+        for (int i = shapes.size() - 1; i >= 0; i--) {
+            if (shapes.get(i).isSelected()) {
+                shapes.get(i).setSelected(false);
+                break;
+            }
+        }
+
         Toast toast = Toast.makeText(
                 getApplicationContext(),
                 "Shape Added!",
