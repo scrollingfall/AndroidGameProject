@@ -15,7 +15,7 @@ import java.util.*;
 public class EditorActivity extends AppCompatActivity {
     Page firstPage;
     Page currPage;
-    Game newGame;
+    public Game newGame;
     ArrayList<String> pageList;
     Spinner pageSpinner;
     int pageCounter;
@@ -86,7 +86,7 @@ public class EditorActivity extends AppCompatActivity {
         //newShape.draw();
         // need to use invalidate somehow
         EditorView editorview = (EditorView) findViewById(R.id.previewArea);
-        editorview.drawShape();
+        editorview.drawShape(currPage);
 
 
         currPage.addShape(newShape);
