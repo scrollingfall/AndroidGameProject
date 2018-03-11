@@ -27,6 +27,7 @@ public class Shape extends RectF {
     private String owner;
     private String text;
     private String image;
+    private boolean selected;
     private ArrayList<String> scripts;
     private boolean hidden;
     private boolean editorMode;
@@ -59,6 +60,7 @@ public class Shape extends RectF {
         this.owner = owner;
         this.text = "";
         this.image = "";
+        this.selected = true;
         this.hidden = false;
         this.moveable = false;
         this.x = x;
@@ -136,6 +138,18 @@ public class Shape extends RectF {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean turnOn) {
+        if (turnOn) {
+            selected = true;
+        } else {
+            selected = false;
+        }
     }
 
     public ArrayList<String> getScripts() {
@@ -230,12 +244,20 @@ public class Shape extends RectF {
         if (isHidden()) return;
         else{
             this.canvas = canvas;
-            if (image.isEmpty() && getText().isEmpty()){
-                Paint grayRect = new Paint();
-                grayRect.setColor(Color.LTGRAY);
-                grayRect.setStyle(Paint.Style.FILL);
+            if (image.isEmpty() && getText().isEmpty()) {
+                Paint grayPaintFill = new Paint();
+                grayPaintFill.setColor(Color.LTGRAY);
+                grayPaintFill.setStyle(Paint.Style.FILL);
                 RectF greyRectangle = new RectF(x, y, x+getWidth(), y+getHeight());
-                canvas.drawRect(greyRectangle, grayRect);
+
+                if (selected) {
+                    Paint blackPaintBorder = new Paint();
+                    blackPaintBorder.setStrokeWidth(15.0f);
+                    blackPaintBorder.setColor(Color.BLACK);
+                    blackPaintBorder.setStyle(Paint.Style.STROKE);
+                    canvas.drawRect(greyRectangle, blackPaintBorder);
+                }
+                canvas.drawRect(greyRectangle, grayPaintFill);
             }
 
             else if(!image.isEmpty()){

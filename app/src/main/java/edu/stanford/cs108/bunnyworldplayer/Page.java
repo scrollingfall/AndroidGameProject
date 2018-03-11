@@ -15,6 +15,7 @@ public class Page {
     private String owner;
     private HashMap<String,Shape> shapes;
     private ArrayList<Shape> shapeList;
+    private Shape selectedShape;
     private float x;
     private float y;
     private float width;
@@ -50,6 +51,14 @@ public class Page {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Shape getSelectedShape() {
+        return selectedShape;
+    }
+
+    public void setSelectedShape(Shape shape) {
+        selectedShape = shape;
     }
 
     public float getWidth() {
