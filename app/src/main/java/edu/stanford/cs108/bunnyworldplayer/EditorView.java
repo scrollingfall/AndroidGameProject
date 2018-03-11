@@ -26,6 +26,7 @@ public class EditorView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
+
     }
 
     @Override

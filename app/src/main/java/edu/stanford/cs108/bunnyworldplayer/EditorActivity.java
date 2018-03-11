@@ -17,10 +17,14 @@ public class EditorActivity extends AppCompatActivity {
     Spinner pageSpinner;
     int pageCounter = 1;
     ArrayAdapter<String> adapter;
+    EditorView editorview;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
+
+        editorview  = (EditorView) findViewById(R.id.previewArea);
+        editorView.addShape(shape);
 
         // instantiate new game
         firstPage = new Page("page1", 200, 200);
