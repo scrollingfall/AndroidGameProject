@@ -2,6 +2,7 @@ package edu.stanford.cs108.bunnyworldplayer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.StringTokenizer;
 
 /**
  * Created by vsinghi on 3/9/18.
@@ -10,14 +11,19 @@ import java.util.HashMap;
 public class ParserScript {
 
     private HashMap<String, ArrayList<String>> MapOfScripts;
-    private String scriptToParse;
+
 
     //Constructor
-    public ParserScript(String scriptToParse){
-        this.scriptToParse = scriptToParse;
+    public ParserScript(ArrayList<String> actionList){
         MapOfScripts = new HashMap<String, ArrayList<String>>();
 
         //parse the strings
+        for (String action: actionList){
+
+
+        }
+
+
 
 
 
