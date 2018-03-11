@@ -15,6 +15,7 @@ public class Game {
     private String name;
     private boolean valid = false; //might need to be appropriately updated upon adding anything
     private HashMap<String,Page> pages;
+    private ArrayList<Page> pageList;
     private String starter;
     private String currentPage;
     private Page posessions;
@@ -23,6 +24,13 @@ public class Game {
     private HashMap<String, Integer> musicResources;
     private boolean editorMode;
 
+
+    public Game(String name, Context context) {
+        this.name = name;
+        this.editorMode = false;
+        initResources();
+    }
+
     public Game(Page firstPage, String name, Context context) {
         this.name = name;
         this.starter = firstPage.getName();
@@ -30,7 +38,8 @@ public class Game {
         this.context = context;
         pages = new HashMap<String, Page>();
         pages.put(firstPage.getName(), firstPage);
-        posessions = new Page("posessions", 100, 100); //random values
+        pageList.add(Page);
+        posessions = new Page("posessions", 100, 100, name); //random values
         this.editorMode = false;
         initResources();
     }
@@ -72,9 +81,16 @@ public class Game {
     public HashMap<String, Page> getPages() {
         return pages;
     }
+    public ArrayList<Page> getPageList() {
+        return pageList;
+    }
 
     public void setPages(HashMap<String, Page> pages) {
         this.pages = pages;
+
+        for (Page page : pages.values()) {
+            this.pageList.add(page);
+        }
     }
 
     public String getName() {
