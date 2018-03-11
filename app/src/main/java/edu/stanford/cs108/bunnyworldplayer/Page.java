@@ -86,10 +86,12 @@ public class Page {
     }
 
     public boolean addShape(Shape s) {
+        System.out.println(s.getName());
         if (shapes.containsKey(s.getName()))
             return false;
         shapes.put(s.getName(), s);
         shapeList.add(s);
+        System.out.println(shapeList.size());
         return true;
     }
 

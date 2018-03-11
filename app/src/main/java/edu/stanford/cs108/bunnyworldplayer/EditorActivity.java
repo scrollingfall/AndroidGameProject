@@ -34,6 +34,8 @@ public class EditorActivity extends AppCompatActivity {
         // instantiate new game
         firstPage = new Page("page1", 200, 200);
         currPage = firstPage;
+
+        // todo: create game-naming system in MainActivity.java
         newGame = new Game(firstPage, "game1", this);
         pageCounter = 1;
 
@@ -82,15 +84,17 @@ public class EditorActivity extends AppCompatActivity {
     }
 
     public void onAddShape(View view) {
-        // todo: add shape to page's data structure for shapes
-
+        shapeCounter += 1;
         String shapeName = "shape" + Integer.toString(shapeCounter);
-        Shape newShape = new Shape(this, shapeName, currPage.toString(), 0, 0, 200, 200);
+        float randX = (float) Math.random() * 1000 + 350;
+        float randY = (float) Math.random() * 500 + 150;
+        Shape newShape = new Shape(this, shapeName, currPage.toString(), randX, randY, 200, 200);
         currPage.addShape(newShape);
         EditorView editorview = (EditorView) findViewById(R.id.previewArea);
         editorview.drawShape(currPage);
 
         // unselect the previously selected shape if there was one
+
         ArrayList<Shape> shapes = currPage.getShapeList();
         Shape selectedShape = currPage.getSelectedShape();
         if (selectedShape != null) selectedShape.setSelected(false);
@@ -105,11 +109,12 @@ public class EditorActivity extends AppCompatActivity {
     }
 
     public void onEditShape(View view) {
-        // todo: for the current shape selected, goes to Uzair's shape editor
         Intent intent = new Intent(this, ShapeEditor.class);
         startActivity(intent);
     }
 
+    public void onDeleteShape(View view) {
 
-
+    }
+    
 }

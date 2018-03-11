@@ -27,7 +27,9 @@ public class EditorView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         ArrayList<Shape> shapes = page.getShapeList();
+        //System.out.println(shapes.toString());
         for (int i = 0; i < shapes.size(); i++) {
+            //System.out.println(shapes.size());
             shapes.get(i).draw(canvas);
         }
     }
@@ -71,17 +73,17 @@ public class EditorView extends View {
         }
 
         if (touched) {
-
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
+                    Shape selectedShape = this.page.getSelectedShape();
+                    if (selectedShape != null) selectedShape.setSelected(false);
                     this.page.setSelectedShape(touchedShape);
                     touchedShape.setSelected(true);
             }
-
         } else {
             // clear any existing selection
             Shape selectedShape = this.page.getSelectedShape();
-            selectedShape.setSelected(false);
+            if (selectedShape != null) selectedShape.setSelected(false);
         }
 
         invalidate();
