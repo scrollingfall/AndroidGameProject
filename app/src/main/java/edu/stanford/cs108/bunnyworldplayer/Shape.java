@@ -44,9 +44,9 @@ public class Shape extends RectF {
 
 
     // Constructor
-    public Shape (Context context, String name, float x, float y, float width, float height) {
+    public Shape (Context context, String name, String owner, float x, float y, float width, float height) {
         this.name = name;
-        this.owner = "";
+        this.owner = owner;
         this.text = "";
         this.image = "";
         this.hidden = true;
@@ -67,25 +67,25 @@ public class Shape extends RectF {
         editorMode = editable;
     }
 
-    public Shape (Context context, String name, String owner, String text, String image, boolean hidden, boolean moveable,
-                  float x, float y, float width, float height, boolean inBackpack) {
-        this.name = name;
-        this.owner = owner;
-        this.text = text;
-        this.image = image;
-        this.hidden = hidden;
-        this.moveable = moveable;
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
-        this.inBackpack = inBackpack;
-        this.onClick = "";
-        this.onEnter = "";
-        this.onDrop = new HashMap<String, String>();
-        this.editorMode = false;
-        this.context = context;
-    }
+//    public Shape (Context context, String name, String owner, String text, String image, boolean hidden, boolean moveable,
+//                  float x, float y, float width, float height, boolean inBackpack) {
+//        this.name = name;
+//        this.owner = owner;
+//        this.text = text;
+//        this.image = image;
+//        this.hidden = hidden;
+//        this.moveable = moveable;
+//        this.x = x;
+//        this.y = y;
+//        this.width = width;
+//        this.height = height;
+//        this.inBackpack = inBackpack;
+//        this.onClick = "";
+//        this.onEnter = "";
+//        this.onDrop = new HashMap<String, String>();
+//        this.editorMode = false;
+//        this.context = context;
+//    }
 
     public String getName() {
         return name;

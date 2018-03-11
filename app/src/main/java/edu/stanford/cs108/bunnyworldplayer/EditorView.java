@@ -17,15 +17,24 @@ import java.util.*;
 
 public class EditorView extends View {
     private int viewWidth, viewHeight;
+    TextView gameName;
+    TextView pageName;
 
     public EditorView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        gameName = (TextView) ((Activity) getContext()).findViewById(R.id.gameName);
+        pageName = (TextView) ((Activity) getContext()).findViewById(R.id.pageName);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
+        ArrayList<Shape> shapes =
+    }
+
+    public void drawShape() {
+        invalidate();
     }
 
     @Override
@@ -41,8 +50,6 @@ public class EditorView extends View {
         // check if touching coordinates that a shape contains
         float shapeX = event.getX();
         float shapeY = event.getY();
-
-        TextView pageName = (TextView) ((Activity) getContext()).findViewById(R.id.pageName);
         System.out.println(pageName.getText());
 
         //for (int i = 0; i < )
