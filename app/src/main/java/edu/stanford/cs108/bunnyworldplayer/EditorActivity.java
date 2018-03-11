@@ -1,6 +1,7 @@
 package edu.stanford.cs108.bunnyworldplayer;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
@@ -15,7 +16,7 @@ import java.util.*;
 public class EditorActivity extends AppCompatActivity {
     Page firstPage;
     Page currPage;
-    public Game newGame;
+    static Game newGame;
     ArrayList<String> pageList;
     Spinner pageSpinner;
     int pageCounter;
@@ -86,25 +87,21 @@ public class EditorActivity extends AppCompatActivity {
 
         String shapeName = "shape" + Integer.toString(shapeCounter);
         Shape newShape = new Shape(this, shapeName, currPage.toString(), 0, 0, 200, 200);
-
-        //newShape.draw();
-        // need to use invalidate somehow
+        currPage.addShape(newShape);
         EditorView editorview = (EditorView) findViewById(R.id.previewArea);
         editorview.drawShape(currPage);
-
-
-        currPage.addShape(newShape);
 
         Toast toast = Toast.makeText(
                 getApplicationContext(),
                 "Shape Added!",
                 Toast.LENGTH_SHORT);
         toast.show();
-
     }
 
     public void onEditShape(View view) {
         // todo: for the current shape selected, goes to Uzair's shape editor
+        Intent intent = new Intent(this, ShapeEditor.class);
+        startActivity(intent);
     }
 
 

@@ -53,7 +53,11 @@ public class EditorView extends View {
         float shapeY = event.getY();
         //System.out.println(pageName.getText());
 
-        //for (int i = 0; i < )
+        HashMap<String, Page> pages = EditorActivity.newGame.getPages();
+
+        for (int i = 0; i < pages.size(); i++) {
+
+        }
 
         return true;
     }
