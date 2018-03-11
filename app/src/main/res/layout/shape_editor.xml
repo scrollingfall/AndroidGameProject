@@ -112,8 +112,8 @@
         android:layout_columnWeight="1"
         android:layout_row="3"
         android:padding="5sp"
-        android:spinnerMode="dropdown" />
-
+        android:spinnerMode="dropdown"
+        android:id="@+id/imageSpinner" />
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -142,8 +142,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_columnWeight="1"
-        android:layout_row="7"
+        android:layout_row="6"
         android:layout_column="4"
         android:text="Add"
 
@@ -172,10 +171,10 @@
         />
 
     <Spinner
+        android:id="@+id/trigger"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_columnWeight="1"
-        android:layout_rowWeight="0.05"
         android:layout_row="6"
         android:layout_column="0"
         android:padding="5sp"
@@ -185,10 +184,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_columnWeight="1"
-        android:layout_rowWeight="0.05"
         android:layout_row="6"
         android:layout_column="1"
         android:padding="5sp"
+        android:id="@+id/shapeSpinner"
 
         />
 
@@ -196,10 +195,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_columnWeight="1"
-        android:layout_rowWeight="0.05"
         android:layout_row="6"
         android:layout_column="2"
         android:padding="5sp"
+        android:id="@+id/actionSpinner"
 
         />
 
@@ -207,21 +206,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_columnWeight="1"
-        android:layout_rowWeight="0.05"
         android:layout_row="6"
         android:layout_column="3"
         android:padding="5sp"
-
-        />
-
-    <Spinner
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_columnWeight="1"
-        android:layout_rowWeight="0.05"
-        android:layout_row="6"
-        android:layout_column="4"
-        android:padding="5sp"
+        android:id="@+id/resourceSpinner"
 
         />
 
