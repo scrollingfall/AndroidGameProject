@@ -119,6 +119,14 @@
             android:layout_columnWeight="2"
             android:text="0"/>
 
+        <Button
+            android:id="@+id/deleteShapeBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="2"
+            android:text="Edit Shape"
+            android:onClick="onDeleteShape"/>
+
     </GridLayout>
 
 </RelativeLayout>
