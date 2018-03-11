@@ -77,6 +77,12 @@ public class DatabaseInstance {
     }
 
     public void addPage(Page page){
+
+        String gameName = page.getOwner();
+        ContentValues vals = new ContentValues();
+        vals.put("pages", page.getId());
+        database.update(game_table_name, vals, "gameName='"+gameName+"'", null);
+        
         ArrayList<Shape> shapeList = page.getShapeList();
         database.execSQL("INSERT INTO PAGES VALUES id = " + page.getId() + " name = " + page.getName());
         if (!shapeList.isEmpty()){
