@@ -9,7 +9,7 @@ import java.io.File;
 
 public class MainActivity extends AppCompatActivity {
 
-    private void openFile(File file){
+    private void openFile (File file) {
         //read lines
 
     }
