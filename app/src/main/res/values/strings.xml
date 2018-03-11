@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Bunny World Player</string>
+    <string-array name="shape_options">
+        <item>on-drop</item>
+        <item>on-click</item>
+        <item>on-enter</item>
+    </string-array>
 </resources>

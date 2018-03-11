@@ -1,4 +1,6 @@
 package edu.stanford.cs108.bunnyworldplayer;
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
@@ -12,10 +14,12 @@ import java.util.*;
 
 public class EditorActivity extends AppCompatActivity {
     Page firstPage;
-    Game newGame;
+    Page currPage;
+    public Game newGame;
     ArrayList<String> pageList;
     Spinner pageSpinner;
-    int pageCounter = 1;
+    int pageCounter;
+    int shapeCounter = 0;
     ArrayAdapter<String> adapter;
     EditorView editorview;
 
@@ -28,7 +32,9 @@ public class EditorActivity extends AppCompatActivity {
 
         // instantiate new game
         firstPage = new Page("page1", 200, 200);
-        newGame = new Game(firstPage, "game1", getApplicationContext());
+        currPage = firstPage;
+        newGame = new Game(firstPage, "game1", this);
+        pageCounter = 1;
 
         pageList = new ArrayList<>();
         pageList.add("page" + Integer.toString(pageCounter));
@@ -49,9 +55,9 @@ public class EditorActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         pageSpinner.setAdapter(adapter);
 
-        // todo: add new page object to Game's hashmap for pages
+        // add new page object to Game's hashmap for pages
         Page newPage = new Page(pageName, 200, 200);
-        newGame.addPage(pageName, newPage);
+        newGame.addOrUpdatePage(pageName, newPage);
 
         Toast toast = Toast.makeText(
                 getApplicationContext(),
@@ -64,7 +70,8 @@ public class EditorActivity extends AppCompatActivity {
     }
 
     public void onSavePage(View view) {
-        // todo: update current page in Game's hashmap for pages
+        // update current page in Game's hashmap for pages
+        newGame.addOrUpdatePage(currPage.getName(), currPage);
 
         Toast toast = Toast.makeText(
                 getApplicationContext(),
@@ -76,6 +83,17 @@ public class EditorActivity extends AppCompatActivity {
 
     public void onAddShape(View view) {
         // todo: add shape to page's data structure for shapes
+
+        String shapeName = "shape" + Integer.toString(shapeCounter);
+        Shape newShape = new Shape(this, shapeName, currPage.toString(), 0, 0, 200, 200);
+
+        //newShape.draw();
+        // need to use invalidate somehow
+        EditorView editorview = (EditorView) findViewById(R.id.previewArea);
+        editorview.drawShape(currPage);
+
+
+        currPage.addShape(newShape);
 
         Toast toast = Toast.makeText(
                 getApplicationContext(),

@@ -59,10 +59,22 @@ public class Game {
         musicResources.put("woof", R.raw.woof);
     }
 
-    public boolean addPage(String name, Page p) {
+    public boolean addOrUpdatePage(String name, Page p) {
         //error checking
         pages.put(name, p);
         return true;
+    }
+
+    public Page getPage(String name) {
+        return pages.get(name);
+    }
+
+    public HashMap<String, Page> getPages() {
+        return pages;
+    }
+
+    public void setPages(HashMap<String, Page> pages) {
+        this.pages = pages;
     }
 
     public String getName() {
@@ -79,14 +91,6 @@ public class Game {
 
     public void setValid(boolean valid) {
         this.valid = valid;
-    }
-
-    public HashMap<String, Page> getPages() {
-        return pages;
-    }
-
-    public void setPages(HashMap<String, Page> pages) {
-        this.pages = pages;
     }
 
     public String getStarter() {

@@ -18,6 +18,11 @@
             android:layout_centerInParent="true"
             android:id="@+id/topGrid">
             <TextView
+                android:id="@+id/gameName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="game1"/>
+            <TextView
                 android:id="@+id/pageName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

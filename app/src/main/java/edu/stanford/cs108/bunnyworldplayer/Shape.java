@@ -47,14 +47,10 @@ public class Shape extends RectF {
     public String transitionPage = "";
     public ArrayList<String> actionShowShapes = new ArrayList<String>();
     public ArrayList<String> actionHideShapes = new ArrayList<String>();
-    private int fontSize;
-    public static int shapeID;
 
 
     // Constructor
     public Shape (Context context, String name, float x, float y, float width, float height) {
-        this.shapeID = getPreviousShapeId() + 1;
-        setPreviousShapeId(shapeID);
         this.name = name;
         this.owner = "";
         this.text = "";
@@ -71,30 +67,14 @@ public class Shape extends RectF {
         this.onDrop = new HashMap<String, String>();
         this.editorMode = false;
         this.context = context;
-        this.fontSize = 20;
     }
-
-    public int getPreviousShapeId(){ return shapeID;}
-    private void setPreviousShapeId(int shapeID) { this.shapeID = shapeID; }
-    public int getShapeId() { return shapeID; }
-
-
 
     public void setEditorMode (boolean editable){
         editorMode = editable;
     }
 
-    public String getScript(){
-        String scriptString = "";
-        for (String script: scripts) scriptString += script;
-        return scriptString;
-
-    }
-
     public Shape (Context context, String name, String owner, String text, String image, boolean hidden, boolean moveable,
                   float x, float y, float width, float height, boolean inBackpack) {
-        this.shapeID = getPreviousShapeId() + 1;
-        setPreviousShapeId(shapeID);
         this.name = name;
         this.owner = owner;
         this.text = text;
@@ -111,10 +91,7 @@ public class Shape extends RectF {
         this.onDrop = new HashMap<String, String>();
         this.editorMode = false;
         this.context = context;
-        this.fontSize = 20;
     }
-
-    public int getFontSize(){ return fontSize;}
 
     public String getName() {
         return name;
@@ -244,7 +221,7 @@ public class Shape extends RectF {
                 Paint grayRect = new Paint();
                 grayRect.setColor(Color.LTGRAY);
                 grayRect.setStyle(Paint.Style.FILL);
-                RectF greyRectangle = new RectF(x, y, x + getWidth(), y + getHeight());
+                RectF greyRectangle = new RectF(left, top, right, bottom);
                 canvas.drawRect(greyRectangle, grayRect);
             }
 
