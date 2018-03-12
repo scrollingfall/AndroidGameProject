@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     android:rowCount="10"
     android:columnCount="5"
-    android:layout_alignParentTop="true">
+    android:layout_alignParentTop="true"
+    android:layout_alignParentLeft="true">
 
         <!-- First Row -->
 
@@ -32,6 +33,7 @@
             android:layout_row="0"
             android:layout_column="1"
             android:inputType="numberDecimal"
+            android:id="@+id/shapeX"
             />
         <EditText
             android:layout_width="wrap_content"
@@ -43,7 +45,7 @@
             android:layout_row="0"
             android:layout_column="2"
             android:inputType="numberDecimal"
-
+            android:id="@+id/shapeY"
             />
         <EditText
             android:layout_width="wrap_content"
@@ -55,7 +57,7 @@
             android:layout_row="0"
             android:layout_column="3"
             android:inputType="numberDecimal"
-
+            android:id="@+id/shapeWidth"
             />
         <EditText
             android:layout_width="wrap_content"
@@ -67,7 +69,7 @@
             android:layout_row="0"
             android:layout_column="4"
             android:inputType="numberDecimal"
-
+            android:id="@+id/shapeHeight"
             />
 
         <!-- Second Row -->
@@ -82,6 +84,7 @@
             android:padding="5sp"
             android:text="Movable"
             android:textSize="20sp"
+            android:id="@+id/movable"
             />
 
         <CheckBox
@@ -93,6 +96,7 @@
             android:layout_column="0"
             android:textSize="20sp"
             android:text="Visible"
+            android:id="@+id/visible"
             />
 
         <TextView
@@ -124,6 +128,7 @@
         android:layout_columnSpan="2"
         android:hint="Text (Optional)"
         android:textSize="20sp"
+        android:id="@+id/shapeText"
     />
 
     <EditText
@@ -137,6 +142,7 @@
         android:layout_columnSpan="2"
         android:hint="Font Size"
         android:textSize="20sp"
+        android:id="@+id/shapeFont"
         />
 
     <Button
@@ -144,7 +150,9 @@
         android:layout_height="wrap_content"
         android:layout_row="6"
         android:layout_column="4"
+        android:layout_columnWeight="1"
         android:text="Add"
+        android:onClick="addClicked"
 
      />
 
@@ -222,6 +230,7 @@
         android:layout_row="8"
         android:layout_column="0"
         android:hint="Scripts will show up here"
+        android:id="@+id/shapePreview"
     />
 
     <Button
@@ -231,6 +240,7 @@
         android:layout_row="9"
         android:layout_column="0"
         android:text="Remove Most Recent"
+        android:onClick="removePrevPressed"
 
         />
 
@@ -241,7 +251,7 @@
         android:layout_row="9"
         android:layout_column="3"
         android:text="Cancel"
-
+        android:onClick="cancelPressed"
         />
 
     <Button
@@ -251,6 +261,7 @@
         android:layout_row="9"
         android:layout_column="4"
         android:text="Save"
+        android:onClick="savePressed"
 
         />
 
