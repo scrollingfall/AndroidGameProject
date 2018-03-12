@@ -31,7 +31,7 @@ public class EditorActivity extends AppCompatActivity {
         editorview = (EditorView) findViewById(R.id.previewArea);
 
         // instantiate new game
-        firstPage = new Page("page1", 200, 200);
+        firstPage = new Page("page1", 200, 200, "game1");
         currPage = firstPage;
         firstPage.setStarter(true, firstPage.getWidth(), firstPage.getHeight());
 
@@ -59,7 +59,7 @@ public class EditorActivity extends AppCompatActivity {
         pageSpinner.setAdapter(adapter);
 
         // add new page object to Game's hashmap for pages
-        Page newPage = new Page(pageName, 200, 200);
+        Page newPage = new Page(pageName, 200, 200, "game1");
         newGame.addOrUpdatePage(pageName, newPage);
 
         Toast toast = Toast.makeText(

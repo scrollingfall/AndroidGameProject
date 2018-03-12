@@ -18,7 +18,7 @@ import java.util.*;
 public class EditorView extends View {
     private int viewWidth, viewHeight;
     private float origX, origY;
-    Page page = new Page("page1", 200,200);
+    Page page = new Page("page1", 200,200, "game1");
 
     public EditorView(Context context, AttributeSet attrs) {
         super(context, attrs);
