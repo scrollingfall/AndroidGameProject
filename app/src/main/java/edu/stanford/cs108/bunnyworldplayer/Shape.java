@@ -71,7 +71,7 @@ public class Shape extends RectF {
         this.onClick = "";
         this.onEnter = "";
         this.onDrop = new HashMap<String, String>();
-        this.editorMode = false;
+        this.editorMode = true;
         this.context = context;
         this.fontSize = 20;
 
@@ -80,7 +80,7 @@ public class Shape extends RectF {
     private void setPreviousShapeId(int shapeID) { this.shapeID = shapeID; }
     public int getShapeId() { return shapeID; }
 
-    public void setEditorMode (boolean editable){
+    public void setEditorMode (boolean editable) {
         editorMode = editable;
     }
 
@@ -182,7 +182,9 @@ public class Shape extends RectF {
     }
 
     public void move(float x, float y) {
+        System.out.println("outside setting");
         if (moveable || editorMode) {
+            System.out.println("inside setting");
             this.x = x;
             this.y = y;
         }
