@@ -182,9 +182,7 @@ public class Shape extends RectF {
     }
 
     public void move(float x, float y) {
-        System.out.println("outside setting");
         if (moveable || editorMode) {
-            System.out.println("inside setting");
             this.x = x;
             this.y = y;
         }
