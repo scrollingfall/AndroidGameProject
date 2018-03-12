@@ -65,8 +65,6 @@ public class Shape extends RectF {
         this.moveable = false;
         this.x = x;
         this.y = y;
-        System.out.println(x);
-        System.out.println(y);
         this.width = width;
         this.height = height;
         this.inBackpack = false;
@@ -110,6 +108,7 @@ public class Shape extends RectF {
 //    }
 
     public int getFontSize(){ return fontSize;}
+
     public String getName() {
         return name;
     }
@@ -250,8 +249,6 @@ public class Shape extends RectF {
                 Paint grayPaintFill = new Paint();
                 grayPaintFill.setColor(Color.LTGRAY);
                 grayPaintFill.setStyle(Paint.Style.FILL);
-                System.out.println(this.x);
-                System.out.println(this.y);
                 RectF greyRectangle = new RectF(x, y, x+getWidth(), y+getHeight());
 
                 if (selected) {

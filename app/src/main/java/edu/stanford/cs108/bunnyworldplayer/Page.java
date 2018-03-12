@@ -83,19 +83,23 @@ public class Page {
     }
 
     public boolean addShape(Shape s) {
-        System.out.println(s.getName());
         if (shapes.containsKey(s.getName()))
             return false;
         shapes.put(s.getName(), s);
         shapeList.add(s);
-        System.out.println(shapeList.size());
         return true;
     }
 
     public boolean removeShape(String name) {
         if (!shapes.containsKey(name))
             return false;
-        shapeList.remove(shapes.remove(name));
+        Shape rmShape = shapes.remove(name);
+        for (int i = 0; i < shapeList.size(); i++) {
+            if (shapeList.get(i).getName() == name) {
+                shapeList.remove(i);
+                break;
+            }
+        }
         if (shapeList.size() != shapes.size())
             throw new RuntimeException("improper removals");
         return false;
