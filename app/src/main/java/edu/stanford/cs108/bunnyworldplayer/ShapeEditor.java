@@ -413,7 +413,7 @@ public class ShapeEditor extends AppCompatActivity {
         selectedShape.setImage(imageSelected);
 
         selectedShape.setMoveable(moveable);
-        selectedShape.setHidden(!visible);
+//        selectedShape.setHidden(!visible);
 
         if (!shapeText.isEmpty())
             selectedShape.setText(shapeText);
