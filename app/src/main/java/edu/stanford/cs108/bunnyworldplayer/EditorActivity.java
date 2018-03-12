@@ -110,6 +110,12 @@ public class EditorActivity extends AppCompatActivity {
     }
 
     public void onEditShape(View view) {
+
+        if (currPage.getSelectedShape() == null) {
+            Toast.makeText(this, "No shape is currently selected", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         Intent intent = new Intent(this, ShapeEditor.class);
         startActivity(intent);
     }
