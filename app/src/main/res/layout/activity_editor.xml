@@ -84,45 +84,45 @@
             android:layout_height="wrap_content"
             android:text="X: "/>
         <TextView
-            android:id="@+id/x_field"
+            android:id="@+id/xField"
             android:inputType="numberDecimal"
-            android:layout_width="wrap_content"
+            android:layout_width="30px"
             android:layout_height="wrap_content"
             android:layout_columnWeight="2"
-            android:text="0"/>
+            android:text="--"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Y: "/>
         <TextView
-            android:id="@+id/y_field"
+            android:id="@+id/yField"
             android:inputType="numberDecimal"
-            android:layout_width="wrap_content"
+            android:layout_width="30px"
             android:layout_height="wrap_content"
             android:layout_columnWeight="2"
-            android:text="0"/>
+            android:text="--"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Width: "/>
         <TextView
-            android:id="@+id/width_field"
+            android:id="@+id/widthField"
             android:inputType="numberDecimal"
-            android:layout_width="wrap_content"
+            android:layout_width="30px"
             android:layout_height="wrap_content"
             android:layout_columnWeight="2"
-            android:text="0"/>
+            android:text="--"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Height: "/>
         <TextView
-            android:id="@+id/height_field"
+            android:id="@+id/heightField"
             android:inputType="numberDecimal"
-            android:layout_width="wrap_content"
+            android:layout_width="30px"
             android:layout_height="wrap_content"
             android:layout_columnWeight="2"
-            android:text="0"/>
+            android:text="--"/>
 
         <Button
             android:id="@+id/deleteShapeBtn"

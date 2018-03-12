@@ -57,6 +57,11 @@ public class EditorView extends View {
         Page p = EditorActivity.newGame.getPage((String)pageName.getText());
         ArrayList<Shape> shapes = p.getShapeList();
 
+        TextView xField = (TextView) ((Activity) getContext()).findViewById(R.id.xField);
+        TextView yField = (TextView) ((Activity) getContext()).findViewById(R.id.yField);
+        TextView widthField = (TextView) ((Activity) getContext()).findViewById(R.id.widthField);
+        TextView heightField = (TextView) ((Activity) getContext()).findViewById(R.id.heightField);
+
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
 
@@ -68,6 +73,10 @@ public class EditorView extends View {
                     float height = shapes.get(i).getHeight();
                     if (touchX >= x && touchX <= x + width && touchY >= y && touchY <= y + height) {
                         touchedShape = shapes.get(i);
+                        xField.setText(Float.toString(x));
+                        yField.setText(Float.toString(y));
+                        widthField.setText(Float.toString(width));
+                        heightField.setText(Float.toString(height));
                         break;
                     }
                 }
@@ -87,6 +96,10 @@ public class EditorView extends View {
                         selectedShape.setSelected(false);
                         this.page.setSelectedShape(null);
                     }
+                    xField.setText("--");
+                    yField.setText("--");
+                    widthField.setText("--");
+                    heightField.setText("--");
                 }
                 break;
 
@@ -94,13 +107,11 @@ public class EditorView extends View {
                 if (touchedShape != null) {
                     float deltaX = event.getX() - origTouchX;
                     float deltaY = event.getY() - origTouchY;
-                    System.out.println("Before move:");
-                    System.out.println(touchedShape.getX());
-                    System.out.println(touchedShape.getY());
                     touchedShape.move(origX + deltaX, origY + deltaY);
-                    System.out.println("After move:");
-                    System.out.println(touchedShape.getX());
-                    System.out.println(touchedShape.getY());
+                    xField.setText(Float.toString(origX + deltaX));
+                    yField.setText(Float.toString(origY + deltaY));
+                    widthField.setText(Float.toString(touchedShape.getWidth()));
+                    heightField.setText(Float.toString(touchedShape.getHeight()));
                 }
                 break;
 
