@@ -71,6 +71,7 @@ public class Game {
     public boolean addOrUpdatePage(String name, Page p) {
         //error checking
         pages.put(name, p);
+        pageList.add(p);
         return true;
     }
 
@@ -92,6 +93,8 @@ public class Game {
             this.pageList.add(page);
         }
     }
+
+
 
     public String getName() {
         return name;

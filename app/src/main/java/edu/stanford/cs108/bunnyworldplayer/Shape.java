@@ -79,9 +79,23 @@ public class Shape extends RectF {
     public int getPreviousShapeId(){ return shapeID;}
     private void setPreviousShapeId(int shapeID) { this.shapeID = shapeID; }
     public int getShapeId() { return shapeID; }
+    public void setShapeId(int shapeid) { this.shapeID = shapeid; }
 
     public void setEditorMode (boolean editable) {
         editorMode = editable;
+    }
+
+    public void setScriptList(String scriptString){
+        StringTokenizer st = new StringTokenizer(scriptString, ";");
+        while (st.hasMoreTokens()) scripts.add(st.nextToken());
+    }
+
+    public String getScript(){
+        String scriptString = "";
+        for (String script : scripts ){
+            scriptString += script + ";";
+        }
+        return scriptString;
     }
 
 //    public Shape (Context context, String name, String owner, String text, String image, boolean hidden, boolean moveable,
@@ -108,6 +122,7 @@ public class Shape extends RectF {
 //    }
 
     public int getFontSize(){ return fontSize;}
+    public void setFontSize(int fontsize){  this.fontSize = fontsize;}
 
     public String getName() {
         return name;

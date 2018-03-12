@@ -25,7 +25,6 @@ import java.util.HashMap;
 
 public class GameListPlay extends AppCompatActivity{
     private ListView list1;
-    private DatabaseInstance recent;
     private SQLiteDatabase currentDatabase;
     private DatabaseInstance databaseinstance;
 
@@ -38,22 +37,22 @@ public class GameListPlay extends AppCompatActivity{
         databaseinstance = (DatabaseInstance) DatabaseInstance.getDBinstance(getApplicationContext());
         currentDatabase = databaseinstance.getCurrentDatabase();
 
-//        ArrayList<String> gameString = databaseinstance.getAllGamesString();
-//
-//
-//        ListAdapter adapter = new ArrayAdapter<>(this, R.layout.game_list_play, R.id.rowList, gameString);
-//        list1.setAdapter(adapter);
-//        list1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                TextView text = (TextView) view.findViewById(R.id.rowList);
-//                String gameName = text.getText().toString();
-//
-//                // reset inventory
-//                Intent intent = new Intent (getApplicationContext(), Game.class);
-//                startActivity(intent);
-//            }
-//        });
+        ArrayList<String> gameString = databaseinstance.getAllGamesString();
+
+
+        ListAdapter adapter = new ArrayAdapter<>(this, R.layout.game_list_play, R.id.rowList, gameString);
+        list1.setAdapter(adapter);
+        list1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                TextView text = (TextView) view.findViewById(R.id.rowList);
+                String gameName = text.getText().toString();
+
+                // reset inventory
+                Intent intent = new Intent (getApplicationContext(), Game.class);
+                startActivity(intent);
+            }
+        });
 
     }
 

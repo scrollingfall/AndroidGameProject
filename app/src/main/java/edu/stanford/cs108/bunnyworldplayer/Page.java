@@ -23,7 +23,12 @@ public class Page {
     private boolean starter;
     private static HashMap<String, Shape> resources = new HashMap<String, Shape>();
     private boolean editorMode;
+    private static int pageID;
+
     public Page(String name, float width, float height, String gameOwner) {
+
+        this.pageID = getPreviousPageId() + 1;
+        setPreviousPageId(pageID);
         this.owner = gameOwner;
         this.name = name;
         this.shapes = new HashMap<String, Shape>();
@@ -35,6 +40,11 @@ public class Page {
         this.starter = false;
         this.editorMode = false;
     }
+
+    private int getPreviousPageId(){ return pageID;}
+    private void setPreviousPageId(int pageid) { this.pageID = pageid; }
+    public int getPageId() { return pageID; }
+    public void setPageId(int pageid) { this.pageID = pageid; }
 
     public String getOwner() {return owner;}
     public void setOwner(String gameOwner) { this.owner = gameOwner; }
@@ -139,5 +149,7 @@ public class Page {
                 targets.add(s2);
         return targets;
     }
+
+
 
 }
