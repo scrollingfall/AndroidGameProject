@@ -23,6 +23,7 @@ public class EditorActivity extends AppCompatActivity {
     int shapeCounter = 0;
     ArrayAdapter<String> adapter;
     EditorView editorview;
+    TextView shapeNameField;
     TextView xField;
     TextView yField;
     TextView widthField;
@@ -51,6 +52,7 @@ public class EditorActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         pageSpinner.setAdapter(adapter);
 
+        shapeNameField = (TextView) findViewById(R.id.shapeNameField);
         xField = (TextView) findViewById(R.id.xField);
         yField = (TextView) findViewById(R.id.yField);
         widthField = (TextView) findViewById(R.id.widthField);
@@ -111,6 +113,7 @@ public class EditorActivity extends AppCompatActivity {
         EditorView editorview = (EditorView) findViewById(R.id.previewArea);
         editorview.drawPage(currPage);
 
+        shapeNameField.setText(newShape.getName());
         xField.setText(Float.toString(newShape.getX()));
         yField.setText(Float.toString(newShape.getY()));
         widthField.setText(Float.toString(newShape.getWidth()));
@@ -143,6 +146,7 @@ public class EditorActivity extends AppCompatActivity {
             EditorView editorview = (EditorView) findViewById(R.id.previewArea);
             editorview.drawPage(currPage);
 
+            shapeNameField.setText("--");
             xField.setText("--");
             yField.setText("--");
             widthField.setText("--");

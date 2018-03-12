@@ -57,6 +57,7 @@ public class EditorView extends View {
         Page p = EditorActivity.newGame.getPage((String)pageName.getText());
         ArrayList<Shape> shapes = p.getShapeList();
 
+        TextView shapeNameField = (TextView) ((Activity) getContext()).findViewById(R.id.shapeNameField);
         TextView xField = (TextView) ((Activity) getContext()).findViewById(R.id.xField);
         TextView yField = (TextView) ((Activity) getContext()).findViewById(R.id.yField);
         TextView widthField = (TextView) ((Activity) getContext()).findViewById(R.id.widthField);
@@ -73,6 +74,7 @@ public class EditorView extends View {
                     float height = shapes.get(i).getHeight();
                     if (touchX >= x && touchX <= x + width && touchY >= y && touchY <= y + height) {
                         touchedShape = shapes.get(i);
+                        shapeNameField.setText(touchedShape.getName());
                         xField.setText(Float.toString(x));
                         yField.setText(Float.toString(y));
                         widthField.setText(Float.toString(width));
@@ -96,6 +98,7 @@ public class EditorView extends View {
                         selectedShape.setSelected(false);
                         this.page.setSelectedShape(null);
                     }
+                    shapeNameField.setText("--");
                     xField.setText("--");
                     yField.setText("--");
                     widthField.setText("--");
