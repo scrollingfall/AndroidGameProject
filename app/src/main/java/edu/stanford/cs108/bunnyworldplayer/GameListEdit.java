@@ -35,23 +35,23 @@ public class GameListEdit extends AppCompatActivity{
 
         databaseinstance = (DatabaseInstance) DatabaseInstance.getDBinstance(getApplicationContext());
         currentDatabase = databaseinstance.getCurrentDatabase();
-//
-//        ArrayList<String> gameString = databaseinstance.getAllGamesString();
-//        ListAdapter adapter = new ArrayAdapter<>(this, R.layout.game_list_play, R.id.rowList, gameString);
-//        list.setAdapter(adapter);
-//        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                TextView text = (TextView) view.findViewById(R.id.rowList);
-//                String gameName = text.getText().toString();
-//
-//                databaseinstance.setCurrentGameName(gameName);
-//
-//                // reset inventory
-//                Intent intent = new Intent (getApplicationContext(), EditorActivity.class);
-//                startActivity(intent);
-//            }
-//        });
+
+        ArrayList<String> gameString = databaseinstance.getAllGamesString();
+        ListAdapter adapter = new ArrayAdapter<>(this, R.layout.game_list_play, R.id.rowList, gameString);
+        list.setAdapter(adapter);
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                TextView text = (TextView) view.findViewById(R.id.rowList);
+                String gameName = text.getText().toString();
+
+                databaseinstance.setCurrentGameName(gameName);
+
+                // reset inventory
+                Intent intent = new Intent (getApplicationContext(), EditorActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
 }

@@ -22,8 +22,8 @@ public class PlayerView extends View {
     }
 
 
-    public Page getPageCurrentlyOn() { return this.currentPage; }
-    public void setPageCurrentlyOn(Page currentPage) { this.currentPage = currentPage; }
+    public Page getPageCurrentlyOn() { return this.page; }
+    public void setPageCurrentlyOn(Page currentPage) { this.page = currentPage; }
 
     @Override
     protected void onDraw(Canvas canvas) {
@@ -43,57 +43,6 @@ public class PlayerView extends View {
         invalidate();
     }
 
-    @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
-
-        viewWidth = w;
-        viewHeight = h;
-    }
-
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        // check if touching coordinates that a shape contains
-        float touchX = event.getX();
-        float touchY = event.getY();
-
-        TextView pageName = (TextView) ((Activity) getContext()).findViewById(R.id.pageName);
-        Page p = EditorActivity.newGame.getPage((String)pageName.getText());
-        ArrayList<Shape> shapes = p.getShapeList();
-        Shape touchedShape = null;
-        boolean touched = false;
-
-        for (int i = shapes.size() - 1; i >= 0; i--) {
-
-            float x = shapes.get(i).getX();
-            float y = shapes.get(i).getY();
-            float width = shapes.get(i).getWidth();
-            float height = shapes.get(i).getHeight();
-            if (touchX >= x && touchX <= x + width && touchY >= y && touchY <= y + height) {
-                touchedShape = shapes.get(i);
-                touched = true;
-                break;
-            }
-        }
-
-        if (touched) {
-            switch (event.getAction()) {
-                case MotionEvent.ACTION_DOWN:
-                    Shape selectedShape = this.page.getSelectedShape();
-                    if (selectedShape != null) selectedShape.setSelected(false);
-                    this.page.setSelectedShape(touchedShape);
-                    touchedShape.setSelected(true);
-            }
-        } else {
-            // clear any existing selection
-            Shape selectedShape = this.page.getSelectedShape();
-            if (selectedShape != null) selectedShape.setSelected(false);
-        }
-
-        invalidate();
-        return true;
-    }
 
 
 }
