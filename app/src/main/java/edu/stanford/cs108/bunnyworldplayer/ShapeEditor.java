@@ -143,6 +143,12 @@ public class ShapeEditor extends AppCompatActivity {
             fontField.setText(fontSize + "");
         }
 
+        CheckBox visible = (CheckBox) findViewById(R.id.visible);
+        visible.setChecked(!selectedShape.isHidden());
+
+        CheckBox movable = (CheckBox) findViewById(R.id.movable);
+        movable.setChecked(selectedShape.isMoveable());
+
     }
 
     private void setImageText(String imageText) {
@@ -386,8 +392,8 @@ public class ShapeEditor extends AppCompatActivity {
         String shapeText = ((EditText) findViewById(R.id.shapeText)).getText().toString();
         String fontSize = ((EditText) findViewById(R.id.shapeFont)).getText().toString();
 
-        boolean moveable = ((CheckBox) findViewById(R.id.movable)).isSelected();
-        boolean visible = ((CheckBox) findViewById(R.id.visible)).isSelected();
+        boolean movable = ((CheckBox) findViewById(R.id.movable)).isChecked();
+        boolean visible = ((CheckBox) findViewById(R.id.visible)).isChecked();
 
         System.out.println("OUTPUT: name = " + name + ", x = " + x + ", y = " + y + ", width = " + width + ", height = " + height);
 
@@ -412,8 +418,8 @@ public class ShapeEditor extends AppCompatActivity {
 
         selectedShape.setImage(imageSelected);
 
-        selectedShape.setMoveable(moveable);
-//        selectedShape.setHidden(!visible);
+        selectedShape.setMoveable(movable);
+        selectedShape.setHidden(!visible);
 
         if (!shapeText.isEmpty())
             selectedShape.setText(shapeText);
