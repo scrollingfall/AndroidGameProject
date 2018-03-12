@@ -26,7 +26,7 @@ public class ShapeEditor extends AppCompatActivity {
     String imageSelected;
     Game currGame;
     ArrayList<String> overallScript;
-    boolean DEBUG = false;
+    boolean DEBUG = true;
     Page currPage;
     Shape selectedShape;
 
@@ -322,6 +322,7 @@ public class ShapeEditor extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapter, View view, int pos, long id) {
                 imageSelected = adapter.getItemAtPosition(pos).toString();
+                toastify(imageSelected);
             }
 
         });
