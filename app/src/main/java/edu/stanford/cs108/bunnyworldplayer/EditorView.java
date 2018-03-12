@@ -17,7 +17,8 @@ import java.util.*;
 
 public class EditorView extends View {
     private int viewWidth, viewHeight;
-    private float origX, origY;
+    Shape touchedShape = null;
+    private float origX, origY, origTouchX, origTouchY;
     Page page = new Page("page1", 200,200, "game1");
 
     public EditorView(Context context, AttributeSet attrs) {
@@ -55,48 +56,57 @@ public class EditorView extends View {
         TextView pageName = (TextView) ((Activity) getContext()).findViewById(R.id.pageName);
         Page p = EditorActivity.newGame.getPage((String)pageName.getText());
         ArrayList<Shape> shapes = p.getShapeList();
-        Shape touchedShape = null;
-        boolean touched = false;
 
-        for (int i = shapes.size() - 1; i >= 0; i--) {
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
 
-            float x = shapes.get(i).getX();
-            float y = shapes.get(i).getY();
-            float width = shapes.get(i).getWidth();
-            float height = shapes.get(i).getHeight();
-            if (touchX >= x && touchX <= x + width && touchY >= y && touchY <= y + height) {
-                touchedShape = shapes.get(i);
-                touched = true;
-                break;
-            }
-        }
-
-        if (touched) {
-            switch (event.getAction()) {
-                case MotionEvent.ACTION_DOWN:
+                // find shape that was touched (if any was)
+                for (int i = shapes.size() - 1; i >= 0; i--) {
+                    float x = shapes.get(i).getX();
+                    float y = shapes.get(i).getY();
+                    float width = shapes.get(i).getWidth();
+                    float height = shapes.get(i).getHeight();
+                    if (touchX >= x && touchX <= x + width && touchY >= y && touchY <= y + height) {
+                        touchedShape = shapes.get(i);
+                        break;
+                    }
+                }
+                if (touchedShape != null) {
                     origX = touchedShape.getX();
                     origY = touchedShape.getY();
+                    origTouchX = touchX;
+                    origTouchY = touchY;
                     Shape selectedShape = this.page.getSelectedShape();
                     if (selectedShape != null) selectedShape.setSelected(false); // unselect old
                     this.page.setSelectedShape(touchedShape); // select new
                     touchedShape.setSelected(true);
-                    break;
-                case MotionEvent.ACTION_MOVE:
-                    float deltaX = event.getX() - origX;
-                    float deltaY = event.getY() - origY;
-                    System.out.println(deltaX);
-                    System.out.println(deltaX);
-                    touchedShape.move(origX + deltaX, origY + deltaY);
-                    break;
+                } else {
+                    // clear any existing selection
+                    Shape selectedShape = this.page.getSelectedShape();
+                    if (selectedShape != null) {
+                        selectedShape.setSelected(false);
+                        this.page.setSelectedShape(null);
+                    }
+                }
+                break;
 
-            }
-        } else {
-            // clear any existing selection
-            Shape selectedShape = this.page.getSelectedShape();
-            if (selectedShape != null) {
-                selectedShape.setSelected(false);
-                this.page.setSelectedShape(null);
-            }
+            case MotionEvent.ACTION_MOVE:
+                if (touchedShape != null) {
+                    float deltaX = event.getX() - origTouchX;
+                    float deltaY = event.getY() - origTouchY;
+                    System.out.println("Before move:");
+                    System.out.println(touchedShape.getX());
+                    System.out.println(touchedShape.getY());
+                    touchedShape.move(origX + deltaX, origY + deltaY);
+                    System.out.println("After move:");
+                    System.out.println(touchedShape.getX());
+                    System.out.println(touchedShape.getY());
+                }
+                break;
+
+            case MotionEvent.ACTION_UP:
+                touchedShape = null;
+                break;
         }
 
         invalidate();
