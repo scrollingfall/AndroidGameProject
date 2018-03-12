@@ -26,7 +26,7 @@ public class ShapeEditor extends AppCompatActivity {
     String imageSelected;
     Game currGame;
     ArrayList<String> overallScript;
-    boolean DEBUG = false;
+    boolean DEBUG = true;
     Page currPage;
     Shape selectedShape;
 
@@ -75,10 +75,11 @@ public class ShapeEditor extends AppCompatActivity {
 
         imageSelected = "";
 
-        populateFields(selectedShape);
-
         showActions();
         populateImageSpinner(); // Spinner with images to choose from
+
+        populateFields(selectedShape);
+
         populateTriggerSpinner(); // Triggers
         showShapes(); // Shapes to go with triggers
 
@@ -134,7 +135,7 @@ public class ShapeEditor extends AppCompatActivity {
         }
 
         String text = shape.getText();
-        float fontSize = shape.getFontSize();
+        int fontSize = shape.getFontSize();
 
         if (text != null && !text.isEmpty()) {
             TextView textField = (TextView) findViewById(R.id.shapeText);
@@ -311,7 +312,6 @@ public class ShapeEditor extends AppCompatActivity {
     private void populateImageSpinner() {
         Spinner imgSpinner = (Spinner) findViewById(R.id.imageSpinner);
         ArrayAdapter<String> images = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, allImages);
-        imgSpinner.setAdapter(images);
 
         imgSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -326,6 +326,8 @@ public class ShapeEditor extends AppCompatActivity {
             }
 
         });
+
+        imgSpinner.setAdapter(images);
 
     }
 
@@ -417,7 +419,11 @@ public class ShapeEditor extends AppCompatActivity {
         selectedShape.resize(widthVal, heightVal);
         selectedShape.setScripts(overallScript);
 
-        selectedShape.setImage(imageSelected);
+        Spinner imageSpinner = (Spinner) findViewById(R.id.imageSpinner);
+
+        toastify(imageSpinner.getSelectedItem().toString());
+
+        selectedShape.setImage(imageSpinner.getSelectedItem().toString());
 
         selectedShape.setMoveable(movable);
         selectedShape.setHidden(!visible);
