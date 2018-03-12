@@ -25,7 +25,6 @@ import java.util.HashMap;
 
 public class GameListPlay extends AppCompatActivity{
     private ListView list1;
-    private DatabaseInstance recent;
     private SQLiteDatabase currentDatabase;
     private DatabaseInstance databaseinstance;
 

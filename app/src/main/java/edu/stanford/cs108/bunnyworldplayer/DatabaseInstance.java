@@ -24,7 +24,7 @@ public class DatabaseInstance {
     private Context context;
     private int pageNumber;
     public String pageID;
-    private String gameName = ""
+    private String gameName = "";
     private static DatabaseInstance databaseInstance;
     private ArrayList<String> nameOfImages;
 
@@ -214,5 +214,6 @@ public class DatabaseInstance {
 
 
     public void setCurrentGameName(String gamename) { this.gameName = gamename;}
+    public String getCurrentGameName() { return this.gameName}
 
 }
