@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -15,6 +16,7 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 /**
@@ -25,25 +27,21 @@ public class GameListPlay extends AppCompatActivity{
     private ListView list1;
     private DatabaseInstance recent;
     private SQLiteDatabase currentDatabase;
+    private DatabaseInstance databaseinstance;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game_list_edit);
         list1 = (ListView) findViewById(R.id.game_list_edit);
 
-        // get game and database from DatabaseInstance
-        // recent = most recent instance of the whole application
+        databaseinstance = (DatabaseInstance) DatabaseInstance.getDBinstance(getApplicationContext());
+        currentDatabase = databaseinstance.getCurrentDatabase();
 
-        currentDatabase = recent.getCurrentDatabase();
-
-        ArrayList<String> gameString = recent.getAllGamesString(recent);
-
-        String [] gameString2 = new String[gameString.size()];
-        gameString2 = gameString.toArray(gameString2);
+        ArrayList<String> gameString = databaseinstance.getAllGamesString();
 
 
-
-        ListAdapter adapter = new ArrayAdapter<>(this, R.layout.game_list_play, gameString2);
+        ListAdapter adapter = new ArrayAdapter<>(this, R.layout.game_list_play, R.id.rowList, gameString);
         list1.setAdapter(adapter);
         list1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -51,9 +49,7 @@ public class GameListPlay extends AppCompatActivity{
                 TextView text = (TextView) view.findViewById(R.id.rowList);
                 String gameName = text.getText().toString();
 
-                // get information about the game from the gameName
-                // set the world, set the page to page 1 and also set the inventory to be 0
-
+                // reset inventory
                 Intent intent = new Intent (getApplicationContext(), Game.class);
                 startActivity(intent);
             }

@@ -12,6 +12,7 @@ import java.util.Set;
 
 public class Page {
     private String name;
+    private String owner;
     private HashMap<String,Shape> shapes;
     private ArrayList<Shape> shapeList;
     private Shape selectedShape;
@@ -22,7 +23,8 @@ public class Page {
     private boolean starter;
     private static HashMap<String, Shape> resources = new HashMap<String, Shape>();
     private boolean editorMode;
-    public Page(String name, float width, float height) {
+    public Page(String name, float width, float height, String gameOwner) {
+        this.owner = gameOwner;
         this.name = name;
         this.shapes = new HashMap<String, Shape>();
         this.shapeList = new ArrayList<Shape>();
@@ -34,7 +36,8 @@ public class Page {
         this.editorMode = false;
     }
 
-
+    public String getOwner() {return owner;}
+    public void setOwner(String gameOwner) { this.owner = gameOwner; }
 
     public void setEditorMode (boolean editable) {
         editorMode = editable;
