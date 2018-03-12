@@ -27,6 +27,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="page1"/>
+            <Spinner
+                android:id="@+id/pageSpinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
             <Button
                 android:id="@+id/addPageBtn"
                 android:layout_width="wrap_content"
@@ -40,10 +44,11 @@
                 android:layout_alignParentRight="true"
                 android:text="SAVE PAGE"
                 android:onClick="onSavePage"/>
-            <Spinner
-                android:id="@+id/pageSpinner"
+            <Button
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:text="Delete Page"
+                android:onClick="onDeletePage"/>
         </LinearLayout>
         <edu.stanford.cs108.bunnyworldplayer.EditorView
             android:id="@+id/previewArea"
@@ -56,7 +61,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerInParent="true"
-        android:columnCount="10"
+        android:columnCount="11"
         android:rowCount="1"
         android:id="@+id/bottom_grid">
         <Button
@@ -124,7 +129,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_columnWeight="2"
-            android:text="Edit Shape"
+            android:text="Delete Shape"
             android:onClick="onDeleteShape"/>
 
     </GridLayout>

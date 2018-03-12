@@ -17,7 +17,8 @@ import java.util.*;
 
 public class EditorView extends View {
     private int viewWidth, viewHeight;
-    Page page = new Page("page1", 200,200);
+    private float origX, origY;
+    Page page = new Page("page1", 200,200, "game1");
 
     public EditorView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -27,14 +28,12 @@ public class EditorView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         ArrayList<Shape> shapes = page.getShapeList();
-        //System.out.println(shapes.toString());
         for (int i = 0; i < shapes.size(); i++) {
-            //System.out.println(shapes.size());
             shapes.get(i).draw(canvas);
         }
     }
 
-    public void drawShape(Page page) {
+    public void drawPage(Page page) {
         this.page = page;
         invalidate();
     }
@@ -75,15 +74,29 @@ public class EditorView extends View {
         if (touched) {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
+                    origX = touchedShape.getX();
+                    origY = touchedShape.getY();
                     Shape selectedShape = this.page.getSelectedShape();
-                    if (selectedShape != null) selectedShape.setSelected(false);
-                    this.page.setSelectedShape(touchedShape);
+                    if (selectedShape != null) selectedShape.setSelected(false); // unselect old
+                    this.page.setSelectedShape(touchedShape); // select new
                     touchedShape.setSelected(true);
+                    break;
+                case MotionEvent.ACTION_MOVE:
+                    float deltaX = event.getX() - origX;
+                    float deltaY = event.getY() - origY;
+                    System.out.println(deltaX);
+                    System.out.println(deltaX);
+                    touchedShape.move(origX + deltaX, origY + deltaY);
+                    break;
+
             }
         } else {
             // clear any existing selection
             Shape selectedShape = this.page.getSelectedShape();
-            if (selectedShape != null) selectedShape.setSelected(false);
+            if (selectedShape != null) {
+                selectedShape.setSelected(false);
+                this.page.setSelectedShape(null);
+            }
         }
 
         invalidate();

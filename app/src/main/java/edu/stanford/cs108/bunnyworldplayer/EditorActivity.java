@@ -29,11 +29,11 @@ public class EditorActivity extends AppCompatActivity {
         setContentView(R.layout.activity_editor);
 
         editorview = (EditorView) findViewById(R.id.previewArea);
-        //editorView.addShape(shape);
 
         // instantiate new game
-        firstPage = new Page("page1", 200, 200);
+        firstPage = new Page("page1", 200, 200, "game1");
         currPage = firstPage;
+        firstPage.setStarter(true, firstPage.getWidth(), firstPage.getHeight());
 
         // todo: create game-naming system in MainActivity.java
         newGame = new Game(firstPage, "game1", this);
@@ -59,7 +59,7 @@ public class EditorActivity extends AppCompatActivity {
         pageSpinner.setAdapter(adapter);
 
         // add new page object to Game's hashmap for pages
-        Page newPage = new Page(pageName, 200, 200);
+        Page newPage = new Page(pageName, 200, 200, "game1");
         newGame.addOrUpdatePage(pageName, newPage);
 
         Toast toast = Toast.makeText(
@@ -68,8 +68,6 @@ public class EditorActivity extends AppCompatActivity {
                 Toast.LENGTH_SHORT);
         toast.show();
 
-        // testing
-        System.out.println(newGame.getPages().keySet().toString());
     }
 
     public void onSavePage(View view) {
@@ -83,6 +81,10 @@ public class EditorActivity extends AppCompatActivity {
         toast.show();
     }
 
+    public void onDeletePage(View view) {
+        // todo
+    }
+
     public void onAddShape(View view) {
         shapeCounter += 1;
         String shapeName = "shape" + Integer.toString(shapeCounter);
@@ -90,16 +92,15 @@ public class EditorActivity extends AppCompatActivity {
         float randY = (float) Math.random() * 500 + 150;
         Shape newShape = new Shape(this, shapeName, currPage.toString(), randX, randY, 200, 200);
         currPage.addShape(newShape);
-        EditorView editorview = (EditorView) findViewById(R.id.previewArea);
-        editorview.drawShape(currPage);
 
         // unselect the previously selected shape if there was one
-
-        ArrayList<Shape> shapes = currPage.getShapeList();
         Shape selectedShape = currPage.getSelectedShape();
         if (selectedShape != null) selectedShape.setSelected(false);
 
         currPage.setSelectedShape(newShape);
+
+        EditorView editorview = (EditorView) findViewById(R.id.previewArea);
+        editorview.drawPage(currPage);
 
         Toast toast = Toast.makeText(
                 getApplicationContext(),
@@ -114,7 +115,26 @@ public class EditorActivity extends AppCompatActivity {
     }
 
     public void onDeleteShape(View view) {
+        Shape selectedShape = currPage.getSelectedShape();
+        if (selectedShape != null) {
+            selectedShape.setSelected(false);
+            currPage.removeShape(selectedShape.getName());
+            currPage.setSelectedShape(null);
+            EditorView editorview = (EditorView) findViewById(R.id.previewArea);
+            editorview.drawPage(currPage);
 
+            Toast toast = Toast.makeText(
+                    getApplicationContext(),
+                    "Shape Deleted!",
+                    Toast.LENGTH_SHORT);
+            toast.show();
+        } else {
+            Toast toast = Toast.makeText(
+                    getApplicationContext(),
+                    "Please select a shape to delete!",
+                    Toast.LENGTH_SHORT);
+            toast.show();
+        }
     }
-    
+
 }

@@ -38,7 +38,7 @@ public class Game {
         this.context = context;
         pages = new HashMap<String, Page>();
         pages.put(firstPage.getName(), firstPage);
-        pageList.add(Page);
+        //pageList.add(firstPage);
         posessions = new Page("posessions", 100, 100, name); //random values
         this.editorMode = false;
         initResources();
