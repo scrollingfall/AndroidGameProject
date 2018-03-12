@@ -321,7 +321,7 @@ public class Shape extends RectF {
     }
 
     public void setScriptMap(){
-        for (String script: scripts){
+        for (String script: scripts) {
             ArrayList<String> scriptWords = new ArrayList<>();
             StringTokenizer st = new StringTokenizer(script, " ");
             while (st.hasMoreTokens()) scriptWords.add(st.nextToken());

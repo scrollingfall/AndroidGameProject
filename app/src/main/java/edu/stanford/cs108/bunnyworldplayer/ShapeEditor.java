@@ -26,7 +26,7 @@ public class ShapeEditor extends AppCompatActivity {
     String imageSelected;
     Game currGame;
     ArrayList<String> overallScript;
-    boolean DEBUG = true;
+    boolean DEBUG = false;
     Page currPage;
     Shape selectedShape;
 
