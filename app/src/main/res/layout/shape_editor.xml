@@ -84,6 +84,7 @@
             android:padding="5sp"
             android:text="Movable"
             android:textSize="20sp"
+            android:id="@+id/movable"
             />
 
         <CheckBox
@@ -95,6 +96,7 @@
             android:layout_column="0"
             android:textSize="20sp"
             android:text="Visible"
+            android:id="@+id/visible"
             />
 
         <TextView
@@ -259,6 +261,7 @@
         android:layout_row="9"
         android:layout_column="4"
         android:text="Save"
+        android:onClick="savePressed"
 
         />
 

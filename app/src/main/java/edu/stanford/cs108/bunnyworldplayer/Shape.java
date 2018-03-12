@@ -181,6 +181,8 @@ public class Shape extends RectF {
         return x;
     }
 
+    public void setScripts(ArrayList<String> scripts) { this.scripts = scripts; }
+
     public void move(float x, float y) {
         if (moveable || editorMode) {
             this.x = x;
@@ -192,8 +194,16 @@ public class Shape extends RectF {
         return y;
     }
 
+    public void setX(float x) {
+        this.x = x;
+    }
+
     public void setY(float y) {
         this.y = y;
+    }
+
+    public void setFontSize(int size) {
+        this.fontSize = size;
     }
 
     public float getWidth() {
@@ -208,6 +218,10 @@ public class Shape extends RectF {
     public float getHeight() {
         return height;
     }
+
+    public void setHeight(float height) { this.height = height; }
+
+    public void setWidth(float width) { this.width = width; }
 
     public boolean isInBackpack() {
         return inBackpack;

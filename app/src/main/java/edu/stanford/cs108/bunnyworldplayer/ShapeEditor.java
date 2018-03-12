@@ -23,6 +23,7 @@ public class ShapeEditor extends AppCompatActivity {
     String shapeSelected;
     String actionSelected;
     String resSelected;
+    String imageSelected;
     Game currGame;
     ArrayList<String> overallScript;
     boolean DEBUG = false;
@@ -61,6 +62,7 @@ public class ShapeEditor extends AppCompatActivity {
         allSounds.addAll(currGame.getMusicResources().keySet());
 
         allImages = new ArrayList<>();
+        allImages.add("");
         allImages.addAll(currGame.getImgResources().keySet());
 
         currPage = EditorActivity.currPage;
@@ -70,6 +72,8 @@ public class ShapeEditor extends AppCompatActivity {
             toastify("Warning: No shape is selected");
             finish();
         }
+
+        imageSelected = "";
 
         populateFields(selectedShape);
 
@@ -97,6 +101,7 @@ public class ShapeEditor extends AppCompatActivity {
 
         if (scripts != null && !scripts.isEmpty()) {
             overallScript = scripts;
+            previewScript();
         } else {
             overallScript = new ArrayList<String>();
         }
@@ -152,6 +157,7 @@ public class ShapeEditor extends AppCompatActivity {
         if (index == -1) return;
 
         images.setSelection(index);
+        imageSelected = allImages.get(index);
     }
 
     // Populates the first spinner with 'Trigger Commands' like 'on-click' - Static
@@ -300,6 +306,20 @@ public class ShapeEditor extends AppCompatActivity {
         Spinner imgSpinner = (Spinner) findViewById(R.id.imageSpinner);
         ArrayAdapter<String> images = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, allImages);
         imgSpinner.setAdapter(images);
+
+        imgSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                imageSelected = "";
+            }
+
+            @Override
+            public void onItemSelected(AdapterView<?> adapter, View view, int pos, long id) {
+                imageSelected = adapter.getItemAtPosition(pos).toString();
+            }
+
+        });
+
     }
 
     public void addClicked(View view) {
@@ -321,9 +341,7 @@ public class ShapeEditor extends AppCompatActivity {
         toAdd += (res + ";");
 
         overallScript.add(toAdd);
-
-        TextView shapePreview = (TextView) findViewById(R.id.shapePreview);
-        shapePreview.setText(listToString(overallScript));
+        previewScript();
     }
 
     private String listToString(ArrayList<String> arr) {
@@ -344,8 +362,68 @@ public class ShapeEditor extends AppCompatActivity {
     public void removePrevPressed(View view) {
         if (overallScript.isEmpty()) return;
         overallScript.remove(overallScript.size() - 1);
+        previewScript();
+    }
+
+    private void previewScript() {
         TextView shapePreview = (TextView) findViewById(R.id.shapePreview);
         shapePreview.setText(listToString(overallScript));
+    }
+
+    public void savePressed(View view) {
+        String name = ((EditText) findViewById(R.id.shapeName)).getText().toString();
+        String x = ((EditText) findViewById(R.id.shapeX)).getText().toString();
+        String y = ((EditText) findViewById(R.id.shapeY)).getText().toString();
+        String width = ((EditText) findViewById(R.id.shapeWidth)).getText().toString();
+        String height = ((EditText) findViewById(R.id.shapeHeight)).getText().toString();
+
+
+        if (name.isEmpty() || x.isEmpty() || y.isEmpty() || width.isEmpty() || height.isEmpty()) {
+            toastify ("Please fill out all fields");
+            return;
+        }
+
+        String shapeText = ((EditText) findViewById(R.id.shapeText)).getText().toString();
+        String fontSize = ((EditText) findViewById(R.id.shapeFont)).getText().toString();
+
+        boolean moveable = ((CheckBox) findViewById(R.id.movable)).isSelected();
+        boolean visible = ((CheckBox) findViewById(R.id.visible)).isSelected();
+
+        System.out.println("OUTPUT: name = " + name + ", x = " + x + ", y = " + y + ", width = " + width + ", height = " + height);
+
+        float xVal = Float.parseFloat(x);
+        if (xVal <= 0) xVal = 1f;
+
+        float yVal = Float.parseFloat(y);
+        if (yVal <= 0) yVal = 1f;
+
+        float heightVal = Float.parseFloat(height);
+        if (heightVal < 1) heightVal = 1.0f;
+
+        float widthVal = Float.parseFloat(width);
+        if (widthVal < 1) widthVal = 1.0f;
+
+        selectedShape.setName(name);
+        selectedShape.setX(xVal);
+        selectedShape.setY(yVal);
+
+        selectedShape.resize(widthVal, heightVal);
+        selectedShape.setScripts(overallScript);
+
+        selectedShape.setImage(imageSelected);
+
+        selectedShape.setMoveable(moveable);
+        selectedShape.setHidden(!visible);
+
+        if (!shapeText.isEmpty())
+            selectedShape.setText(shapeText);
+
+        if (!fontSize.isEmpty())
+            selectedShape.setFontSize(Integer.parseInt(fontSize));
+
+        toastify("Changes saved!");
+        finish();
+        return;
     }
 
 }
