@@ -253,7 +253,7 @@ public class ShapeEditor extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapter, View view, int pos, long id) {
                 actionSelected = adapter.getItemAtPosition(pos).toString();
-                toastify(actionSelected);
+//                toastify(actionSelected);
                 if (actionSelected.equals("show") || actionSelected.equals("hide")) {
                     populateFourth("shapes");
                 } else if (actionSelected.equals("play")) {
@@ -322,7 +322,7 @@ public class ShapeEditor extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapter, View view, int pos, long id) {
                 imageSelected = adapter.getItemAtPosition(pos).toString();
-                toastify(imageSelected);
+//                toastify(imageSelected);
             }
 
         });
@@ -421,7 +421,7 @@ public class ShapeEditor extends AppCompatActivity {
 
         Spinner imageSpinner = (Spinner) findViewById(R.id.imageSpinner);
 
-        toastify(imageSpinner.getSelectedItem().toString());
+//        toastify(imageSpinner.getSelectedItem().toString());
 
         selectedShape.setImage(imageSpinner.getSelectedItem().toString());
 
