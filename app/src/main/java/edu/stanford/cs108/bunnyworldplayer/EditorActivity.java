@@ -23,6 +23,10 @@ public class EditorActivity extends AppCompatActivity {
     int shapeCounter = 0;
     ArrayAdapter<String> adapter;
     EditorView editorview;
+    TextView xField;
+    TextView yField;
+    TextView widthField;
+    TextView heightField;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +50,11 @@ public class EditorActivity extends AppCompatActivity {
                 android.R.layout.simple_spinner_item, pageList);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         pageSpinner.setAdapter(adapter);
+
+        xField = (TextView) findViewById(R.id.xField);
+        yField = (TextView) findViewById(R.id.yField);
+        widthField = (TextView) findViewById(R.id.widthField);
+        heightField = (TextView) findViewById(R.id.heightField);
     }
 
     public void onAddPage(View view) {
@@ -102,6 +111,11 @@ public class EditorActivity extends AppCompatActivity {
         EditorView editorview = (EditorView) findViewById(R.id.previewArea);
         editorview.drawPage(currPage);
 
+        xField.setText(Float.toString(newShape.getX()));
+        yField.setText(Float.toString(newShape.getY()));
+        widthField.setText(Float.toString(newShape.getWidth()));
+        heightField.setText(Float.toString(newShape.getHeight()));
+
         Toast toast = Toast.makeText(
                 getApplicationContext(),
                 "Shape Added!",
@@ -128,6 +142,11 @@ public class EditorActivity extends AppCompatActivity {
             currPage.setSelectedShape(null);
             EditorView editorview = (EditorView) findViewById(R.id.previewArea);
             editorview.drawPage(currPage);
+
+            xField.setText("--");
+            yField.setText("--");
+            widthField.setText("--");
+            heightField.setText("--");
 
             Toast toast = Toast.makeText(
                     getApplicationContext(),
