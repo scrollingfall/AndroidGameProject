@@ -412,6 +412,7 @@ public class ShapeEditor extends AppCompatActivity {
         float widthVal = Float.parseFloat(width);
         if (widthVal < 1) widthVal = 1.0f;
 
+        currPage.changeShapeName(name, selectedShape);
         selectedShape.setName(name);
         selectedShape.setX(xVal);
         selectedShape.setY(yVal);
