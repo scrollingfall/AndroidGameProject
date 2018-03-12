@@ -129,7 +129,7 @@ public class Page {
     }
 
     public void changeShapeName(String s, Shape shape) {
-        shapes.remove(shape.getName());
+        if (shapes.containsKey(shape.getName())) shapes.remove(shape.getName());
         shapes.put(s, shape);
     }
 
