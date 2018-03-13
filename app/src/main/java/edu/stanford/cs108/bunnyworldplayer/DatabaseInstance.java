@@ -181,6 +181,7 @@ public class DatabaseInstance {
         // Add an entry for each Page, Shape in Pages table & Shapes table
         int numpages = 0;
         for (Page p: game.getPages().values()){
+            System.out.println("didnt enter if statement");
             numpages++;
             addPage(p, false);
             // Add world to world table
@@ -221,7 +222,7 @@ public class DatabaseInstance {
         Page pageReturn = new Page ("Temp page", 100 ,  100, "temp owner");
         String pageName = "";
         System.out.println("before gettin cursor");
-        Cursor cursor = database.rawQuery("SELECT * FROM Pages WHERE id = '"+pageId.toString()+"';", null);
+        Cursor cursor = database.rawQuery("SELECT * FROM Pages WHERE id = '"+pageId +"';", null);
 
         if (cursor.moveToFirst()) {
             System.out.println("in if  cursor");
