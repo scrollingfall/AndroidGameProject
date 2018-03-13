@@ -16,7 +16,8 @@ import android.widget.*;
 import java.util.*;
 
 public class EditorView extends View {
-    private int viewWidth, viewHeight;
+    private int viewWidth = Integer.MAX_VALUE; // Will get overwritten
+    private int viewHeight = Integer.MAX_VALUE;
     Shape touchedShape = null;
     private float origX, origY, origTouchX, origTouchY;
     Page page = new Page("page1", 200,200, "game1");
@@ -42,7 +43,6 @@ public class EditorView extends View {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-
         viewWidth = w;
         viewHeight = h;
     }
@@ -53,10 +53,9 @@ public class EditorView extends View {
         float touchX = event.getX();
         float touchY = event.getY();
 
-        TextView pageName = (TextView) ((Activity) getContext()).findViewById(R.id.pageName);
-        Page p = EditorActivity.newGame.getPage((String)pageName.getText());
-        ArrayList<Shape> shapes = p.getShapeList();
+        ArrayList<Shape> shapes = this.page.getShapeList();
 
+        TextView shapeNameField = (TextView) ((Activity) getContext()).findViewById(R.id.shapeNameField);
         TextView xField = (TextView) ((Activity) getContext()).findViewById(R.id.xField);
         TextView yField = (TextView) ((Activity) getContext()).findViewById(R.id.yField);
         TextView widthField = (TextView) ((Activity) getContext()).findViewById(R.id.widthField);
@@ -67,12 +66,18 @@ public class EditorView extends View {
 
                 // find shape that was touched (if any was)
                 for (int i = shapes.size() - 1; i >= 0; i--) {
+
                     float x = shapes.get(i).getX();
+                    if (x < 0) x = 0;
+
                     float y = shapes.get(i).getY();
+                    if (y < 0) y = 0;
+
                     float width = shapes.get(i).getWidth();
                     float height = shapes.get(i).getHeight();
                     if (touchX >= x && touchX <= x + width && touchY >= y && touchY <= y + height) {
                         touchedShape = shapes.get(i);
+                        shapeNameField.setText(touchedShape.getName());
                         xField.setText(Float.toString(x));
                         yField.setText(Float.toString(y));
                         widthField.setText(Float.toString(width));
@@ -96,6 +101,7 @@ public class EditorView extends View {
                         selectedShape.setSelected(false);
                         this.page.setSelectedShape(null);
                     }
+                    shapeNameField.setText("--");
                     xField.setText("--");
                     yField.setText("--");
                     widthField.setText("--");
@@ -106,10 +112,34 @@ public class EditorView extends View {
             case MotionEvent.ACTION_MOVE:
                 if (touchedShape != null) {
                     float deltaX = event.getX() - origTouchX;
-                    float deltaY = event.getY() - origTouchY;
-                    touchedShape.move(origX + deltaX, origY + deltaY);
-                    xField.setText(Float.toString(origX + deltaX));
-                    yField.setText(Float.toString(origY + deltaY));
+                    float deltaY = deltaY = event.getY() - origTouchY;
+                    if (origX + deltaX <= viewWidth - touchedShape.getWidth()
+                            && origY + deltaY <= viewHeight - touchedShape.getHeight()) {
+                        touchedShape.move(origX + deltaX, origY + deltaY);
+                    } else if (origX + deltaX > viewWidth - touchedShape.getWidth()
+                            && origY + deltaY <= viewHeight - touchedShape.getHeight()) {
+                        touchedShape.move(viewWidth - touchedShape.getWidth(), origY + deltaY);
+                    } else if (origX + deltaX <= viewWidth - touchedShape.getWidth()
+                            &&origY + deltaY > viewHeight - touchedShape.getHeight()) {
+                        touchedShape.move(origX + deltaX, viewHeight - touchedShape.getHeight());
+                    } else {
+                        break;
+                    }
+
+                    if (origX + deltaX >= viewWidth - touchedShape.getWidth()) {
+                        xField.setText(Float.toString(viewWidth - touchedShape.getWidth()));
+                    } else if (origX + deltaX > 0) {
+                        xField.setText(Float.toString(origX + deltaX));
+                    } else
+                        xField.setText("0");
+
+                    if (origY + deltaY >= viewHeight - touchedShape.getHeight()) {
+                        yField.setText(Float.toString(viewHeight - touchedShape.getHeight()));
+                    } else if (origY + deltaY > 0) {
+                        yField.setText(Float.toString(origY + deltaY));
+                    } else {
+                        yField.setText("0");
+                    }
                     widthField.setText(Float.toString(touchedShape.getWidth()));
                     heightField.setText(Float.toString(touchedShape.getHeight()));
                 }

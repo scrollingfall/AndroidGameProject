@@ -26,7 +26,7 @@ public class ShapeEditor extends AppCompatActivity {
     String imageSelected;
     Game currGame;
     ArrayList<String> overallScript;
-    boolean DEBUG = false;
+    boolean DEBUG = true;
     Page currPage;
     Shape selectedShape;
 
@@ -75,10 +75,11 @@ public class ShapeEditor extends AppCompatActivity {
 
         imageSelected = "";
 
-        populateFields(selectedShape);
-
         showActions();
         populateImageSpinner(); // Spinner with images to choose from
+
+        populateFields(selectedShape);
+
         populateTriggerSpinner(); // Triggers
         showShapes(); // Shapes to go with triggers
 
@@ -134,7 +135,7 @@ public class ShapeEditor extends AppCompatActivity {
         }
 
         String text = shape.getText();
-        float fontSize = shape.getFontSize();
+        int fontSize = shape.getFontSize();
 
         if (text != null && !text.isEmpty()) {
             TextView textField = (TextView) findViewById(R.id.shapeText);
@@ -252,7 +253,7 @@ public class ShapeEditor extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapter, View view, int pos, long id) {
                 actionSelected = adapter.getItemAtPosition(pos).toString();
-                toastify(actionSelected);
+//                toastify(actionSelected);
                 if (actionSelected.equals("show") || actionSelected.equals("hide")) {
                     populateFourth("shapes");
                 } else if (actionSelected.equals("play")) {
@@ -311,7 +312,6 @@ public class ShapeEditor extends AppCompatActivity {
     private void populateImageSpinner() {
         Spinner imgSpinner = (Spinner) findViewById(R.id.imageSpinner);
         ArrayAdapter<String> images = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, allImages);
-        imgSpinner.setAdapter(images);
 
         imgSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -322,9 +322,12 @@ public class ShapeEditor extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapter, View view, int pos, long id) {
                 imageSelected = adapter.getItemAtPosition(pos).toString();
+//                toastify(imageSelected);
             }
 
         });
+
+        imgSpinner.setAdapter(images);
 
     }
 
@@ -409,6 +412,7 @@ public class ShapeEditor extends AppCompatActivity {
         float widthVal = Float.parseFloat(width);
         if (widthVal < 1) widthVal = 1.0f;
 
+        currPage.changeShapeName(name, selectedShape);
         selectedShape.setName(name);
         selectedShape.setX(xVal);
         selectedShape.setY(yVal);
@@ -416,13 +420,14 @@ public class ShapeEditor extends AppCompatActivity {
         selectedShape.resize(widthVal, heightVal);
         selectedShape.setScripts(overallScript);
 
-        selectedShape.setImage(imageSelected);
+        Spinner imageSpinner = (Spinner) findViewById(R.id.imageSpinner);
+
+        selectedShape.setImage(imageSpinner.getSelectedItem().toString());
 
         selectedShape.setMoveable(movable);
         selectedShape.setHidden(!visible);
 
-        if (!shapeText.isEmpty())
-            selectedShape.setText(shapeText);
+        selectedShape.setText(shapeText);
 
         if (!fontSize.isEmpty())
             selectedShape.setFontSize(Integer.parseInt(fontSize));

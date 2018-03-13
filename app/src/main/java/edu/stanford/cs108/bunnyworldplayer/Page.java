@@ -128,6 +128,11 @@ public class Page {
         return shapes;
     }
 
+    public void changeShapeName(String s, Shape shape) {
+        if (shapes.containsKey(shape.getName())) shapes.remove(shape.getName());
+        shapes.put(s, shape);
+    }
+
     public boolean removeFromBackpack(String name){
         if (!resources.containsKey(name))
             return false;
