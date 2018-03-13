@@ -28,6 +28,7 @@ public class Game {
     public Game(String name, Context context) {
         this.name = name;
         this.editorMode = false;
+        this.context = context;
         initResources();
     }
 

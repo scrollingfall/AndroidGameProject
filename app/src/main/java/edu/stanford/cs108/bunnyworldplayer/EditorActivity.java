@@ -30,19 +30,30 @@ public class EditorActivity extends AppCompatActivity {
     TextView yField;
     TextView widthField;
     TextView heightField;
+    DatabaseInstance databaseinstance;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
 
         editorview = (EditorView) findViewById(R.id.previewArea);
+        databaseinstance = DatabaseInstance.getDBinstance(getApplicationContext());
+
 
         // instantiate new game
-        starterPage = new Page("page1", 200, 200, MainActivity.getCurrGameName());
+        gameNameField = (EditText) findViewById(R.id.gameNameField);
+
+        System.out.println("page id is" + databaseinstance.getPageid());
+
+        starterPage = databaseinstance.getPage(databaseinstance.getPageid());
+
         currPage = starterPage;
         starterPage.setStarter(true, starterPage.getWidth(), starterPage.getHeight());
 
-        newGame = new Game(MainActivity.getCurrGameName(), starterPage, this);
+        newGame = databaseinstance.getGame(databaseinstance.getCurrentGameName());
+        System.out.println("new game name is: " + newGame.getName());
+        System.out.println("new page name is: " + currPage.getName() +  " " + currPage.getOwner());
+
         pageCounter = 1;
 
         pageNamesList = new ArrayList<>();
@@ -53,7 +64,7 @@ public class EditorActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         pageSpinner.setAdapter(adapter);
 
-        gameNameField = (EditText) findViewById(R.id.gameNameField);
+
         pageNameField = (EditText) findViewById(R.id.pageNameField);
         shapeNameField = (TextView) findViewById(R.id.shapeNameField);
         xField = (TextView) findViewById(R.id.xField);
@@ -77,7 +88,7 @@ public class EditorActivity extends AppCompatActivity {
                 }
             }
 
-            // todo: save into db
+            databaseinstance.addGame(newGame);
 
             giveToast("Game \"" + gameName + "\" saved");
         } else {

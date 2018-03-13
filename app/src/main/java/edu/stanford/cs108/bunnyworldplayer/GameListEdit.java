@@ -26,6 +26,7 @@ public class GameListEdit extends AppCompatActivity{
     private SQLiteDatabase currentDatabase;
     private DatabaseInstance databaseinstance;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
