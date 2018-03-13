@@ -42,7 +42,6 @@ public class EditorView extends View {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-
         viewWidth = w;
         viewHeight = h;
     }
@@ -66,8 +65,13 @@ public class EditorView extends View {
 
                 // find shape that was touched (if any was)
                 for (int i = shapes.size() - 1; i >= 0; i--) {
+
                     float x = shapes.get(i).getX();
+                    if (x < 0) x = 0;
+
                     float y = shapes.get(i).getY();
+                    if (y < 0) y = 0;
+
                     float width = shapes.get(i).getWidth();
                     float height = shapes.get(i).getHeight();
                     if (touchX >= x && touchX <= x + width && touchY >= y && touchY <= y + height) {

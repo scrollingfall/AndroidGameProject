@@ -422,15 +422,12 @@ public class ShapeEditor extends AppCompatActivity {
 
         Spinner imageSpinner = (Spinner) findViewById(R.id.imageSpinner);
 
-//        toastify(imageSpinner.getSelectedItem().toString());
-
         selectedShape.setImage(imageSpinner.getSelectedItem().toString());
 
         selectedShape.setMoveable(movable);
         selectedShape.setHidden(!visible);
 
-        if (!shapeText.isEmpty())
-            selectedShape.setText(shapeText);
+        selectedShape.setText(shapeText);
 
         if (!fontSize.isEmpty())
             selectedShape.setFontSize(Integer.parseInt(fontSize));
