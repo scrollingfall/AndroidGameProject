@@ -16,7 +16,8 @@ import android.widget.*;
 import java.util.*;
 
 public class EditorView extends View {
-    private int viewWidth, viewHeight;
+    private int viewWidth = Integer.MAX_VALUE; // Will get overwritten
+    private int viewHeight = Integer.MAX_VALUE;
     Shape touchedShape = null;
     private float origX, origY, origTouchX, origTouchY;
     Page page = new Page("page1", 200,200, "game1");
