@@ -21,44 +21,96 @@ public class Player extends View {
 
     private float startx, starty;
     private Shape currentlySelected;
+    private int currentlySelectedIndex;
 
+    private boolean justentered;
     private Game game;
     public void setGame(Game game) {
         this.game = game;
+        justentered = true;
+        this.game.setEditorMode(false);
     }
 
     @Override
+    //todo backpack
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()){
             case MotionEvent.ACTION_DOWN:
-                currentlySelected = getTopAt(event.getX(), event.getY());
+                getTopAt(event.getX(), event.getY(), -1);
                 if (currentlySelected != null) {
                     startx = event.getX();
                     starty = event.getY();
-                    invalidate();
+                    if (currentlySelected.isMoveable()) {
+                        for (Shape s: game.getCurrentPage().getDropTargets(currentlySelected)) {
+                            s.setSelected(true);
+                        }
+                        invalidate();
+                    }
                 }
                 break;
             case MotionEvent.ACTION_MOVE:
-                invalidate();
+                if (currentlySelected != null && currentlySelected.isMoveable()) {
+                    float dx = event.getX() - startx;
+                    float dy = event.getY() - starty;
+                    currentlySelected.move(currentlySelected.getX() + dx, currentlySelected.getY() + dy);
+                    invalidate();
+                }
             case MotionEvent.ACTION_UP:
-                invalidate();
+                if (currentlySelected != null) {
+                    if (Math.abs(event.getX() - startx) < 2 && Math.abs(event.getY() - starty) < 2) { //counts as click if little movement occurred
+                        if (currentlySelected.performScriptAction("on click")) {
+                            String transition = currentlySelected.getTransition();
+                            if (!transition.isEmpty()) {
+                                game.setCurrentPage(transition); //are we doing error checking on valid pages?
+                            }
+                        }
+                    } else if (currentlySelected.isMoveable()) { //otherwise counts as drag
+                        for (Shape s : game.getCurrentPage().getDropTargets(currentlySelected)) {
+                            s.setSelected(false);
+                        }
+                        Shape oldSelect = currentlySelected;
+                        getTopAt(event.getX(), event.getY(), currentlySelectedIndex);
+                        if (currentlySelected != null && currentlySelected.performScriptAction("on drop " + oldSelect.getName())) {
+                            String transition = currentlySelected.getTransition();
+                            if (!transition.isEmpty()) {
+                                game.setCurrentPage(transition); //are we doing error checking on valid pages?
+                            }
+                        } else {
+                            oldSelect.move(startx, starty);
+                        }
+                    }
+                    currentlySelected = null;
+                    currentlySelectedIndex = -1;
+                    invalidate();
+                }
         }
         return true;
     }
 
-    private Shape getTopAt(float x, float y) {
-        for (int i = game.getCurrentPage().getShapeList().size() - 1; i >= 0; i--)
-            if (game.getCurrentPage().getShapeList().get(i).isTouched(x, y))
-                return game.getCurrentPage().getShapeList().get(i);
-        return null;
+    private void getTopAt(float x, float y, int avoid) {
+        for (int i = game.getCurrentPage().getShapeList().size() - 1; i >= 0; i--) {
+            if (i != avoid && game.getCurrentPage().getShapeList().get(i).isTouched(x, y)) {
+                currentlySelected = game.getCurrentPage().getShapeList().get(i);
+                currentlySelectedIndex = i;
+                return;
+            }
+        }
+        currentlySelected = null;
+        currentlySelectedIndex = -1;
     }
 
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        for (Shape s: game.getCurrentPage().getShapeList())
-            s.draw(canvas);
+        if (game != null) {
+            if (justentered) {
+                game.getCurrentPage().onEnter();
+                justentered = false;
+            }
+            for (Shape s : game.getCurrentPage().getShapeList())
+                s.draw(canvas);
+        }
     }
 
     @Override

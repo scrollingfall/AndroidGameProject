@@ -155,6 +155,10 @@ public class Page {
         return targets;
     }
 
-
+    public void onEnter() {
+        for (Shape s : shapeList) {
+            s.performScriptAction("on enter");
+        }
+    }
 
 }

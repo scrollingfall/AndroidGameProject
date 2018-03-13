@@ -13,6 +13,7 @@ import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaPlayer;
+import android.support.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -121,7 +122,7 @@ public class Shape extends RectF {
 //        this.fontSize = 20;
 //    }
 
-    public int getFontSize(){ return fontSize;}
+    public int getFontSize(){ return (int) fontSize;}
 
     public String getName() {
         return name;
@@ -271,9 +272,15 @@ public class Shape extends RectF {
 
     public void draw(Canvas canvas) {
         if (isHidden()) return;
-        else{
+
+        else {
             this.canvas = canvas;
-            if (image.isEmpty() && getText().isEmpty()) {
+
+            if (x < 0) x = 0;
+            if (y < 0) y = 0;
+
+            if (getText().isEmpty()) {
+
                 Paint grayPaintFill = new Paint();
                 grayPaintFill.setColor(Color.LTGRAY);
                 grayPaintFill.setStyle(Paint.Style.FILL);
@@ -289,18 +296,22 @@ public class Shape extends RectF {
                 canvas.drawRect(greyRectangle, grayPaintFill);
             }
 
-            else if(!image.isEmpty()){
+            if (!image.isEmpty()) {
                 Resources resource = context.getResources();
                 int resourceIdentifier = resource.getIdentifier(image, "drawable", context.getPackageName());
                 BitmapDrawable bitmapImageDrawable = (BitmapDrawable) context.getResources().getDrawable(resourceIdentifier);
                 imagePic = bitmapImageDrawable.getBitmap();
 
                 Matrix m1 = new Matrix();
-                m1.postScale((float) this.width() / imagePic.getWidth(), (float) this.height() / imagePic.getHeight());
-                imagePic = imagePic.createBitmap(imagePic, 0, 0, imagePic.getWidth() , imagePic.getHeight(), m1, false);
+                m1.postScale(this.getWidth() / (float) imagePic.getWidth(), (float) this.getHeight() / (float) imagePic.getHeight());
+
+                int picWidth = imagePic.getWidth();
+                int picHeight = imagePic.getHeight();
+
+                imagePic = Bitmap.createBitmap(imagePic, 0, 0, picWidth, picHeight, m1, false);
                 this.bottom = this.top + imagePic.getHeight();
                 this.right = this.left + imagePic.getWidth();
-                canvas.drawBitmap(imagePic, left, top, null);
+                canvas.drawBitmap(imagePic, getX(), getY(), null);
 
             }
             else if (!getText().isEmpty()){
@@ -315,7 +326,7 @@ public class Shape extends RectF {
     }
 
     public void setScriptMap(){
-        for (String script: scripts){
+        for (String script: scripts) {
             ArrayList<String> scriptWords = new ArrayList<>();
             StringTokenizer st = new StringTokenizer(script, " ");
             while (st.hasMoreTokens()) scriptWords.add(st.nextToken());
