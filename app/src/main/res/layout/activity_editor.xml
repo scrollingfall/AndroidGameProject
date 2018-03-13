@@ -27,9 +27,9 @@
                     android:text="Game: "/>
                 <EditText
                     android:id="@+id/gameNameField"
-                    android:layout_width="200px"
+                    android:layout_width="350px"
                     android:layout_height="wrap_content"
-                    android:maxLength="20"
+                    android:maxLength="30"
                     android:hint="Name"
                     />
                 <Button
@@ -49,9 +49,9 @@
                     android:text="Page: "/>
                 <EditText
                     android:id="@+id/pageNameField"
-                    android:layout_width="200px"
+                    android:layout_width="180px"
                     android:layout_height="wrap_content"
-                    android:maxLength="20"
+                    android:maxLength="15"
                     android:hint="Name"
                     android:text="page1"/>
                 <Button
@@ -76,10 +76,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Select a page: "/>
+                    android:text="Select a page:"/>
                 <Spinner
                     android:id="@+id/pageSpinner"
-                    android:layout_width="wrap_content"
+                    android:layout_width="80px"
                     android:layout_height="wrap_content" />
                 <Button
                     android:id="@+id/addPageBtn"
