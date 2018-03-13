@@ -122,7 +122,6 @@ public class Shape extends RectF {
 //    }
 
     public int getFontSize(){ return fontSize;}
-    public void setFontSize(int fontsize){  this.fontSize = fontsize;}
 
     public String getName() {
         return name;
