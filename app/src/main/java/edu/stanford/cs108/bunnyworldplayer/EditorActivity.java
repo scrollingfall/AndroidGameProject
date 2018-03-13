@@ -14,10 +14,10 @@ import java.util.*;
  */
 
 public class EditorActivity extends AppCompatActivity {
-    Page firstPage;
+    Page starterPage;
     static Page currPage;
     static Game newGame;
-    ArrayList<String> pageList;
+    ArrayList<String> pageNamesList;
     Spinner pageSpinner;
     int pageCounter;
     int shapeCounter = 0;
@@ -38,18 +38,18 @@ public class EditorActivity extends AppCompatActivity {
         editorview = (EditorView) findViewById(R.id.previewArea);
 
         // instantiate new game
-        firstPage = new Page("page1", 200, 200, MainActivity.getCurrGameName());
-        currPage = firstPage;
-        firstPage.setStarter(true, firstPage.getWidth(), firstPage.getHeight());
+        starterPage = new Page("page1", 200, 200, MainActivity.getCurrGameName());
+        currPage = starterPage;
+        starterPage.setStarter(true, starterPage.getWidth(), starterPage.getHeight());
 
-        newGame = new Game(MainActivity.getCurrGameName(), firstPage, this);
+        newGame = new Game(MainActivity.getCurrGameName(), starterPage, this);
         pageCounter = 1;
 
-        pageList = new ArrayList<>();
-        pageList.add("page" + Integer.toString(pageCounter));
+        pageNamesList = new ArrayList<>();
+        pageNamesList.add("page" + Integer.toString(pageCounter));
         pageSpinner = (Spinner) findViewById(R.id.pageSpinner);
         adapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_item, pageList);
+                android.R.layout.simple_spinner_item, pageNamesList);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         pageSpinner.setAdapter(adapter);
 
@@ -89,9 +89,9 @@ public class EditorActivity extends AppCompatActivity {
         // add to arraylist, create new spinner
         pageCounter += 1;
         String pageName = "page" + Integer.toString(pageCounter);
-        pageList.add(pageName);
+        pageNamesList.add(pageName);
         adapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_item, pageList);
+                android.R.layout.simple_spinner_item, pageNamesList);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         pageSpinner.setAdapter(adapter);
 
@@ -116,6 +116,8 @@ public class EditorActivity extends AppCompatActivity {
             currPage.setStarter(true, currPage.getWidth(), currPage.getHeight());
             newGame.setStarter(currPage.getName());
 
+            starterPage = currPage;
+
             giveToast("\"" + currPage.getName() + "\" set to starter page");
         } else {
             giveToast("\"" + currPage.getName() + "\" is already the starter page");
@@ -128,10 +130,10 @@ public class EditorActivity extends AppCompatActivity {
 
         // update spinner
         String currPageName = pageNameField.getText().toString().trim();
-        int index = pageList.indexOf(currPage.getName());
-        pageList.set(index, currPageName);
+        int index = pageNamesList.indexOf(currPage.getName());
+        pageNamesList.set(index, currPageName);
         adapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_item, pageList);
+                android.R.layout.simple_spinner_item, pageNamesList);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         pageSpinner.setAdapter(adapter);
 
@@ -150,7 +152,7 @@ public class EditorActivity extends AppCompatActivity {
             // go back to starter page and draw it; remove currPage from Game
             newGame.removePage(currPage.getName(), currPage);
             giveToast("Page \"" + currPage.getName() + "\" deleted");
-            currPage = firstPage;
+            currPage = starterPage;
 
             EditorView editorview = (EditorView) findViewById(R.id.previewArea);
             editorview.drawPage(currPage);
