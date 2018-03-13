@@ -31,14 +31,15 @@ public class Game {
         initResources();
     }
 
-    public Game(Page firstPage, String name, Context context) {
+    public Game(String name, Page firstPage, Context context) {
         this.name = name;
         this.starter = firstPage.getName();
         this.currentPage = firstPage.getName();
         this.context = context;
         pages = new HashMap<String, Page>();
+        pageList = new ArrayList<>();
         pages.put(firstPage.getName(), firstPage);
-        //pageList.add(firstPage);
+        pageList.add(firstPage);
         posessions = new Page("posessions", 100, 100, name); //random values
         this.editorMode = false;
         initResources();
@@ -68,11 +69,14 @@ public class Game {
         musicResources.put("woof", R.raw.woof);
     }
 
-    public boolean addOrUpdatePage(String name, Page p) {
-        //error checking
+    public void addPage(String name, Page p) {
         pages.put(name, p);
         pageList.add(p);
-        return true;
+    }
+
+    public void removePage(String name, Page p) {
+        pages.remove(name);
+        pageList.remove(p);
     }
 
     public Page getPage(String name) {

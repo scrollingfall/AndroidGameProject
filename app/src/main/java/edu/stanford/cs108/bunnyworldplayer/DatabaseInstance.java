@@ -182,7 +182,7 @@ public class DatabaseInstance {
             for (int i=0; i<cursor.getCount(); i++){
                 int pageId = cursor.getInt(cursor.getColumnIndex("id"));
                 Page page = getPage(pageId);
-                if(page!=null) gameReturn.addOrUpdatePage(page.getName(),page );
+                if(page!=null) gameReturn.addPage(page.getName(),page );
                 cursor.moveToNext();
             }
         }
