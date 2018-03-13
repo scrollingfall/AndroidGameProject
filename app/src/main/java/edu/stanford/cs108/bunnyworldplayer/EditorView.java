@@ -53,9 +53,7 @@ public class EditorView extends View {
         float touchX = event.getX();
         float touchY = event.getY();
 
-        TextView pageName = (TextView) ((Activity) getContext()).findViewById(R.id.pageName);
-        Page p = EditorActivity.newGame.getPage((String)pageName.getText());
-        ArrayList<Shape> shapes = p.getShapeList();
+        ArrayList<Shape> shapes = this.page.getShapeList();
 
         TextView shapeNameField = (TextView) ((Activity) getContext()).findViewById(R.id.shapeNameField);
         TextView xField = (TextView) ((Activity) getContext()).findViewById(R.id.xField);
@@ -111,8 +109,15 @@ public class EditorView extends View {
                     float deltaX = event.getX() - origTouchX;
                     float deltaY = event.getY() - origTouchY;
                     touchedShape.move(origX + deltaX, origY + deltaY);
-                    xField.setText(Float.toString(origX + deltaX));
-                    yField.setText(Float.toString(origY + deltaY));
+                    if (origX + deltaX > 0) {
+                        xField.setText(Float.toString(origX + deltaX));
+                    } else
+                        xField.setText("0");
+                    if (origY + deltaY > 0) {
+                        yField.setText(Float.toString(origY + deltaY));
+                    } else {
+                        yField.setText("0");
+                    }
                     widthField.setText(Float.toString(touchedShape.getWidth()));
                     heightField.setText(Float.toString(touchedShape.getHeight()));
                 }

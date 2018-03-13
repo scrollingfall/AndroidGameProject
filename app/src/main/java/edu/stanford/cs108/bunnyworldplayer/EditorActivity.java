@@ -22,6 +22,8 @@ public class EditorActivity extends AppCompatActivity {
     int pageCounter;
     int shapeCounter = 0;
     ArrayAdapter<String> adapter;
+    EditText gameNameField;
+    EditText pageNameField;
     EditorView editorview;
     TextView shapeNameField;
     TextView xField;
@@ -36,12 +38,11 @@ public class EditorActivity extends AppCompatActivity {
         editorview = (EditorView) findViewById(R.id.previewArea);
 
         // instantiate new game
-        firstPage = new Page("page1", 200, 200, "game1");
+        firstPage = new Page("page1", 200, 200, MainActivity.getCurrGameName());
         currPage = firstPage;
         firstPage.setStarter(true, firstPage.getWidth(), firstPage.getHeight());
 
-        // todo: create game-naming system in MainActivity.java
-        newGame = new Game(firstPage, "game1", this);
+        newGame = new Game(MainActivity.getCurrGameName(), firstPage, this);
         pageCounter = 1;
 
         pageList = new ArrayList<>();
@@ -52,11 +53,36 @@ public class EditorActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         pageSpinner.setAdapter(adapter);
 
+        gameNameField = (EditText) findViewById(R.id.gameNameField);
+        pageNameField = (EditText) findViewById(R.id.pageNameField);
         shapeNameField = (TextView) findViewById(R.id.shapeNameField);
         xField = (TextView) findViewById(R.id.xField);
         yField = (TextView) findViewById(R.id.yField);
         widthField = (TextView) findViewById(R.id.widthField);
         heightField = (TextView) findViewById(R.id.heightField);
+    }
+
+    public void onSaveGame(View view) {
+        String gameName = gameNameField.getText().toString().trim();
+        if (gameName.length() > 0) {
+            if (!gameName.equals(newGame.getName())) {
+                newGame.setName(gameName);
+                // update hashmap
+                for (Page p : newGame.getPages().values()) {
+                    p.setOwner(gameName);
+                }
+                // update arraylist
+                for (Page p : newGame.getPageList()) {
+                    p.setOwner(gameName);
+                }
+            }
+
+            // todo: save into db
+
+            giveToast("Game \"" + gameName + "\" saved");
+        } else {
+            giveToast("Please name the game before saving");
+        }
     }
 
     public void onAddPage(View view) {
@@ -70,30 +96,68 @@ public class EditorActivity extends AppCompatActivity {
         pageSpinner.setAdapter(adapter);
 
         // add new page object to Game's hashmap for pages
-        Page newPage = new Page(pageName, 200, 200, "game1");
-        newGame.addOrUpdatePage(pageName, newPage);
+        Page newPage = new Page(pageName, 200, 200, newGame.getName());
+        newGame.addPage(pageName, newPage);
 
-        Toast toast = Toast.makeText(
-                getApplicationContext(),
-                "Page Added!",
-                Toast.LENGTH_SHORT);
-        toast.show();
+        giveToast("Page added");
 
+    }
+
+    public void onMakeStarter(View view) {
+        String prevStarterName = newGame.getStarter();
+
+        if (prevStarterName != currPage.getName()) {
+            // undo old starter
+            HashMap<String, Page> pages = newGame.getPages();
+            Page prevStarterPage = pages.get(prevStarterName);
+            prevStarterPage.setStarter(false, prevStarterPage.getWidth(), prevStarterPage.getHeight());
+
+            // make currPage new starter
+            currPage.setStarter(true, currPage.getWidth(), currPage.getHeight());
+            newGame.setStarter(currPage.getName());
+
+            giveToast("\"" + currPage.getName() + "\" set to starter page");
+        } else {
+            giveToast("\"" + currPage.getName() + "\" is already the starter page");
+        }
     }
 
     public void onSavePage(View view) {
-        // update current page in Game's hashmap for pages
-        newGame.addOrUpdatePage(currPage.getName(), currPage);
+        // remove page with old name
+        newGame.removePage(currPage.getName(), currPage);
 
-        Toast toast = Toast.makeText(
-                getApplicationContext(),
-                "Page Saved!",
-                Toast.LENGTH_SHORT);
-        toast.show();
+        // update spinner
+        String currPageName = pageNameField.getText().toString().trim();
+        int index = pageList.indexOf(currPage.getName());
+        pageList.set(index, currPageName);
+        adapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item, pageList);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        pageSpinner.setAdapter(adapter);
+
+        // add page with new name
+        currPage.setName(currPageName);
+        newGame.addPage(currPage.getName(), currPage);
+
+        // update name for starter page
+        newGame.setStarter(currPageName);
+
+        giveToast("Page \"" + currPage.getName() + "\" saved");
     }
 
     public void onDeletePage(View view) {
-        // todo
+        if (!currPage.isStarter()) {
+            // go back to starter page and draw it; remove currPage from Game
+            newGame.removePage(currPage.getName(), currPage);
+            giveToast("Page \"" + currPage.getName() + "\" deleted");
+            currPage = firstPage;
+
+            EditorView editorview = (EditorView) findViewById(R.id.previewArea);
+            editorview.drawPage(currPage);
+
+        } else {
+            giveToast("Cannot delete starter page");
+        }
     }
 
     public void onAddShape(View view) {
@@ -119,22 +183,16 @@ public class EditorActivity extends AppCompatActivity {
         widthField.setText(Float.toString(newShape.getWidth()));
         heightField.setText(Float.toString(newShape.getHeight()));
 
-        Toast toast = Toast.makeText(
-                getApplicationContext(),
-                "Shape Added!",
-                Toast.LENGTH_SHORT);
-        toast.show();
+        giveToast("Shape added");
     }
 
     public void onEditShape(View view) {
-
-        if (currPage.getSelectedShape() == null) {
-            Toast.makeText(this, "No shape is currently selected", Toast.LENGTH_SHORT).show();
-            return;
+        if (currPage.getSelectedShape() != null) {
+            Intent intent = new Intent(this, ShapeEditor.class);
+            startActivity(intent);
+        } else {
+            giveToast("Please select a shape to edit");
         }
-
-        Intent intent = new Intent(this, ShapeEditor.class);
-        startActivity(intent);
     }
 
     public void onDeleteShape(View view) {
@@ -152,18 +210,18 @@ public class EditorActivity extends AppCompatActivity {
             widthField.setText("--");
             heightField.setText("--");
 
-            Toast toast = Toast.makeText(
-                    getApplicationContext(),
-                    "Shape Deleted!",
-                    Toast.LENGTH_SHORT);
-            toast.show();
+            giveToast("Shape deleted");
         } else {
-            Toast toast = Toast.makeText(
-                    getApplicationContext(),
-                    "Please select a shape to delete!",
-                    Toast.LENGTH_SHORT);
-            toast.show();
+            giveToast("Please select a shape to delete");
         }
+    }
+
+    private void giveToast(String msg) {
+        Toast toast = Toast.makeText(
+                getApplicationContext(),
+                msg,
+                Toast.LENGTH_SHORT);
+        toast.show();
     }
 
 }

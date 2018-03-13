@@ -10,46 +10,86 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <LinearLayout
-            android:orientation="horizontal"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerInParent="true"
             android:id="@+id/topGrid">
-            <TextView
-                android:id="@+id/gameName"
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_alignParentLeft="true"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="game1"/>
-            <TextView
-                android:id="@+id/pageName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="page1"/>
-            <Spinner
-                android:id="@+id/pageSpinner"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <Button
-                android:id="@+id/addPageBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Add Page"
-                android:onClick="onAddPage"/>
-            <Button
-                android:id="@+id/savePageBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Game: "/>
+                <EditText
+                    android:id="@+id/gameNameField"
+                    android:layout_width="200px"
+                    android:layout_height="wrap_content"
+                    android:maxLength="20"
+                    android:hint="Name"
+                    />
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="SAVE GAME"
+                    android:onClick="onSaveGame"/>
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_alignParentRight="true"
-                android:text="SAVE PAGE"
-                android:onClick="onSavePage"/>
-            <Button
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Delete Page"
-                android:onClick="onDeletePage"/>
-        </LinearLayout>
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Page: "/>
+                <EditText
+                    android:id="@+id/pageNameField"
+                    android:layout_width="200px"
+                    android:layout_height="wrap_content"
+                    android:maxLength="20"
+                    android:hint="Name"
+                    android:text="page1"/>
+                <Button
+                    android:id="@+id/makeStarterBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text="MAKE STARTER"
+                    android:onClick="onMakeStarter"/>
+                <Button
+                    android:id="@+id/savePageBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text="SAVE PAGE"
+                    android:onClick="onSavePage"/>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Delete Page"
+                    android:onClick="onDeletePage"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Select a page: "/>
+                <Spinner
+                    android:id="@+id/pageSpinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <Button
+                    android:id="@+id/addPageBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Add Page"
+                    android:onClick="onAddPage"/>
+            </LinearLayout>
+        </RelativeLayout>
+
         <edu.stanford.cs108.bunnyworldplayer.EditorView
             android:id="@+id/previewArea"
             android:layout_width="match_parent"
@@ -82,7 +122,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Name: "/>
+            android:text="Shape: "/>
         <TextView
             android:id="@+id/shapeNameField"
             android:inputType="numberDecimal"
