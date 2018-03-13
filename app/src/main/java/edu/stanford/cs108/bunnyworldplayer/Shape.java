@@ -47,7 +47,7 @@ public class Shape extends RectF {
     private Bitmap imagePic;
     private Context context;
     private HashMap<String, ArrayList<String>> MapOfScripts = new HashMap<String, ArrayList<String>>();
-    public String transitionPage = "";
+    private String transitionPage = "";
     public ArrayList<String> actionShowShapes = new ArrayList<String>();
     public ArrayList<String> actionHideShapes = new ArrayList<String>();
     public static int shapeID;
@@ -271,8 +271,7 @@ public class Shape extends RectF {
     }
 
     public void draw(Canvas canvas) {
-        if (isHidden()) return;
-
+        if (!editorMode && isHidden()) return;
         else {
             this.canvas = canvas;
 
@@ -289,7 +288,7 @@ public class Shape extends RectF {
                 if (selected) {
                     Paint blackPaintBorder = new Paint();
                     blackPaintBorder.setStrokeWidth(15.0f);
-                    blackPaintBorder.setColor(Color.BLACK);
+                    blackPaintBorder.setColor(editorMode ? Color.BLACK : Color.GREEN);
                     blackPaintBorder.setStyle(Paint.Style.STROKE);
                     canvas.drawRect(greyRectangle, blackPaintBorder);
                 }
@@ -334,7 +333,7 @@ public class Shape extends RectF {
             scriptWords.remove(scriptWords.get(0));
             scriptWords.remove(scriptWords.get(0));
             if (triggerWords.equals("on drop")){
-                triggerWords += scriptWords.get(0);
+                triggerWords += " " + scriptWords.get(0);
                 scriptWords.remove(scriptWords.get(0));
             }
 
@@ -352,9 +351,9 @@ public class Shape extends RectF {
     }
 
 
-    public void performScriptAction(String triggerWords){
-        if (isHidden() || !MapOfScripts.containsKey(triggerWords)) return;
-        if (!triggerWords.equals("on click") || !triggerWords.equals("on enter") || !(triggerWords.contains("on drop"))) return;
+    public boolean performScriptAction(String triggerWords){
+        if (isHidden() || !MapOfScripts.containsKey(triggerWords)) return false;
+        if (!triggerWords.equals("on click") || !triggerWords.equals("on enter") || !(triggerWords.contains("on drop"))) return false;
 
         ArrayList<String> actions = MapOfScripts.get(triggerWords);
         for (String action: actions) {
@@ -379,11 +378,21 @@ public class Shape extends RectF {
 
             }
         }
-
+        return true;
     }
 
 
     public boolean isTouched (float xq, float yq) {
-        return xq >= x && xq <= x + width && yq >= y && yq <= y + height;
+        return !hidden && xq >= x && xq <= x + width && yq >= y && yq <= y + height;
+    }
+
+    public String getTransition() {
+        if (!transitionPage.isEmpty())
+        {
+            String result = transitionPage;
+            transitionPage = "";
+            return result;
+        }
+        return "";
     }
 }

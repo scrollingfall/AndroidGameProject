@@ -39,7 +39,6 @@ public class EditorActivity extends AppCompatActivity {
         editorview = (EditorView) findViewById(R.id.previewArea);
         databaseinstance = DatabaseInstance.getDBinstance(getApplicationContext());
 
-
         // instantiate new game
         gameNameField = (EditText) findViewById(R.id.gameNameField);
 
