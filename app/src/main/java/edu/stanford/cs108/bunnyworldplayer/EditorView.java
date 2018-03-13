@@ -112,13 +112,30 @@ public class EditorView extends View {
             case MotionEvent.ACTION_MOVE:
                 if (touchedShape != null) {
                     float deltaX = event.getX() - origTouchX;
-                    float deltaY = event.getY() - origTouchY;
-                    touchedShape.move(origX + deltaX, origY + deltaY);
-                    if (origX + deltaX > 0) {
+                    float deltaY = deltaY = event.getY() - origTouchY;
+                    if (origX + deltaX <= viewWidth - touchedShape.getWidth()
+                            && origY + deltaY <= viewHeight - touchedShape.getHeight()) {
+                        touchedShape.move(origX + deltaX, origY + deltaY);
+                    } else if (origX + deltaX > viewWidth - touchedShape.getWidth()
+                            && origY + deltaY <= viewHeight - touchedShape.getHeight()) {
+                        touchedShape.move(viewWidth - touchedShape.getWidth(), origY + deltaY);
+                    } else if (origX + deltaX <= viewWidth - touchedShape.getWidth()
+                            &&origY + deltaY > viewHeight - touchedShape.getHeight()) {
+                        touchedShape.move(origX + deltaX, viewHeight - touchedShape.getHeight());
+                    } else {
+                        break;
+                    }
+
+                    if (origX + deltaX >= viewWidth - touchedShape.getWidth()) {
+                        xField.setText(Float.toString(viewWidth - touchedShape.getWidth()));
+                    } else if (origX + deltaX > 0) {
                         xField.setText(Float.toString(origX + deltaX));
                     } else
                         xField.setText("0");
-                    if (origY + deltaY > 0) {
+
+                    if (origY + deltaY >= viewHeight - touchedShape.getHeight()) {
+                        yField.setText(Float.toString(viewHeight - touchedShape.getHeight()));
+                    } else if (origY + deltaY > 0) {
                         yField.setText(Float.toString(origY + deltaY));
                     } else {
                         yField.setText("0");
