@@ -92,6 +92,7 @@ public class Shape extends RectF {
     }
 
     public String getScript(){
+        if (scripts == null) return ";";
         String scriptString = "";
         for (String script : scripts ){
             scriptString += script + ";";

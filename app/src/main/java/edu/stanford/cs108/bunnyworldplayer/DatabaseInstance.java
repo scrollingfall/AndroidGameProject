@@ -271,7 +271,7 @@ public class DatabaseInstance {
     public Game getGame(String gameName){
         Game gameReturn = new Game(gameName, context);
 //        System.out.println("the game name is " + gameReturn.getName());
-        String finalName = null;
+//        String finalName = null;
         String query = "SELECT * FROM Games WHERE gameName = '"+gameName+"';";
         Cursor cursor = database.rawQuery(query, null);
         if (cursor.moveToFirst()) {
@@ -287,7 +287,7 @@ public class DatabaseInstance {
                 cursor.moveToNext();
             }
         }
-        gameReturn.setName(finalName);
+//        gameReturn.setName(finalName);
         return gameReturn;
     }
 
@@ -317,6 +317,7 @@ public class DatabaseInstance {
 
 
     public void setCurrentGameName(String gamename) { this.gameName = gamename;}
+
     public String getCurrentGameName() { return this.gameName; }
 
 }
