@@ -151,6 +151,8 @@ public class EditorActivity extends AppCompatActivity {
         // update spinner
         String currPageName = pageNameField.getText().toString().trim();
         int index = pageNamesList.indexOf(currPage.getName());
+        System.out.println("Index: " + index);
+        System.out.println("currPage name: " + currPage.getName());
         pageNamesList.set(index, currPageName);
         adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, pageNamesList);

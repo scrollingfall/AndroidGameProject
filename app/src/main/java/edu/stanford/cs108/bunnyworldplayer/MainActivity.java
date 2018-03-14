@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 //        System.out.println("before adding game");
-        Page page = new Page ("Page 1", 100, 100, currGameName);
+        Page page = new Page ("page1", 100, 100, currGameName);
 //        System.out.println("page id in main activity is: " + page.getPageId());
         databaseinstance.setPageid(page.getPageId());
 
