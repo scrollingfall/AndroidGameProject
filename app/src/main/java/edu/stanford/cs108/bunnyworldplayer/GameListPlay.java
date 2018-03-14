@@ -24,22 +24,18 @@ import java.util.HashMap;
  */
 
 public class GameListPlay extends AppCompatActivity{
+
     private ListView list1;
     private SQLiteDatabase currentDatabase;
     private DatabaseInstance databaseinstance;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game_list_edit);
         list1 = (ListView) findViewById(R.id.game_list_edit);
-
         databaseinstance = (DatabaseInstance) DatabaseInstance.getDBinstance(getApplicationContext());
         currentDatabase = databaseinstance.getCurrentDatabase();
-
         ArrayList<String> gameString = databaseinstance.getAllGamesString();
-
-
         ListAdapter adapter = new ArrayAdapter<>(this, R.layout.game_list_play, R.id.rowList, gameString);
         list1.setAdapter(adapter);
         list1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -49,11 +45,10 @@ public class GameListPlay extends AppCompatActivity{
                 String gameName = text.getText().toString();
 
                 // reset inventory
-                Intent intent = new Intent (getApplicationContext(), Game.class);
+                Intent intent = new Intent (getApplicationContext(), Player.class);
                 startActivity(intent);
             }
         });
-
     }
 
 }
