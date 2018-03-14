@@ -143,10 +143,6 @@ public class EditorActivity extends AppCompatActivity {
         pageCounter += 1;
         String pageName = "page" + Integer.toString(pageCounter);
         pageNamesList.add(pageName);
-        adapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_item, pageNamesList);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        pageSpinner.setAdapter(adapter);
 
         // add new page object to Game's hashmap for pages
         Page newPage = new Page(pageName, 200, 200, newGame.getName());
@@ -187,10 +183,6 @@ public class EditorActivity extends AppCompatActivity {
         System.out.println("Index: " + index);
         System.out.println("currPage name: " + currPage.getName());
         pageNamesList.set(index, currPageName);
-        adapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_item, pageNamesList);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        pageSpinner.setAdapter(adapter);
 
         // add page with new name
         currPage.setName(currPageName);
