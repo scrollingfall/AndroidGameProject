@@ -92,10 +92,10 @@ public class Shape extends RectF {
     }
 
     public String getScript(){
-        if (scripts == null) return ";";
+        if (scripts == null || scripts.isEmpty()) return ";";
         String scriptString = "";
         for (String script : scripts ){
-            scriptString += script + ";";
+            scriptString += script;
         }
         return scriptString;
     }

@@ -54,8 +54,24 @@ public class DatabaseInstance {
     }
 
     public void addShape(Shape shape) {
-        String queryString1 = "INSERT INTO Shapes (id, name, x, y, text, image, movable, visible, actionScript, fontSize) VALUES ";
-        queryString1 += shape.getShapeId() + "," + shape.getName() + "," + shape.getX() + "," + shape.getY() + "," + shape.getText() + "," + shape.getImage() + "," + shape.isMoveable() + "," + shape.isHidden() + "," + shape.getScript() + "," + shape.getFontSize();
+        String queryString1 = "INSERT INTO Shapes (id, name, x, y, text, image, movable, visible, actionScript, fontSize) VALUES (";
+        String shapeText = shape.getText();
+        String shapeImage = shape.getImage();
+        String shapeScript = shape.getScript();
+
+        if (shapeText == null || shapeText.isEmpty()) shapeText = "NULL";
+        else shapeText = "\"" + shapeText + "\"";
+
+        if (shapeImage == null || shapeImage.isEmpty()) shapeImage = "NULL";
+        else shapeImage = "\"" + shapeImage + "\"";
+
+        if (shapeScript == null || shapeScript.isEmpty()) shapeScript = "NULL";
+        else shapeScript = "\"" + shapeScript + "\"";
+
+        int hidden = shape.isHidden() ? 1 : 0;
+        int movable = shape.isMoveable() ? 1 : 0;
+
+        queryString1 += shape.getShapeId() + ",\"" + shape.getName() + "\"," + shape.getX() + "," + shape.getY() + "," + shapeText + "," + shapeImage + "," + movable + "," + hidden + "," + shapeScript + "," + shape.getFontSize() + ")";
         database.execSQL(queryString1 + ";");
         // add this shape to the page also.
     }
@@ -228,7 +244,7 @@ public class DatabaseInstance {
             String pageOwner = "temp";
             shapeReturn = new Shape(context, cursor.getString(cursor.getColumnIndex("name")), pageOwner, cursor.getFloat(cursor.getColumnIndex("x")), cursor.getFloat(cursor.getColumnIndex("y")), 100, 100);
             shapeReturn.setShapeId(Integer.parseInt(shapeId));
-            shapeReturn.setScriptList(cursor.getString(cursor.getColumnIndex("scripts")));
+            shapeReturn.setScriptList(cursor.getString(cursor.getColumnIndex("actionScript")));
             shapeReturn.setFontSize(cursor.getInt(cursor.getColumnIndex("fontSize")));
 
             if(Integer.parseInt(shapeId) == 0){
