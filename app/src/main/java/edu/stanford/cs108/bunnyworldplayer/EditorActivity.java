@@ -53,6 +53,8 @@ public class EditorActivity extends AppCompatActivity {
 
         newGame = databaseinstance.getGame(databaseinstance.getCurrentGameName());
 //        System.out.println("new game name is: " + newGame.getName());
+        System.out.println("new game name is: " + databaseinstance.getCurrentGameName());
+        newGame.setEditorMode(true);
 
 
         pageCounter = 1;
@@ -65,23 +67,52 @@ public class EditorActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         pageSpinner.setAdapter(adapter);
 
-
         pageNameField = (EditText) findViewById(R.id.pageNameField);
         shapeNameField = (TextView) findViewById(R.id.shapeNameField);
         xField = (TextView) findViewById(R.id.xField);
         yField = (TextView) findViewById(R.id.yField);
         widthField = (TextView) findViewById(R.id.widthField);
         heightField = (TextView) findViewById(R.id.heightField);
+
+        System.out.println("newGame name: " + newGame.getName());
+        System.out.println("newGame starter name: " + newGame.getStarter());
+
+
+        pageSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                return;
+            }
+
+            @Override
+            public void onItemSelected(AdapterView<?> adapter, View view, int pos, long id) {
+                String pageName = adapter.getItemAtPosition(pos).toString();
+                Page toGet = newGame.getPage(pageName);
+
+                if (toGet != null) currPage = toGet;
+
+                Shape selectedShape = currPage.getSelectedShape();
+                if (selectedShape != null) selectedShape.setSelected(false);
+
+                EditorView editorview = (EditorView) findViewById(R.id.previewArea);
+                editorview.drawPage(currPage);
+
+                pageNameField.setText(pageName);
+            }
+
+        });
+
     }
+
 
     public void onSaveGame(View view) {
 
         // todo: save the pages and shapes in the game.
         String gameName = gameNameField.getText().toString().trim();
 
-        if (databaseinstance.gameExists(gameName)) giveToast("Game name already exists. Please enter another game name");
-
-
+        if (databaseinstance.gameExists(gameName) && !gameName.equals(newGame.getName())) {
+            giveToast("Game name already exists. Please enter another game name");
+        }
 
         else if (gameName.length() > 0) {
             if (!gameName.equals(newGame.getName())) {
@@ -104,15 +135,19 @@ public class EditorActivity extends AppCompatActivity {
         }
     }
 
+    public void onDeleteGame(View view) {
+        // todo: delete game from db
+
+        giveToast("Game \"" + newGame.getName() + "\" deleted");
+        Intent intent = new Intent(EditorActivity.this, GameListEdit.class);
+        startActivity(intent);
+    }
+
     public void onAddPage(View view) {
         // add to arraylist, create new spinner
         pageCounter += 1;
         String pageName = "page" + Integer.toString(pageCounter);
         pageNamesList.add(pageName);
-        adapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_item, pageNamesList);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        pageSpinner.setAdapter(adapter);
 
         // add new page object to Game's hashmap for pages
         Page newPage = new Page(pageName, 200, 200, newGame.getName());
@@ -125,11 +160,14 @@ public class EditorActivity extends AppCompatActivity {
     public void onMakeStarter(View view) {
         String prevStarterName = newGame.getStarter();
 
+        System.out.println(prevStarterName);
+        System.out.println(currPage.getName());
+
         if (prevStarterName != currPage.getName()) {
             // undo old starter
             HashMap<String, Page> pages = newGame.getPages();
             Page prevStarterPage = pages.get(prevStarterName);
-            prevStarterPage.setStarter(false, prevStarterPage.getWidth(), prevStarterPage.getHeight());
+            if (prevStarterPage != null) prevStarterPage.setStarter(false, prevStarterPage.getWidth(), prevStarterPage.getHeight());
 
             // make currPage new starter
             currPage.setStarter(true, currPage.getWidth(), currPage.getHeight());
@@ -150,18 +188,18 @@ public class EditorActivity extends AppCompatActivity {
         // update spinner
         String currPageName = pageNameField.getText().toString().trim();
         int index = pageNamesList.indexOf(currPage.getName());
+        System.out.println("Index: " + index);
+        System.out.println("currPage name: " + currPage.getName());
         pageNamesList.set(index, currPageName);
-        adapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_item, pageNamesList);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        pageSpinner.setAdapter(adapter);
 
         // add page with new name
         currPage.setName(currPageName);
         newGame.addPage(currPage.getName(), currPage);
 
-        // update name for starter page
-        newGame.setStarter(currPageName);
+        // update name for Game's starter page if currPage is a starter page
+        if (currPage.isStarter()) {
+            newGame.setStarter(currPageName);
+        }
 
         giveToast("Page \"" + currPage.getName() + "\" saved");
     }

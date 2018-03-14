@@ -31,17 +31,24 @@ public class DatabaseInstance {
     private ArrayList<String> nameOfImages;
     private int totalGameCount;
 
-
     private DatabaseInstance(Context context){
         System.out.println("beginning constructor");
         pageNumber = 1;
         this.context = context;
         database = context.openOrCreateDatabase(database_name, MODE_PRIVATE, null);
+//        dropAllTables();
         database.execSQL("CREATE TABLE IF NOT EXISTS "+shape_table_name+" (id REAL PRIMARY KEY NOT NULL, name TEXT NOT NULL, x REAL, y REAL, text TEXT, image TEXT, movable BOOLEAN, visible BOOLEAN, actionScript TEXT, fontSize INTEGER);");
         database.execSQL("CREATE TABLE IF NOT EXISTS "+page_table_name+" (id TEXT, name TEXT NOT NULL, shapes TEXT);");
         database.execSQL("CREATE TABLE IF NOT EXISTS "+game_table_name+"(gameName TEXT NOT NULL, pages TEXT);");
         nameOfImages = new ArrayList<String>(Arrays.asList("carrot","carrot2","death","duck","fire","mystic"));
         System.out.println("ending constructor");
+    }
+
+    // Clears Database
+    private void dropAllTables() {
+        database.execSQL("DROP TABLE "+game_table_name);
+        database.execSQL("DROP TABLE "+page_table_name);
+        database.execSQL("DROP TABLE "+shape_table_name);
     }
 
     public static DatabaseInstance getDBinstance(Context context) {
@@ -54,8 +61,24 @@ public class DatabaseInstance {
     }
 
     public void addShape(Shape shape) {
-        String queryString1 = "INSERT INTO Shapes (id, name, x, y, text, image, movable, visible, actionScript, fontSize) VALUES ";
-        queryString1 += shape.getShapeId() + "," + shape.getName() + "," + shape.getX() + "," + shape.getY() + "," + shape.getText() + "," + shape.getImage() + "," + shape.isMoveable() + "," + shape.isHidden() + "," + shape.getScript() + "," + shape.getFontSize();
+        String queryString1 = "INSERT INTO Shapes (id, name, x, y, text, image, movable, visible, actionScript, fontSize) VALUES (";
+        String shapeText = shape.getText();
+        String shapeImage = shape.getImage();
+        String shapeScript = shape.getScript();
+
+        if (shapeText == null || shapeText.isEmpty()) shapeText = "NULL";
+        else shapeText = "\"" + shapeText + "\"";
+
+        if (shapeImage == null || shapeImage.isEmpty()) shapeImage = "NULL";
+        else shapeImage = "\"" + shapeImage + "\"";
+
+        if (shapeScript == null || shapeScript.isEmpty()) shapeScript = "NULL";
+        else shapeScript = "\"" + shapeScript + "\"";
+
+        int hidden = shape.isHidden() ? 1 : 0;
+        int movable = shape.isMoveable() ? 1 : 0;
+
+        queryString1 += shape.getShapeId() + ",\"" + shape.getName() + "\"," + shape.getX() + "," + shape.getY() + "," + shapeText + "," + shapeImage + "," + movable + "," + hidden + "," + shapeScript + "," + shape.getFontSize() + ")";
         database.execSQL(queryString1 + ";");
         // add this shape to the page also.
     }
@@ -228,7 +251,7 @@ public class DatabaseInstance {
             String pageOwner = "temp";
             shapeReturn = new Shape(context, cursor.getString(cursor.getColumnIndex("name")), pageOwner, cursor.getFloat(cursor.getColumnIndex("x")), cursor.getFloat(cursor.getColumnIndex("y")), 100, 100);
             shapeReturn.setShapeId(Integer.parseInt(shapeId));
-            shapeReturn.setScriptList(cursor.getString(cursor.getColumnIndex("scripts")));
+            shapeReturn.setScriptList(cursor.getString(cursor.getColumnIndex("actionScript")));
             shapeReturn.setFontSize(cursor.getInt(cursor.getColumnIndex("fontSize")));
 
             if(Integer.parseInt(shapeId) == 0){
@@ -237,7 +260,6 @@ public class DatabaseInstance {
             }
         }
         cursor.close();
-//        System.out.println("end of get SHape");
         return shapeReturn;
     }
 
@@ -271,7 +293,7 @@ public class DatabaseInstance {
     public Game getGame(String gameName){
         Game gameReturn = new Game(gameName, context);
 //        System.out.println("the game name is " + gameReturn.getName());
-        String finalName = null;
+//        String finalName = null;
         String query = "SELECT * FROM Games WHERE gameName = '"+gameName+"';";
         Cursor cursor = database.rawQuery(query, null);
         if (cursor.moveToFirst()) {
@@ -287,7 +309,7 @@ public class DatabaseInstance {
                 cursor.moveToNext();
             }
         }
-        gameReturn.setName(finalName);
+//        gameReturn.setName(finalName);
         return gameReturn;
     }
 
@@ -317,6 +339,7 @@ public class DatabaseInstance {
 
 
     public void setCurrentGameName(String gamename) { this.gameName = gamename;}
+
     public String getCurrentGameName() { return this.gameName; }
 
 }

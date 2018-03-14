@@ -30,12 +30,14 @@ public class EditorView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         ArrayList<Shape> shapes = page.getShapeList();
-        for (int i = 0; i < shapes.size(); i++) {
-            shapes.get(i).draw(canvas);
+        for (Shape currShape : shapes) {
+            currShape.draw(canvas);
+            if (currShape.isSelected()) setFields(currShape.getName(), currShape.getX() + "", currShape.getY() + "", currShape.getWidth() + "", currShape.getHeight() + "");
         }
     }
 
     public void drawPage(Page page) {
+        page.setEditorMode(true);
         this.page = page;
         invalidate();
     }
@@ -47,6 +49,20 @@ public class EditorView extends View {
         viewHeight = h;
     }
 
+    private void setFields(String name, String x, String y, String width, String height) {
+        TextView shapeNameField = (TextView) ((Activity) getContext()).findViewById(R.id.shapeNameField);
+        TextView xField = (TextView) ((Activity) getContext()).findViewById(R.id.xField);
+        TextView yField = (TextView) ((Activity) getContext()).findViewById(R.id.yField);
+        TextView widthField = (TextView) ((Activity) getContext()).findViewById(R.id.widthField);
+        TextView heightField = (TextView) ((Activity) getContext()).findViewById(R.id.heightField);
+
+        shapeNameField.setText(name);
+        xField.setText(x);
+        yField.setText(y);
+        widthField.setText(width);
+        heightField.setText(height);
+    }
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         // check if touching coordinates that a shape contains
@@ -54,12 +70,6 @@ public class EditorView extends View {
         float touchY = event.getY();
 
         ArrayList<Shape> shapes = this.page.getShapeList();
-
-        TextView shapeNameField = (TextView) ((Activity) getContext()).findViewById(R.id.shapeNameField);
-        TextView xField = (TextView) ((Activity) getContext()).findViewById(R.id.xField);
-        TextView yField = (TextView) ((Activity) getContext()).findViewById(R.id.yField);
-        TextView widthField = (TextView) ((Activity) getContext()).findViewById(R.id.widthField);
-        TextView heightField = (TextView) ((Activity) getContext()).findViewById(R.id.heightField);
 
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
@@ -75,13 +85,9 @@ public class EditorView extends View {
 
                     float width = shapes.get(i).getWidth();
                     float height = shapes.get(i).getHeight();
-                    if (touchX >= x && touchX <= x + width && touchY >= y && touchY <= y + height) {
+                    if (shapes.get(i).isTouched(touchX, touchY)) {
                         touchedShape = shapes.get(i);
-                        shapeNameField.setText(touchedShape.getName());
-                        xField.setText(Float.toString(x));
-                        yField.setText(Float.toString(y));
-                        widthField.setText(Float.toString(width));
-                        heightField.setText(Float.toString(height));
+
                         break;
                     }
                 }
@@ -101,11 +107,8 @@ public class EditorView extends View {
                         selectedShape.setSelected(false);
                         this.page.setSelectedShape(null);
                     }
-                    shapeNameField.setText("--");
-                    xField.setText("--");
-                    yField.setText("--");
-                    widthField.setText("--");
-                    heightField.setText("--");
+                    String dashes = "--";
+                    setFields(dashes, dashes, dashes, dashes, dashes); // Clears fields and adds "--"
                 }
                 break;
 
@@ -126,22 +129,27 @@ public class EditorView extends View {
                         break;
                     }
 
+                    String name = touchedShape.getName();
+                    String x;
+                    String y;
+
                     if (origX + deltaX >= viewWidth - touchedShape.getWidth()) {
-                        xField.setText(Float.toString(viewWidth - touchedShape.getWidth()));
+                        x = Float.toString(viewWidth - touchedShape.getWidth());
                     } else if (origX + deltaX > 0) {
-                        xField.setText(Float.toString(origX + deltaX));
+                        x = Float.toString(origX + deltaX);
                     } else
-                        xField.setText("0");
+                        x = "0";
 
                     if (origY + deltaY >= viewHeight - touchedShape.getHeight()) {
-                        yField.setText(Float.toString(viewHeight - touchedShape.getHeight()));
+                        y = Float.toString(viewHeight - touchedShape.getHeight());
                     } else if (origY + deltaY > 0) {
-                        yField.setText(Float.toString(origY + deltaY));
+                        y = Float.toString(origY + deltaY);
                     } else {
-                        yField.setText("0");
+                        y = "0";
                     }
-                    widthField.setText(Float.toString(touchedShape.getWidth()));
-                    heightField.setText(Float.toString(touchedShape.getHeight()));
+                    String width = Float.toString(touchedShape.getWidth());
+                    String height = Float.toString(touchedShape.getHeight());
+                    setFields(name, x, y, width, height);
                 }
                 break;
 

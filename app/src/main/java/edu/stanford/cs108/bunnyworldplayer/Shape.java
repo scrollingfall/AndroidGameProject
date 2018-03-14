@@ -51,7 +51,8 @@ public class Shape extends RectF {
     public ArrayList<String> actionShowShapes = new ArrayList<String>();
     public ArrayList<String> actionHideShapes = new ArrayList<String>();
     public static int shapeID;
-
+    private float textWidth;
+    private float textHeight;
 
     // Constructor
     public Shape (Context context, String name, String owner, float x, float y, float width, float height) {
@@ -72,7 +73,7 @@ public class Shape extends RectF {
         this.onClick = "";
         this.onEnter = "";
         this.onDrop = new HashMap<String, String>();
-        this.editorMode = false;
+        this.editorMode = true;
         this.context = context;
         this.fontSize = 20;
     }
@@ -86,14 +87,17 @@ public class Shape extends RectF {
     }
 
     public void setScriptList(String scriptString){
-        StringTokenizer st = new StringTokenizer(scriptString, ";");
-        while (st.hasMoreTokens()) scripts.add(st.nextToken());
+        if (scriptString != null) {
+            StringTokenizer st = new StringTokenizer(scriptString, ";");
+            while (st.hasMoreTokens()) scripts.add(st.nextToken());
+        }
     }
 
     public String getScript(){
+        if (scripts == null || scripts.isEmpty()) return "";
         String scriptString = "";
         for (String script : scripts ){
-            scriptString += script + ";";
+            scriptString += script;
         }
         return scriptString;
     }
@@ -144,7 +148,9 @@ public class Shape extends RectF {
     }
 
     public void setText(String text) {
-        this.text = text;
+        if (text != null)
+            this.text = text;
+        else this.text = "";
     }
 
     public String getImage() {
@@ -152,7 +158,9 @@ public class Shape extends RectF {
     }
 
     public void setImage(String image) {
-        this.image = image;
+        if (image != null)
+            this.image = image;
+        else this.image = "";
     }
 
     public boolean isSelected() {
@@ -202,6 +210,10 @@ public class Shape extends RectF {
             this.x = x;
             this.y = y;
         }
+    }
+
+    public boolean isEditable() {
+        return this.editorMode;
     }
 
     public float getY() {
@@ -280,12 +292,16 @@ public class Shape extends RectF {
             if (x < 0) x = 0;
             if (y < 0) y = 0;
 
-            if (getText().isEmpty()) {
+            if ((getText().isEmpty() && image.isEmpty()) || (!image.isEmpty())) {
 
                 Paint grayPaintFill = new Paint();
                 grayPaintFill.setColor(Color.LTGRAY);
                 grayPaintFill.setStyle(Paint.Style.FILL);
                 RectF greyRectangle = new RectF(x, y, x+getWidth(), y+getHeight());
+
+                if (editorMode && hidden) {
+                    grayPaintFill.setAlpha(90);
+                }
 
                 if (selected) {
                     Paint blackPaintBorder = new Paint();
@@ -295,6 +311,7 @@ public class Shape extends RectF {
                     canvas.drawRect(greyRectangle, blackPaintBorder);
                 }
                 canvas.drawRect(greyRectangle, grayPaintFill);
+
             }
 
             if (!image.isEmpty()) {
@@ -312,15 +329,37 @@ public class Shape extends RectF {
                 imagePic = Bitmap.createBitmap(imagePic, 0, 0, picWidth, picHeight, m1, false);
                 this.bottom = this.top + imagePic.getHeight();
                 this.right = this.left + imagePic.getWidth();
-                canvas.drawBitmap(imagePic, getX(), getY(), null);
+
+                if (editorMode && hidden) {
+                    Paint paint = new Paint();
+                    paint.setAlpha(60);
+                    canvas.drawBitmap(imagePic, getX(), getY(), paint);
+                } else {
+                    canvas.drawBitmap(imagePic, getX(), getY(), null);
+                }
 
             }
             else if (!getText().isEmpty()){
+
+                Paint whitePaint = new Paint();
+                whitePaint.setColor(Color.WHITE);
+                whitePaint.setStyle(Paint.Style.FILL);
+
                 Paint textStyle = new Paint();
                 textStyle.setColor(Color.BLACK);
-                textStyle.setTextSize(20);
                 textStyle.setStyle(Paint.Style.FILL);
-                canvas.drawText(text, left, top, textStyle);
+                textStyle.setTextSize(fontSize);
+
+                if (selected) {
+                    Paint blackPaintBorder = new Paint();
+                    blackPaintBorder.setStrokeWidth(5.0f);
+                    blackPaintBorder.setColor(editorMode ? Color.BLACK : Color.GREEN);
+                    canvas.drawRect(x - 10f, y - textHeight - 10f, x + textWidth + 10f, y + 10f, blackPaintBorder);
+                }
+
+                canvas.drawRect(x, y - textHeight, x + textWidth, y, whitePaint);
+
+                canvas.drawText(getText(), getX(), getY(), textStyle);
 
             }
         }
@@ -383,8 +422,18 @@ public class Shape extends RectF {
         return true;
     }
 
+    public void setTextBounds(float textWidth, float textHeight) {
+
+        this.textWidth = textWidth;
+        this.textHeight = textHeight;
+
+    }
+
 
     public boolean isTouched (float xq, float yq) {
+        if (image.isEmpty() && !text.isEmpty()) {
+            return !hidden && xq >= x && xq <= x + textWidth && yq >= (y - textHeight) && yq <= y;
+        }
         return !hidden && xq >= x && xq <= x + width && yq >= y && yq <= y + height;
     }
 
