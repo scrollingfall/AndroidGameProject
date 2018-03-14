@@ -56,6 +56,8 @@ public class EditorActivity extends AppCompatActivity {
         System.out.println("new game name is: " + databaseinstance.getCurrentGameName());
         newGame.setEditorMode(true);
 
+        gameNameField.setText(databaseinstance.getCurrentGameName());
+
 
         pageCounter = 1;
 
