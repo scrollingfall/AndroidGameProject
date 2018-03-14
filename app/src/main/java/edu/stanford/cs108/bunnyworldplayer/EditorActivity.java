@@ -52,6 +52,7 @@ public class EditorActivity extends AppCompatActivity {
         starterPage.setStarter(true, starterPage.getWidth(), starterPage.getHeight());
 
         newGame = databaseinstance.getGame(databaseinstance.getCurrentGameName());
+        newGame.setEditorMode(true);
 //        System.out.println("new game name is: " + newGame.getName());
 
 

@@ -29,6 +29,7 @@ public class EditorView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        page.setEditorMode(true);
         ArrayList<Shape> shapes = page.getShapeList();
         for (int i = 0; i < shapes.size(); i++) {
             shapes.get(i).draw(canvas);
