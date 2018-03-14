@@ -29,21 +29,27 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void createGame(View view){
-        gameCounter += 1;
-        currGameName = "game" + Integer.toString(gameCounter);
+        gameCounter = databaseinstance.getTotalGameCount()  +1 ;
+        currGameName = "game" + gameCounter;
 
-//        Log.d("createGame", "before adding game");
+        while (databaseinstance.gameExists(currGameName)){
+            gameCounter ++;
+            currGameName = "game" + gameCounter;
+        }
 
-        System.out.println("before adding game");
+
+//        System.out.println("before adding game");
         Page page = new Page ("Page 1", 100, 100, currGameName);
+//        System.out.println("page id in main activity is: " + page.getPageId());
+        databaseinstance.setPageid(page.getPageId());
 
         Game newGame = new Game(currGameName, page, this);
 
         databaseinstance.addGame(newGame);
-        System.out.println("after adding game");
+//        System.out.println("after adding game");
         databaseinstance.setCurrentGameName(currGameName);
-        databaseinstance.setPageid(page.getPageId());
-        System.out.println("after setting current game");
+
+//        System.out.println("after setting current game");
         Intent intent = new Intent(MainActivity.this, EditorActivity.class);
         startActivity(intent);
     }

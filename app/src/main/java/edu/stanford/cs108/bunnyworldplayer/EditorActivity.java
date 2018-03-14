@@ -42,16 +42,18 @@ public class EditorActivity extends AppCompatActivity {
         // instantiate new game
         gameNameField = (EditText) findViewById(R.id.gameNameField);
 
-        System.out.println("page id is" + databaseinstance.getPageid());
+//        System.out.println("page id is of getPageId of db is " + databaseinstance.getPageid());
 
         starterPage = databaseinstance.getPage(databaseinstance.getPageid());
+//        System.out.println("starter page page id is: " + starterPage.getPageId());
 
         currPage = starterPage;
+//        System.out.println("current page page id is: " + currPage.getPageId());
         starterPage.setStarter(true, starterPage.getWidth(), starterPage.getHeight());
 
         newGame = databaseinstance.getGame(databaseinstance.getCurrentGameName());
-        System.out.println("new game name is: " + newGame.getName());
-        System.out.println("new page name is: " + currPage.getName() +  " " + currPage.getOwner());
+//        System.out.println("new game name is: " + newGame.getName());
+
 
         pageCounter = 1;
 
@@ -74,7 +76,12 @@ public class EditorActivity extends AppCompatActivity {
 
     public void onSaveGame(View view) {
         String gameName = gameNameField.getText().toString().trim();
-        if (gameName.length() > 0) {
+
+        if (databaseinstance.gameExists(gameName)) giveToast("Game name already exists. Please enter another game name");
+
+
+
+        else if (gameName.length() > 0) {
             if (!gameName.equals(newGame.getName())) {
                 newGame.setName(gameName);
                 // update hashmap
