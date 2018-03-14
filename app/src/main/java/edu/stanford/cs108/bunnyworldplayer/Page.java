@@ -65,6 +65,9 @@ public class Page {
         editorMode = editable;
         for (Shape s : shapeList)
             s.setEditorMode(editable);
+        for (Shape s: resources.values()) {
+            s.setEditorMode(editable);
+        }
     }
 
     public String getName() {
