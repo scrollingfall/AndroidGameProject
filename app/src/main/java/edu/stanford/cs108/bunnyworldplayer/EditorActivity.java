@@ -52,12 +52,8 @@ public class EditorActivity extends AppCompatActivity {
         starterPage.setStarter(true, starterPage.getWidth(), starterPage.getHeight());
 
         newGame = databaseinstance.getGame(databaseinstance.getCurrentGameName());
-<<<<<<< HEAD
         System.out.println("new game name is: " + newGame.getName());
-=======
         newGame.setEditorMode(true);
-//        System.out.println("new game name is: " + newGame.getName());
->>>>>>> e4db194557530cba9242ed0c07ecdfce0456c007
 
 
         pageCounter = 1;
@@ -70,13 +66,38 @@ public class EditorActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         pageSpinner.setAdapter(adapter);
 
-
         pageNameField = (EditText) findViewById(R.id.pageNameField);
         shapeNameField = (TextView) findViewById(R.id.shapeNameField);
         xField = (TextView) findViewById(R.id.xField);
         yField = (TextView) findViewById(R.id.yField);
         widthField = (TextView) findViewById(R.id.widthField);
         heightField = (TextView) findViewById(R.id.heightField);
+
+
+        pageSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                return;
+            }
+
+            @Override
+            public void onItemSelected(AdapterView<?> adapter, View view, int pos, long id) {
+                String pageName = adapter.getItemAtPosition(pos).toString();
+                Page toGet = newGame.getPage(pageName);
+
+                if (toGet != null) currPage = toGet;
+
+                Shape selectedShape = currPage.getSelectedShape();
+                if (selectedShape != null) selectedShape.setSelected(false);
+
+                EditorView editorview = (EditorView) findViewById(R.id.previewArea);
+                editorview.drawPage(currPage);
+
+                pageNameField.setText(pageName);
+            }
+
+        });
+
     }
 
     public void onSaveGame(View view) {
