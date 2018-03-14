@@ -51,7 +51,8 @@ public class Shape extends RectF {
     public ArrayList<String> actionShowShapes = new ArrayList<String>();
     public ArrayList<String> actionHideShapes = new ArrayList<String>();
     public static int shapeID;
-
+    private float textWidth;
+    private float textHeight;
 
     // Constructor
     public Shape (Context context, String name, String owner, float x, float y, float width, float height) {
@@ -303,6 +304,7 @@ public class Shape extends RectF {
                     canvas.drawRect(greyRectangle, blackPaintBorder);
                 }
                 canvas.drawRect(greyRectangle, grayPaintFill);
+
             }
 
             if (!image.isEmpty()) {
@@ -331,11 +333,26 @@ public class Shape extends RectF {
 
             }
             else if (!getText().isEmpty()){
+
+                Paint whitePaint = new Paint();
+                whitePaint.setColor(Color.WHITE);
+                whitePaint.setStyle(Paint.Style.FILL);
+
                 Paint textStyle = new Paint();
                 textStyle.setColor(Color.BLACK);
-                textStyle.setTextSize(20);
                 textStyle.setStyle(Paint.Style.FILL);
-                canvas.drawText(text, left, top, textStyle);
+                textStyle.setTextSize(fontSize);
+
+                if (selected) {
+                    Paint blackPaintBorder = new Paint();
+                    blackPaintBorder.setStrokeWidth(5.0f);
+                    blackPaintBorder.setColor(editorMode ? Color.BLACK : Color.GREEN);
+                    canvas.drawRect(x - 10f, y - textHeight - 10f, x + textWidth + 10f, y + 10f, blackPaintBorder);
+                }
+
+                canvas.drawRect(x, y - textHeight, x + textWidth, y, whitePaint);
+
+                canvas.drawText(getText(), getX(), getY(), textStyle);
 
             }
         }
@@ -398,8 +415,19 @@ public class Shape extends RectF {
         return true;
     }
 
+    public void setTextBounds(float textWidth, float textHeight) {
+
+        this.textWidth = textWidth;
+        this.textHeight = textHeight;
+
+    }
+
 
     public boolean isTouched (float xq, float yq) {
+        if (image.isEmpty() && !text.isEmpty()) {
+            boolean toReturn = !hidden && xq >= x && xq <= x + textWidth && yq >= (y - textHeight) && yq <= y;
+            return toReturn;
+        }
         return !hidden && xq >= x && xq <= x + width && yq >= y && yq <= y + height;
     }
 

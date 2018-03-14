@@ -6,6 +6,8 @@
 package edu.stanford.cs108.bunnyworldplayer;
 import android.app.Activity;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -433,6 +435,16 @@ public class ShapeEditor extends AppCompatActivity {
 
         if (!fontSize.isEmpty())
             selectedShape.setFontSize(Integer.parseInt(fontSize));
+
+        Paint textStyle = new Paint();
+        textStyle.setColor(Color.BLACK);
+        textStyle.setStyle(Paint.Style.FILL);
+        textStyle.setTextSize(selectedShape.getFontSize());
+
+        float w = textStyle.measureText(shapeText + " ")/2;
+        float textSize = textStyle.getTextSize();
+
+        selectedShape.setTextBounds(2*w, textSize);
 
         toastify("Changes saved!");
         finish();

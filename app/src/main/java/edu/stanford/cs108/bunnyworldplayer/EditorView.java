@@ -85,7 +85,7 @@ public class EditorView extends View {
 
                     float width = shapes.get(i).getWidth();
                     float height = shapes.get(i).getHeight();
-                    if (touchX >= x && touchX <= x + width && touchY >= y && touchY <= y + height) {
+                    if (shapes.get(i).isTouched(touchX, touchY)) {
                         touchedShape = shapes.get(i);
 
                         break;
