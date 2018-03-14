@@ -31,17 +31,24 @@ public class DatabaseInstance {
     private ArrayList<String> nameOfImages;
     private int totalGameCount;
 
-
     private DatabaseInstance(Context context){
         System.out.println("beginning constructor");
         pageNumber = 1;
         this.context = context;
         database = context.openOrCreateDatabase(database_name, MODE_PRIVATE, null);
+//        dropAllTables();
         database.execSQL("CREATE TABLE IF NOT EXISTS "+shape_table_name+" (id REAL PRIMARY KEY NOT NULL, name TEXT NOT NULL, x REAL, y REAL, text TEXT, image TEXT, movable BOOLEAN, visible BOOLEAN, actionScript TEXT, fontSize INTEGER);");
         database.execSQL("CREATE TABLE IF NOT EXISTS "+page_table_name+" (id TEXT, name TEXT NOT NULL, shapes TEXT);");
         database.execSQL("CREATE TABLE IF NOT EXISTS "+game_table_name+"(gameName TEXT NOT NULL, pages TEXT);");
         nameOfImages = new ArrayList<String>(Arrays.asList("carrot","carrot2","death","duck","fire","mystic"));
         System.out.println("ending constructor");
+    }
+
+    // Clears Database
+    private void dropAllTables() {
+        database.execSQL("DROP TABLE "+game_table_name);
+        database.execSQL("DROP TABLE "+page_table_name);
+        database.execSQL("DROP TABLE "+shape_table_name);
     }
 
     public static DatabaseInstance getDBinstance(Context context) {
@@ -253,7 +260,6 @@ public class DatabaseInstance {
             }
         }
         cursor.close();
-//        System.out.println("end of get SHape");
         return shapeReturn;
     }
 

@@ -167,7 +167,7 @@ public class EditorActivity extends AppCompatActivity {
             // undo old starter
             HashMap<String, Page> pages = newGame.getPages();
             Page prevStarterPage = pages.get(prevStarterName);
-            prevStarterPage.setStarter(false, prevStarterPage.getWidth(), prevStarterPage.getHeight());
+            if (prevStarterPage != null) prevStarterPage.setStarter(false, prevStarterPage.getWidth(), prevStarterPage.getHeight());
 
             // make currPage new starter
             currPage.setStarter(true, currPage.getWidth(), currPage.getHeight());

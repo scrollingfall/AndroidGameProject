@@ -87,8 +87,10 @@ public class Shape extends RectF {
     }
 
     public void setScriptList(String scriptString){
-        StringTokenizer st = new StringTokenizer(scriptString, ";");
-        while (st.hasMoreTokens()) scripts.add(st.nextToken());
+        if (scriptString != null) {
+            StringTokenizer st = new StringTokenizer(scriptString, ";");
+            while (st.hasMoreTokens()) scripts.add(st.nextToken());
+        }
     }
 
     public String getScript(){
@@ -146,7 +148,9 @@ public class Shape extends RectF {
     }
 
     public void setText(String text) {
-        this.text = text;
+        if (text != null)
+            this.text = text;
+        else this.text = "";
     }
 
     public String getImage() {
@@ -154,7 +158,9 @@ public class Shape extends RectF {
     }
 
     public void setImage(String image) {
-        this.image = image;
+        if (image != null)
+            this.image = image;
+        else this.image = "";
     }
 
     public boolean isSelected() {
