@@ -204,6 +204,10 @@ public class Shape extends RectF {
         }
     }
 
+    public boolean isEditable() {
+        return this.editorMode;
+    }
+
     public float getY() {
         return y;
     }
