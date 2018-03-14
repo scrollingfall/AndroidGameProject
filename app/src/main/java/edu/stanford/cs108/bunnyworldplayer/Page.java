@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 /**
  * Created by Jerry Chen on 3/5/2018.
@@ -25,13 +26,13 @@ public class Page {
     private boolean starter;
     private static HashMap<String, Shape> resources = new HashMap<String, Shape>();
     private boolean editorMode;
-    private static int pageID;
     private static float percentMainPage = 0.80f;
+    private String pageID;
 
     public Page(String name, float width, float height, String gameOwner) {
 
-        this.pageID = getPreviousPageId() + 1;
-        setPreviousPageId(pageID);
+        this.pageID = UUID.randomUUID().toString();
+
         this.owner = gameOwner;
         this.name = name;
         this.shapes = new HashMap<String, Shape>();
@@ -44,10 +45,8 @@ public class Page {
         this.editorMode = false;
     }
 
-    private int getPreviousPageId(){ return pageID;}
-    private void setPreviousPageId(int pageid) { this.pageID = pageid; }
-    public int getPageId() { return pageID; }
-    public void setPageId(int pageid) { this.pageID = pageid; }
+    public String getPageId() { return pageID; }
+    public void setPageId(String pageid) { this.pageID = pageid; }
 
     public String getOwner() {return owner;}
     public void setOwner(String gameOwner) { this.owner = gameOwner; }

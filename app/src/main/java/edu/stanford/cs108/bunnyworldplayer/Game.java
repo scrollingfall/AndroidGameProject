@@ -14,8 +14,8 @@ import java.util.HashMap;
 public class Game {
     private String name;
     private boolean valid = false; //might need to be appropriately updated upon adding anything
-    private HashMap<String,Page> pages;
-    private ArrayList<Page> pageList;
+    private HashMap<String,Page> pages = new HashMap<String, Page>();
+    private ArrayList<Page> pageList = new ArrayList<>();
     private String starter;
     private String currentPage;
     private Page posessions;
@@ -28,6 +28,7 @@ public class Game {
     public Game(String name, Context context) {
         this.name = name;
         this.editorMode = false;
+        this.context = context;
         initResources();
     }
 
@@ -36,8 +37,9 @@ public class Game {
         this.starter = firstPage.getName();
         this.currentPage = firstPage.getName();
         this.context = context;
-        pages = new HashMap<String, Page>();
-        pageList = new ArrayList<>();
+        System.out.println("helo");
+//        pages = new HashMap<String, Page>();
+//        pageList = new ArrayList<>();
         pages.put(firstPage.getName(), firstPage);
         pageList.add(firstPage);
         posessions = new Page("posessions", 100, 100, name); //random values
@@ -70,6 +72,10 @@ public class Game {
     }
 
     public void addPage(String name, Page p) {
+
+        System.out.println("page id while getting game is " + name);
+        System.out.println("page name while getting game is " + p.getPageId());
+
         pages.put(name, p);
         pageList.add(p);
     }

@@ -26,19 +26,32 @@ public class GameListEdit extends AppCompatActivity{
     private SQLiteDatabase currentDatabase;
     private DatabaseInstance databaseinstance;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game_list_edit);
         list = (ListView) findViewById(R.id.game_list_edit);
+        System.out.println("created list");
 
 
         databaseinstance = (DatabaseInstance) DatabaseInstance.getDBinstance(getApplicationContext());
+        System.out.println("got db instance");
         currentDatabase = databaseinstance.getCurrentDatabase();
+        System.out.println("got db ");
 
         ArrayList<String> gameString = databaseinstance.getAllGamesString();
-        ListAdapter adapter = new ArrayAdapter<>(this, R.layout.game_list_play, R.id.rowList, gameString);
+        System.out.println("got all game names ");
+
+
+        for (String gameName : gameString) System.out.println(gameName);
+
+
+        ListAdapter adapter = new ArrayAdapter<>(this, R.layout.game_list_edit, R.id.rowList, gameString);
+        System.out.println("here ");
         list.setAdapter(adapter);
+        System.out.println("set the adapter ");
+
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -46,6 +59,7 @@ public class GameListEdit extends AppCompatActivity{
                 String gameName = text.getText().toString();
 
                 databaseinstance.setCurrentGameName(gameName);
+                databaseinstance.setPageid(databaseinstance.getGame(gameName).getPageList().get(0).getPageId());
 
                 // reset inventory
                 Intent intent = new Intent (getApplicationContext(), EditorActivity.class);
