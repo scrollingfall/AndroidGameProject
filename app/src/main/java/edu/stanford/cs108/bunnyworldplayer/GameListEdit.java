@@ -52,6 +52,7 @@ public class GameListEdit extends AppCompatActivity{
         list.setAdapter(adapter);
         System.out.println("set the adapter ");
 
+        // todo find the source for this code. 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
