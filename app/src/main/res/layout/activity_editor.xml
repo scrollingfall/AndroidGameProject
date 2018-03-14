@@ -35,8 +35,13 @@
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="SAVE GAME"
+                    android:text="SAVE\nGAME"
                     android:onClick="onSaveGame"/>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="DELETE\nGAME"
+                    android:onClick="onDeleteGame"/>
             </LinearLayout>
             <LinearLayout
                 android:orientation="horizontal"
@@ -59,19 +64,19 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:text="MAKE STARTER"
+                    android:text="MAKE\nSTARTER"
                     android:onClick="onMakeStarter"/>
                 <Button
                     android:id="@+id/savePageBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:text="SAVE PAGE"
+                    android:text="SAVE\nPAGE"
                     android:onClick="onSavePage"/>
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Delete Page"
+                    android:text="DELETE\nPAGE"
                     android:onClick="onDeletePage"/>
                 <TextView
                     android:layout_width="wrap_content"
@@ -85,7 +90,7 @@
                     android:id="@+id/addPageBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Add Page"
+                    android:text="ADD\nPAGE"
                     android:onClick="onAddPage"/>
             </LinearLayout>
         </RelativeLayout>
@@ -109,14 +114,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_columnWeight="2"
-            android:text="Add Shape"
+            android:text="ADD\nSHAPE"
             android:onClick="onAddShape"/>
         <Button
             android:id="@+id/editShapeBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_columnWeight="2"
-            android:text="Edit Shape"
+            android:text="EDIT\nSHAPE"
             android:onClick="onEditShape"/>
 
         <TextView
@@ -180,7 +185,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_columnWeight="2"
-            android:text="Delete Shape"
+            android:text="DELETE\nSHAPE"
             android:onClick="onDeleteShape"/>
 
     </GridLayout>

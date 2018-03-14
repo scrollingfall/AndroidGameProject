@@ -52,7 +52,7 @@ public class EditorActivity extends AppCompatActivity {
         starterPage.setStarter(true, starterPage.getWidth(), starterPage.getHeight());
 
         newGame = databaseinstance.getGame(databaseinstance.getCurrentGameName());
-//        System.out.println("new game name is: " + newGame.getName());
+        System.out.println("new game name is: " + newGame.getName());
 
 
         pageCounter = 1;
@@ -102,6 +102,14 @@ public class EditorActivity extends AppCompatActivity {
         } else {
             giveToast("Please name the game before saving");
         }
+    }
+
+    public void onDeleteGame(View view) {
+        // todo: delete game from db
+
+        giveToast("Game \"" + newGame.getName() + "\" deleted");
+        Intent intent = new Intent(EditorActivity.this, GameListEdit.class);
+        startActivity(intent);
     }
 
     public void onAddPage(View view) {
