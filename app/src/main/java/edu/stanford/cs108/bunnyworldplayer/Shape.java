@@ -425,8 +425,7 @@ public class Shape extends RectF {
 
     public boolean isTouched (float xq, float yq) {
         if (image.isEmpty() && !text.isEmpty()) {
-            boolean toReturn = !hidden && xq >= x && xq <= x + textWidth && yq >= (y - textHeight) && yq <= y;
-            return toReturn;
+            return !hidden && xq >= x && xq <= x + textWidth && yq >= (y - textHeight) && yq <= y;
         }
         return !hidden && xq >= x && xq <= x + width && yq >= y && yq <= y + height;
     }
