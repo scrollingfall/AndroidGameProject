@@ -285,7 +285,7 @@ public class Shape extends RectF {
             if (x < 0) x = 0;
             if (y < 0) y = 0;
 
-            if (getText().isEmpty()) {
+            if ((getText().isEmpty() && image.isEmpty()) || (!image.isEmpty())) {
 
                 Paint grayPaintFill = new Paint();
                 grayPaintFill.setColor(Color.LTGRAY);
