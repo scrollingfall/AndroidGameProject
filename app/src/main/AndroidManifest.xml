@@ -15,10 +15,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".EditorActivity"></activity>
-        <activity android:name=".ShapeEditor"></activity>
-        <activity android:name=".GameListEdit"></activity>
-        <activity android:name=".GameListPlay"></activity>
+        <activity android:name=".EditorActivity" />
+        <activity android:name=".ShapeEditor" />
+        <activity android:name=".GameListEdit" />
+        <activity android:name=".GameListPlay" />
+        <activity android:name=".PlayerActivity"></activity>
     </application>
 
 </manifest>

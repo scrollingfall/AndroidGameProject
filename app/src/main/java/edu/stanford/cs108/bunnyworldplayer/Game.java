@@ -80,6 +80,13 @@ public class Game {
         pageList.add(p);
     }
 
+    public void setSize(float x, float y) {
+        for (Page p : pageList) {
+            p.setWidth(x);
+            p.setHeight(y);
+        }
+    }
+
     public void removePage(String name, Page p) {
         pages.remove(name);
         pageList.remove(p);
@@ -99,6 +106,7 @@ public class Game {
     public void setPages(HashMap<String, Page> pages) {
         this.pages = pages;
 
+        this.pageList.clear();
         for (Page page : pages.values()) {
             this.pageList.add(page);
         }
