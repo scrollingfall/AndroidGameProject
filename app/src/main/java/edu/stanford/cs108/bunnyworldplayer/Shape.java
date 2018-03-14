@@ -72,10 +72,9 @@ public class Shape extends RectF {
         this.onClick = "";
         this.onEnter = "";
         this.onDrop = new HashMap<String, String>();
-        this.editorMode = true;
+        this.editorMode = false;
         this.context = context;
         this.fontSize = 20;
-
     }
     public int getPreviousShapeId(){ return shapeID;}
     private void setPreviousShapeId(int shapeID) { this.shapeID = shapeID; }

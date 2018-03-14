@@ -21,11 +21,15 @@ public class PlayerView extends View {
     }
 
     private float startx, starty;
+    private float oldSelectx = -1;
+    private float oldSelecty = -1;
     private Shape currentlySelected;
     private int currentlySelectedIndex;
 
     private boolean justentered;
     private Game game;
+
+    private static int clickThreshold = 0;
     public void setGame(Game game) {
         this.game = game;
         justentered = true;
@@ -45,6 +49,8 @@ public class PlayerView extends View {
                 if (currentlySelected != null) {
                     startx = event.getX();
                     starty = event.getY();
+                    oldSelectx = currentlySelected.getX();
+                    oldSelecty = currentlySelected.getY();
                     if (currentlySelected.isMoveable()) {
                         for (Shape s: game.getCurrentPage().getDropTargets(currentlySelected)) {
                             s.setSelected(true);
@@ -57,12 +63,12 @@ public class PlayerView extends View {
                 if (currentlySelected != null && currentlySelected.isMoveable()) {
                     float dx = event.getX() - startx;
                     float dy = event.getY() - starty;
-                    currentlySelected.move(currentlySelected.getX() + dx, currentlySelected.getY() + dy);
+                    currentlySelected.move(oldSelectx + dx, oldSelecty + dy);
                     invalidate();
                 }
             case MotionEvent.ACTION_UP:
                 if (currentlySelected != null) {
-                    if (Math.abs(event.getX() - startx) < 2 && Math.abs(event.getY() - starty) < 2) { //counts as click if little movement occurred
+                    if (Math.abs(event.getX() - startx) < clickThreshold && Math.abs(event.getY() - starty) < clickThreshold) { //counts as click if little movement occurred
                         if (currentlySelected.performScriptAction("on click")) {
                             String transition = currentlySelected.getTransition();
                             if (!transition.isEmpty()) {
@@ -80,8 +86,10 @@ public class PlayerView extends View {
                             if (!transition.isEmpty()) {
                                 game.setCurrentPage(transition); //are we doing error checking on valid pages?
                             }
-                        } else {
+                        } else if (currentlySelected != null){
                             oldSelect.move(startx, starty);
+                        } else {
+                            oldSelect.move(oldSelectx + event.getX() - startx, oldSelecty + event.getY() - starty);
                         }
                     }
                     currentlySelected = null;
