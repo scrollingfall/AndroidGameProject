@@ -53,6 +53,7 @@ public class EditorActivity extends AppCompatActivity {
 
         newGame = databaseinstance.getGame(databaseinstance.getCurrentGameName());
         System.out.println("new game name is: " + newGame.getName());
+        System.out.println("new game name is: " + databaseinstance.getCurrentGameName());
         newGame.setEditorMode(true);
 
 
@@ -109,9 +110,9 @@ public class EditorActivity extends AppCompatActivity {
         // todo: save the pages and shapes in the game.
         String gameName = gameNameField.getText().toString().trim();
 
-        if (databaseinstance.gameExists(gameName)) giveToast("Game name already exists. Please enter another game name");
-
-
+        if (databaseinstance.gameExists(gameName) && !gameName.equals(newGame.getName())) {
+            giveToast("Game name already exists. Please enter another game name");
+        }
 
         else if (gameName.length() > 0) {
             if (!gameName.equals(newGame.getName())) {
