@@ -36,8 +36,10 @@ public class GameListPlay extends AppCompatActivity{
         databaseinstance = (DatabaseInstance) DatabaseInstance.getDBinstance(getApplicationContext());
         currentDatabase = databaseinstance.getCurrentDatabase();
         ArrayList<String> gameString = databaseinstance.getAllGamesString();
-        ListAdapter adapter = new ArrayAdapter<>(this, R.layout.game_list_play, R.id.rowList, gameString);
+        ListAdapter adapter = new ArrayAdapter<>(this, R.layout.games_row, R.id.rowList, gameString);
         list1.setAdapter(adapter);
+
+
         list1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -45,7 +47,7 @@ public class GameListPlay extends AppCompatActivity{
                 String gameName = text.getText().toString();
 
                 // reset inventory
-                Intent intent = new Intent (getApplicationContext(), Player.class);
+                Intent intent = new Intent (getApplicationContext(), PlayerActivity.class);
                 startActivity(intent);
             }
         });

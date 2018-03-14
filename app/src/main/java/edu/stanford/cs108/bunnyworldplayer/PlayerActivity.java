@@ -11,6 +11,7 @@ public class PlayerActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_player);
         player = (PlayerView)findViewById(R.id.playerView);
+        // todo 
         //player.setGame(<game passed in from intent>) important this goes before the next line
         player.setSize(player.getWidth(), player.getHeight());
     }

@@ -59,6 +59,7 @@ public class Page {
         for (Shape s: resources.values()) {
             s.draw(canvas);
         }
+        //todo
         //draw delimiter line
     }
     public void setEditorMode (boolean editable) {

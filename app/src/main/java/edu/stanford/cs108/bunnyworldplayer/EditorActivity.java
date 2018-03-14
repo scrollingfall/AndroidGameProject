@@ -75,6 +75,8 @@ public class EditorActivity extends AppCompatActivity {
     }
 
     public void onSaveGame(View view) {
+
+        // todo: save the pages and shapes in the game.
         String gameName = gameNameField.getText().toString().trim();
 
         if (databaseinstance.gameExists(gameName)) giveToast("Game name already exists. Please enter another game name");

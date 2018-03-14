@@ -47,37 +47,37 @@ public class GameListEdit extends AppCompatActivity{
         for (String gameName : gameString) System.out.println(gameName);
 
 
-        ListAdapter adapter = new ArrayAdapter<>(this, R.layout.game_list_edit, R.id.rowList, gameString);
+        ListAdapter adapter = new ArrayAdapter<>(this, R.layout.games_row, R.id.rowList, gameString);
         System.out.println("here ");
         list.setAdapter(adapter);
         System.out.println("set the adapter ");
 
-//        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                TextView text = (TextView) view.findViewById(R.id.rowList);
-//                String gameName = text.getText().toString();
-//
-//                databaseinstance.setCurrentGameName(gameName);
-//                databaseinstance.setPageid(databaseinstance.getGame(gameName).getPageList().get(0).getPageId());
-//
-//                // reset inventory
-//                Intent intent = new Intent (getApplicationContext(), EditorActivity.class);
-//                startActivity(intent);
-//            }
-//        });
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                TextView text = (TextView) view.findViewById(R.id.rowList);
+                String gameName = text.getText().toString();
+
+                databaseinstance.setCurrentGameName(gameName);
+                databaseinstance.setPageid(databaseinstance.getGame(gameName).getPageList().get(0).getPageId());
+
+                // reset inventory
+                Intent intent = new Intent (getApplicationContext(), EditorActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
-    public void editGame(View view){
-        TextView text = (TextView) view.findViewById(R.id.rowList);
-        String gameName = text.getText().toString();
-
-        databaseinstance.setCurrentGameName(gameName);
-        databaseinstance.setPageid(databaseinstance.getGame(gameName).getPageList().get(0).getPageId());
-        Intent intent = new Intent (getApplicationContext(), EditorActivity.class);
-        startActivity(intent);
-
-    }
+//    public void editGame(View view){
+//        TextView text = (TextView) view.findViewById(R.id.rowList);
+//        String gameName = text.getText().toString();
+//
+//        databaseinstance.setCurrentGameName(gameName);
+//        databaseinstance.setPageid(databaseinstance.getGame(gameName).getPageList().get(0).getPageId());
+//        Intent intent = new Intent (getApplicationContext(), EditorActivity.class);
+//        startActivity(intent);
+//
+//    }
 
 
 }

@@ -271,7 +271,9 @@ public class Shape extends RectF {
     }
 
     public void draw(Canvas canvas) {
+
         if (!editorMode && isHidden()) return;
+        //todo (editor mode and is hidden) draw things in 50% opacity
         else {
             this.canvas = canvas;
 
