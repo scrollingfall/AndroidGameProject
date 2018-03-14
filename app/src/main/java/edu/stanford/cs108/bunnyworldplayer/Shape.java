@@ -72,7 +72,7 @@ public class Shape extends RectF {
         this.onClick = "";
         this.onEnter = "";
         this.onDrop = new HashMap<String, String>();
-        this.editorMode = false;
+        this.editorMode = true;
         this.context = context;
         this.fontSize = 20;
     }
@@ -287,6 +287,10 @@ public class Shape extends RectF {
                 grayPaintFill.setStyle(Paint.Style.FILL);
                 RectF greyRectangle = new RectF(x, y, x+getWidth(), y+getHeight());
 
+                if (editorMode && hidden) {
+                    grayPaintFill.setAlpha(90);
+                }
+
                 if (selected) {
                     Paint blackPaintBorder = new Paint();
                     blackPaintBorder.setStrokeWidth(15.0f);
@@ -312,7 +316,14 @@ public class Shape extends RectF {
                 imagePic = Bitmap.createBitmap(imagePic, 0, 0, picWidth, picHeight, m1, false);
                 this.bottom = this.top + imagePic.getHeight();
                 this.right = this.left + imagePic.getWidth();
-                canvas.drawBitmap(imagePic, getX(), getY(), null);
+
+                if (editorMode && hidden) {
+                    Paint paint = new Paint();
+                    paint.setAlpha(60);
+                    canvas.drawBitmap(imagePic, getX(), getY(), paint);
+                } else {
+                    canvas.drawBitmap(imagePic, getX(), getY(), null);
+                }
 
             }
             else if (!getText().isEmpty()){
