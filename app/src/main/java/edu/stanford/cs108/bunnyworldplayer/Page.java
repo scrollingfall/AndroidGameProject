@@ -1,5 +1,7 @@
 package edu.stanford.cs108.bunnyworldplayer;
 
+import android.graphics.Canvas;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -24,6 +26,7 @@ public class Page {
     private static HashMap<String, Shape> resources = new HashMap<String, Shape>();
     private boolean editorMode;
     private static int pageID;
+    private static float percentMainPage = 0.80f;
 
     public Page(String name, float width, float height, String gameOwner) {
 
@@ -49,6 +52,16 @@ public class Page {
     public String getOwner() {return owner;}
     public void setOwner(String gameOwner) { this.owner = gameOwner; }
 
+
+    public void draw (Canvas canvas) {
+        for (Shape s: shapeList) {
+            s.draw(canvas);
+        }
+        for (Shape s: resources.values()) {
+            s.draw(canvas);
+        }
+        //draw delimiter line
+    }
     public void setEditorMode (boolean editable) {
         editorMode = editable;
         for (Shape s : shapeList)
@@ -159,6 +172,26 @@ public class Page {
         for (Shape s : shapeList) {
             s.performScriptAction("on enter");
         }
+    }
+
+    public boolean moveToBackpack(String name) {
+        if (!shapes.containsKey(name))
+            return false;
+        Shape s = shapes.remove(name);
+        shapeList.remove(s);
+        resources.put(name, s);
+        s.setInBackpack(true);
+        return true;
+    }
+
+    public boolean moveFromBackpack(String name) {
+        if (!resources.containsKey(name))
+            return false;
+        Shape s = resources.remove(name);
+        shapes.put(name, s);
+        shapeList.add(s);
+        s.setInBackpack(false);
+        return true;
     }
 
 }

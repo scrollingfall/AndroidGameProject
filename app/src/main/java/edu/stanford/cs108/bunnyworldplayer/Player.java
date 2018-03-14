@@ -108,8 +108,7 @@ public class Player extends View {
                 game.getCurrentPage().onEnter();
                 justentered = false;
             }
-            for (Shape s : game.getCurrentPage().getShapeList())
-                s.draw(canvas);
+            game.getCurrentPage().draw(canvas);
         }
     }
 
