@@ -73,6 +73,9 @@ public class EditorActivity extends AppCompatActivity {
         widthField = (TextView) findViewById(R.id.widthField);
         heightField = (TextView) findViewById(R.id.heightField);
 
+        System.out.println("newGame name: " + newGame.getName());
+        System.out.println("newGame starter name: " + newGame.getStarter());
+
 
         pageSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -159,6 +162,9 @@ public class EditorActivity extends AppCompatActivity {
     public void onMakeStarter(View view) {
         String prevStarterName = newGame.getStarter();
 
+        System.out.println(prevStarterName);
+        System.out.println(currPage.getName());
+
         if (prevStarterName != currPage.getName()) {
             // undo old starter
             HashMap<String, Page> pages = newGame.getPages();
@@ -196,8 +202,10 @@ public class EditorActivity extends AppCompatActivity {
         currPage.setName(currPageName);
         newGame.addPage(currPage.getName(), currPage);
 
-        // update name for starter page
-        newGame.setStarter(currPageName);
+        // update name for Game's starter page if currPage is a starter page
+        if (currPage.isStarter()) {
+            newGame.setStarter(currPageName);
+        }
 
         giveToast("Page \"" + currPage.getName() + "\" saved");
     }
