@@ -170,7 +170,7 @@ public class DatabaseInstance {
             shapeReturn.setFontSize(cursor.getInt(cursor.getColumnIndex("fontSize")));
             shapeReturn.setHeight(cursor.getInt(cursor.getColumnIndex("height")));
             shapeReturn.setWidth(cursor.getInt(cursor.getColumnIndex("width")));
-
+            shapeReturn.setSelected(false);
         }
         cursor.close();
         return shapeReturn;
