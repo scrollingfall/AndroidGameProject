@@ -364,6 +364,17 @@ public class Shape extends RectF {
         }
     }
 
+    public void updateTextBounds() {
+        if (text == null || this.text.isEmpty()) return;
+        Paint textStyle = new Paint();
+        textStyle.setColor(Color.BLACK);
+        textStyle.setStyle(Paint.Style.FILL);
+        textStyle.setTextSize(fontSize);
+        float w = textStyle.measureText(text + " ")/2;
+        float textSize = textStyle.getTextSize();
+        setTextBounds(2*w, textSize);
+    }
+
     public void setScriptMap(){
         for (String script: scripts) {
             ArrayList<String> scriptWords = new ArrayList<>();

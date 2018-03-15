@@ -47,13 +47,14 @@ public class EditorActivity extends AppCompatActivity {
         newGame = databaseinstance.getGame(currentGameName);
         newGame.setEditorMode(true);
 
+        System.out.println("new Game starter from onCreate in EA: "+ newGame.getStarter());
 
-
+        System.out.println("databaseinstance.getPageid() in onCreate: " + databaseinstance.getPageid());
 
         starterPage = databaseinstance.getPage(databaseinstance.getPageid());
 
         currPage = starterPage;
-        starterPage.setStarter(true, starterPage.getWidth(), starterPage.getHeight());
+        //starterPage.setStarter(true, starterPage.getWidth(), starterPage.getHeight());
 
 
         gameNameField.setText(databaseinstance.getCurrentGameName());
@@ -165,15 +166,15 @@ public class EditorActivity extends AppCompatActivity {
     }
 
     public void onMakeStarter(View view) {
-        String prevStarterName = newGame.getStarter();
-//
-//        System.out.println(prevStarterName);
-//        System.out.println(currPage.getName());
+        String prevStarterId = starterPage.getPageId();
 
-        if (prevStarterName != currPage.getName()) {
+        System.out.println("newGame starter from onMakeStarter: " + prevStarterId);
+        System.out.println(currPage.getPageId());
+
+        if (!prevStarterId.equals(currPage.getPageId())) {
             // undo old starter
             HashMap<String, Page> pages = newGame.getPages();
-            Page prevStarterPage = pages.get(prevStarterName);
+            Page prevStarterPage = pages.get(prevStarterId);
             if (prevStarterPage != null) prevStarterPage.setStarter(false, prevStarterPage.getWidth(), prevStarterPage.getHeight());
 
             // make currPage new starter
