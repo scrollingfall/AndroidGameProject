@@ -171,6 +171,7 @@ public class DatabaseInstance {
             shapeReturn.setHeight(cursor.getInt(cursor.getColumnIndex("height")));
             shapeReturn.setWidth(cursor.getInt(cursor.getColumnIndex("width")));
             shapeReturn.setSelected(false);
+            shapeReturn.updateTextBounds();
         }
         cursor.close();
         return shapeReturn;
