@@ -44,12 +44,13 @@ public class MainActivity extends AppCompatActivity {
         databaseinstance.setPageid(page.getPageId());
 
         Game newGame = new Game(currGameName, page, this);
-
+        newGame.addPage("page1", page);
+        newGame.setStarter(page.getPageId());
         databaseinstance.addGame(newGame);
-//        System.out.println("after adding game");
+        System.out.println("after adding game");
         databaseinstance.setCurrentGameName(currGameName);
 
-//        System.out.println("after setting current game");
+        System.out.println("the current game name in main is " + databaseinstance.getCurrentGameName());
         Intent intent = new Intent(MainActivity.this, EditorActivity.class);
         startActivity(intent);
     }

@@ -18,6 +18,7 @@ import android.support.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.StringTokenizer;
+import java.util.UUID;
 
 /**
  * Created by Jerry Chen on 3/5/2018.
@@ -50,14 +51,13 @@ public class Shape extends RectF {
     private String transitionPage = "";
     public ArrayList<String> actionShowShapes = new ArrayList<String>();
     public ArrayList<String> actionHideShapes = new ArrayList<String>();
-    public static int shapeID;
+    private String shapeID;
     private float textWidth;
     private float textHeight;
 
     // Constructor
     public Shape (Context context, String name, String owner, float x, float y, float width, float height) {
-        this.shapeID = getPreviousShapeId() + 1;
-        setPreviousShapeId(shapeID);
+        this.shapeID = UUID.randomUUID().toString();
         this.name = name;
         this.owner = owner;
         this.text = "";
@@ -77,10 +77,9 @@ public class Shape extends RectF {
         this.context = context;
         this.fontSize = 20;
     }
-    public int getPreviousShapeId(){ return shapeID;}
-    private void setPreviousShapeId(int shapeID) { this.shapeID = shapeID; }
-    public int getShapeId() { return shapeID; }
-    public void setShapeId(int shapeid) { this.shapeID = shapeid; }
+    public String getShapeId() { return shapeID; }
+    public void setShapeId(String shapeid) { this.shapeID = shapeid; }
+
 
     public void setEditorMode (boolean editable) {
         editorMode = editable;
