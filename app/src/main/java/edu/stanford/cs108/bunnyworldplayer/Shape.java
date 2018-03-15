@@ -349,6 +349,12 @@ public class Shape extends RectF {
                 textStyle.setStyle(Paint.Style.FILL);
                 textStyle.setTextSize(fontSize);
 
+                if (this.textWidth == 0 || this.textHeight == 0) {
+                    float w = textStyle.measureText(text + " ")/2;
+                    float textSize = textStyle.getTextSize();
+                    setTextBounds(2*w, textSize);
+                }
+
                 if (selected) {
                     Paint blackPaintBorder = new Paint();
                     blackPaintBorder.setStrokeWidth(5.0f);
