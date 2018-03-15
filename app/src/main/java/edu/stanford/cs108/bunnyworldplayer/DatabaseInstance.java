@@ -139,10 +139,12 @@ public class DatabaseInstance {
                 vals.put("gameName", gameName);
                 vals.put("pages", p.getPageId());
                 vals.put("starterPage", game.getStarter());
+                System.out.println("LOOK HERE: " + game.getStarter());
                 database.insert(this.game_table_name, null, vals);
             }
         }
         else{
+            vals.put("starterPage", game.getStarter());
             vals.put("gameName", gameName);
             database.insert(this.game_table_name, null, vals);
         }
@@ -241,6 +243,8 @@ public class DatabaseInstance {
                 String pageId = cursor.getString(cursor.getColumnIndex("pages"));
                 starterPageId = cursor.getString(cursor.getColumnIndex("starterPage"));
 
+                System.out.println("starterPageId in GETGAME!!: " + starterPageId);
+
                 if (pageId !=null){
                     Page page = getPage(pageId);
                     gameReturn.addPage(page.getName(), page );
@@ -249,7 +253,7 @@ public class DatabaseInstance {
             }
         }
 
-        //gameReturn.setStarter(starterPageId);
+        gameReturn.setStarter(starterPageId);
         return gameReturn;
     }
 

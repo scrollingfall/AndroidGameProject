@@ -48,9 +48,7 @@ public class MainActivity extends AppCompatActivity {
         newGame.addPage("page1", page);
         newGame.setStarter(page.getPageId());
         databaseinstance.addGame(newGame);
-        System.out.println("Game obj from createGame: " + newGame);
         System.out.println("newGame starter from createGame: " + newGame.getStarter());
-        System.out.println("newGame name from createGame: " + newGame.getName());
         System.out.println("after adding game");
         databaseinstance.setCurrentGameName(currGameName);
 

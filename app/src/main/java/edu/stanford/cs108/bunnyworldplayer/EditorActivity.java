@@ -47,9 +47,9 @@ public class EditorActivity extends AppCompatActivity {
         newGame = databaseinstance.getGame(currentGameName);
         newGame.setEditorMode(true);
 
-        System.out.println("Game obj from onCreate in EA: " + newGame);
         System.out.println("new Game starter from onCreate in EA: "+ newGame.getStarter());
 
+        System.out.println("databaseinstance.getPageid() in onCreate: " + databaseinstance.getPageid());
 
         starterPage = databaseinstance.getPage(databaseinstance.getPageid());
 
@@ -166,13 +166,12 @@ public class EditorActivity extends AppCompatActivity {
     }
 
     public void onMakeStarter(View view) {
-        String prevStarterId = newGame.getStarter();
+        String prevStarterId = starterPage.getPageId();
 
-        System.out.println("newGame name from onMakeStarter: " + newGame.getName());
         System.out.println("newGame starter from onMakeStarter: " + prevStarterId);
         System.out.println(currPage.getPageId());
 
-        if (prevStarterId != currPage.getPageId()) {
+        if (!prevStarterId.equals(currPage.getPageId())) {
             // undo old starter
             HashMap<String, Page> pages = newGame.getPages();
             Page prevStarterPage = pages.get(prevStarterId);
