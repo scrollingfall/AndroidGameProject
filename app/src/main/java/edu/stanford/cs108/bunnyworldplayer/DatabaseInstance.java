@@ -249,7 +249,7 @@ public class DatabaseInstance {
             }
         }
 
-        gameReturn.setStarter(starterPageId);
+        //gameReturn.setStarter(starterPageId);
         return gameReturn;
     }
 
