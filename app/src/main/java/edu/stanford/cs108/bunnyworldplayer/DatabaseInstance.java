@@ -144,6 +144,7 @@ public class DatabaseInstance {
         }
         else{
             vals.put("gameName", gameName);
+            vals.put("starterPage", game.getStarter());
             database.insert(this.game_table_name, null, vals);
         }
     }
