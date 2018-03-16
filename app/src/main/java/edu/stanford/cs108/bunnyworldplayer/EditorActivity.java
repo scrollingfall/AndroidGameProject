@@ -20,7 +20,7 @@ public class EditorActivity extends AppCompatActivity {
     ArrayList<String> pageNamesList = new ArrayList<>();
     Spinner pageSpinner;
     int pageCounter;
-    int shapeCounter = 0;
+    int shapeCounter;
     ArrayAdapter<String> adapter;
     EditText gameNameField;
     EditText pageNameField;
@@ -46,10 +46,6 @@ public class EditorActivity extends AppCompatActivity {
         gameNameField.setText(currentGameName);
         newGame = databaseinstance.getGame(currentGameName);
         newGame.setEditorMode(true);
-
-        System.out.println("new Game starter from onCreate in EA: "+ newGame.getStarter());
-
-        System.out.println("databaseinstance.getPageid() in onCreate: " + databaseinstance.getPageid());
 
         starterPage = databaseinstance.getPage(databaseinstance.getPageid());
 
@@ -168,9 +164,6 @@ public class EditorActivity extends AppCompatActivity {
     public void onMakeStarter(View view) {
         String prevStarterId = starterPage.getPageId();
 
-        System.out.println("newGame starter from onMakeStarter: " + prevStarterId);
-        System.out.println(currPage.getPageId());
-
         if (!prevStarterId.equals(currPage.getPageId())) {
             // undo old starter
             HashMap<String, Page> pages = newGame.getPages();
@@ -193,13 +186,18 @@ public class EditorActivity extends AppCompatActivity {
 
 
         String currPageName = pageNameField.getText().toString().trim();
-
+        
+        if (currPageName.length() == 0) {
+            giveToast("Please give the page a name");
+        } else if (newGame.getPages().containsKey(currPageName)) {
+            giveToast("Oops! Looks like there's already another page with that name...");
+        } else {
+            System.out.println("currPageName: " + currPageName);
+            System.out.println("currPage.getName(): " + currPage.getName());
             newGame.removePage(currPage.getName(), currPage);
 
             // update spinner
             int index = pageNamesList.indexOf(currPage.getName());
-//            System.out.println("Index: " + index);
-//            System.out.println("currPage name: " + currPage.getName());
             pageNamesList.set(index, currPageName);
 
             // add page with new name
@@ -212,6 +210,7 @@ public class EditorActivity extends AppCompatActivity {
             }
 
             giveToast("Page \"" + currPage.getName() + "\" saved");
+        }
 
     }
 
@@ -231,8 +230,10 @@ public class EditorActivity extends AppCompatActivity {
     }
 
     public void onAddShape(View view) {
+        shapeCounter = currPage.getShapeList().size();
         shapeCounter += 1;
         String shapeName = "shape" + Integer.toString(shapeCounter);
+
         float randX = (float) Math.random() * 1000 + 350;
         float randY = (float) Math.random() * 500 + 150;
         Shape newShape = new Shape(this, shapeName, currPage.toString(), randX, randY, 200, 200);

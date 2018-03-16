@@ -1,6 +1,8 @@
 package edu.stanford.cs108.bunnyworldplayer;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -59,8 +61,10 @@ public class Page {
         for (Shape s: resources.values()) {
             s.draw(canvas);
         }
-        //todo
         //draw delimiter line
+//        Paint paint = new Paint();
+//        paint.setColor(Color.BLACK);
+//        canvas.drawLine(0, height * percentMainPage, width, height * percentMainPage, paint);
     }
     public void setEditorMode (boolean editable) {
         editorMode = editable;

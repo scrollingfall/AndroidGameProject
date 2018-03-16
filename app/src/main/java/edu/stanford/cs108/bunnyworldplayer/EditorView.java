@@ -116,15 +116,18 @@ public class EditorView extends View {
                 if (touchedShape != null) {
                     float deltaX = event.getX() - origTouchX;
                     float deltaY = deltaY = event.getY() - origTouchY;
+                    float bottom = viewHeight * Page.percentMainPage;
+
+                    // checking boundaries
                     if (origX + deltaX <= viewWidth - touchedShape.getWidth()
-                            && origY + deltaY <= viewHeight - touchedShape.getHeight()) {
+                            && origY + deltaY <= bottom - touchedShape.getHeight()) {
                         touchedShape.move(origX + deltaX, origY + deltaY);
                     } else if (origX + deltaX > viewWidth - touchedShape.getWidth()
-                            && origY + deltaY <= viewHeight - touchedShape.getHeight()) {
+                            && origY + deltaY <= bottom - touchedShape.getHeight()) {
                         touchedShape.move(viewWidth - touchedShape.getWidth(), origY + deltaY);
                     } else if (origX + deltaX <= viewWidth - touchedShape.getWidth()
-                            &&origY + deltaY > viewHeight - touchedShape.getHeight()) {
-                        touchedShape.move(origX + deltaX, viewHeight - touchedShape.getHeight());
+                            &&origY + deltaY > bottom - touchedShape.getHeight()) {
+                        touchedShape.move(origX + deltaX, bottom - touchedShape.getHeight());
                     } else {
                         break;
                     }
@@ -133,6 +136,7 @@ public class EditorView extends View {
                     String x;
                     String y;
 
+                    // updating text fields
                     if (origX + deltaX >= viewWidth - touchedShape.getWidth()) {
                         x = Float.toString(viewWidth - touchedShape.getWidth());
                     } else if (origX + deltaX > 0) {
@@ -140,8 +144,8 @@ public class EditorView extends View {
                     } else
                         x = "0";
 
-                    if (origY + deltaY >= viewHeight - touchedShape.getHeight()) {
-                        y = Float.toString(viewHeight - touchedShape.getHeight());
+                    if (origY + deltaY >= bottom - touchedShape.getHeight()) {
+                        y = Float.toString(bottom - touchedShape.getHeight());
                     } else if (origY + deltaY > 0) {
                         y = Float.toString(origY + deltaY);
                     } else {
