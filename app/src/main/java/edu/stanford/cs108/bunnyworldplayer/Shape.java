@@ -409,9 +409,12 @@ public class Shape extends RectF {
 
     public boolean performScriptAction(String triggerWords){
 
+//        System.out.println("Trigger words [arg0] are: " + triggerWords);
+//        System.out.println("Map is: " + MapOfScripts.toString());
+
         if (isHidden() || triggerWords == null || triggerWords.isEmpty() || !MapOfScripts.containsKey(triggerWords)) return false;
         triggerWords = triggerWords.trim().toLowerCase();
-        if (!triggerWords.equals("on-click") && !triggerWords.equals("on-enter") && !(triggerWords.equals("on-drop"))) return false;
+        if (!triggerWords.equals("on-click") && !triggerWords.equals("on-enter") && !(triggerWords.contains("on-drop"))) return false;
 
         ArrayList<String> actions = MapOfScripts.get(triggerWords);
         for (String action: actions) {
