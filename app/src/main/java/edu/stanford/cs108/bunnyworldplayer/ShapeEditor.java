@@ -397,6 +397,11 @@ public class ShapeEditor extends AppCompatActivity {
             return;
         }
 
+        if (currPage.getShapes().containsKey(name)) {
+            toastify("Oops! Looks like another shape has that name...");
+            return;
+        }
+
         String shapeText = ((EditText) findViewById(R.id.shapeText)).getText().toString();
         String fontSize = ((EditText) findViewById(R.id.shapeFont)).getText().toString();
 
