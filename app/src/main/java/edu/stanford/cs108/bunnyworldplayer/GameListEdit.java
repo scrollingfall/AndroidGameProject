@@ -58,6 +58,11 @@ public class GameListEdit extends AppCompatActivity{
         });
     }
 
+    public void onMainMenu(View view) {
+        Intent intent = new Intent(GameListEdit.this, MainActivity.class);
+        startActivity(intent);
+    }
+
 
 
 }
