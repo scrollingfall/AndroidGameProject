@@ -234,7 +234,7 @@ public class EditorActivity extends AppCompatActivity {
         System.out.println(starterPage.getPageId());
         if (!currPage.isStarter()) {
             System.out.println(pageNamesList);
-            pageNamesList.remove(currPage);//does nothing
+            pageNamesList.remove(currPage.getName());//does nothing
             System.out.println(pageNamesList);
             adapter.notifyDataSetChanged();
             // go back to starter page and draw it; remove currPage from Game
