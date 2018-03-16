@@ -218,16 +218,15 @@ public class Page {
         return true;
     }
 
-<<<<<<< HEAD
     public String toString() {
         return name;
-=======
+    }
+
     private void removeFromList(String name) {
         for (int i = 0; i < shapeList.size(); i ++)
             if (shapeList.get(i).getName().equals(name)) {
                 shapeList.remove(i);
                 return;
             }
->>>>>>> 82f6aac662205f94bcc41b5c6676a90de25fbf71
     }
 }
