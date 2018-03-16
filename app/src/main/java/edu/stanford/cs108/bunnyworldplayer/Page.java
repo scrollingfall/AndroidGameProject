@@ -44,7 +44,7 @@ public class Page {
         this.height = height; //how to pass these on?
         this.x = 0;
         this.y = 0;
-        System.out.println("page constructor called with " + name);
+        //System.out.println("page constructor called with " + name);
         this.starter = false;
         this.editorMode = false;
     }

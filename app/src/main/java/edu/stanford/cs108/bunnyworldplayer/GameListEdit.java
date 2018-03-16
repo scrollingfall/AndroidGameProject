@@ -39,7 +39,7 @@ public class GameListEdit extends AppCompatActivity{
 
         ArrayList<String> gameString = databaseinstance.getAllGamesString();
 
-        for (String gameName : gameString) System.out.println(gameName);
+        //for (String gameName : gameString) System.out.println(gameName);
 
         // source: https://medium.com/mindorks/custom-array-adapters-made-easy-b6c4930560dd
         ListAdapter adapter = new ArrayAdapter<>(this, R.layout.games_row, R.id.rowList, gameString);
@@ -51,7 +51,17 @@ public class GameListEdit extends AppCompatActivity{
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 TextView text = (TextView) view.findViewById(R.id.rowList);
                 databaseinstance.setCurrentGameName(text.getText().toString());
-                databaseinstance.setPageid(databaseinstance.getGame(text.getText().toString()).getStarter());
+
+                // find starter page id
+                Game game = databaseinstance.getGame(text.getText().toString());
+                String starterName = game.getStarter();
+                for (Page p : game.getPageList()) {
+                    if (p.getName().equals(starterName)) {
+                        databaseinstance.setPageid(p.getPageId());
+                    }
+                }
+
+                //databaseinstance.setPageid(databaseinstance.getGame(text.getText().toString()).getStarter());
                 Intent intent = new Intent (getApplicationContext(), EditorActivity.class);
                 startActivity(intent);
             }

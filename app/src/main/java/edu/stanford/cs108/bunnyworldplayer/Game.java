@@ -48,7 +48,6 @@ public class Game {
         this.starter = firstPage.getName();
         this.currentPage = firstPage.getName();
         this.context = context;
-        System.out.println("helo");
 //        pages = new HashMap<String, Page>();
 //        pageList = new ArrayList<>();
         pages.put(firstPage.getName(), firstPage);
@@ -82,9 +81,6 @@ public class Game {
     }
 
     public void addPage(String name, Page p) {
-
-        System.out.println("page name while getting game is " + name);
-        System.out.println("page id while getting game is " + p.getPageId());
 
         pages.put(name, p);
         pageList.add(p);

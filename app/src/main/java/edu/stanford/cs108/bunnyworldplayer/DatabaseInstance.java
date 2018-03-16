@@ -139,7 +139,6 @@ public class DatabaseInstance {
                 vals.put("gameName", gameName);
                 vals.put("pages", p.getPageId());
                 vals.put("starterPage", game.getStarter());
-                System.out.println("LOOK HERE: " + game.getStarter());
                 database.insert(this.game_table_name, null, vals);
             }
         }
@@ -221,6 +220,7 @@ public class DatabaseInstance {
         if (cursor.moveToFirst()) {
             for (int i=0; i<cursor.getCount(); i++){
                 pageReturn.setName(cursor.getString(cursor.getColumnIndex("name")));
+                //pageReturn.setPageId(cursor.getString(cursor.getColumnIndex("id")));
                 String shapes = cursor.getString(cursor.getColumnIndex("shapes"));
                 if (shapes != null) {
                     Shape shape = this.getShape(shapes);
@@ -241,7 +241,6 @@ public class DatabaseInstance {
         Cursor cursor = database.rawQuery(query, null);
         if (cursor.moveToFirst()) {
             for (int i=0; i<cursor.getCount(); i++){
-
                 String pageId = cursor.getString(cursor.getColumnIndex("pages"));
                 starterPageId = cursor.getString(cursor.getColumnIndex("starterPage"));
 
@@ -250,6 +249,7 @@ public class DatabaseInstance {
                     page.setGame(gameReturn);
                     gameReturn.addPage(page.getName(), page);
                     gameReturn.linkIDtoName(pageId, page.getName());
+
                 }
                 cursor.moveToNext();
             }
