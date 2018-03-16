@@ -419,8 +419,8 @@ public class Shape extends RectF {
 
     public boolean performScriptAction(String triggerWords){
 
-        System.out.println("Trigger words [arg0] are: " + triggerWords);
-        System.out.println("Map is: " + MapOfScripts.toString());
+//        System.out.println("Trigger words [arg0] are: " + triggerWords);
+//        System.out.println("Map is: " + MapOfScripts.toString());
 
         if (isHidden() || actionHideShapes.contains(name) || triggerWords == null || triggerWords.isEmpty() || !MapOfScripts.containsKey(triggerWords)) return false;
         triggerWords = triggerWords.trim().toLowerCase();
@@ -428,11 +428,11 @@ public class Shape extends RectF {
 
         if (!MapOfScripts.containsKey(triggerWords)) return false;
 
-        System.out.println("Got this far with " + triggerWords);
+        //System.out.println("Got this far with " + triggerWords);
 
         ArrayList<ArrayList<String>> actions = MapOfScripts.get(triggerWords);
 
-        System.out.println("FIRST ACTION FOR " + triggerWords + " is: " + actions.get(0).toString());
+        //System.out.println("FIRST ACTION FOR " + triggerWords + " is: " + actions.get(0).toString());
 
         if (actions == null || actions.isEmpty()) return false;
 
@@ -441,7 +441,7 @@ public class Shape extends RectF {
         for (ArrayList<String> withinActions : actions) {
             if (withinActions == null || withinActions.isEmpty()) continue;
             for (String action: withinActions) {
-                System.out.println("Currently processing " + triggerWords + " " + action);
+                //System.out.println("Currently processing " + triggerWords + " " + action);
                 if (action == null || action.isEmpty()) continue;
                 didSomething = true;
                 // execute action
@@ -453,7 +453,7 @@ public class Shape extends RectF {
                 }
                 else if (words[0].equals("show")) {
                     actionShowShapes.add(words[1]);
-                    System.out.println("ASKING TO SHOW " + words[1]);
+                    //System.out.println("ASKING TO SHOW " + words[1]);
 
                 }
                 else if (words[0].equals("play")) {

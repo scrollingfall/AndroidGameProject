@@ -162,15 +162,15 @@ public class Game {
 
     public Page getCurrentPage() {
         if (pages.containsKey(currentPage)) {
-            System.out.println("GETTING PAGE WITH GIVEN KEY, WHICH IS: " + currentPage);
+            //System.out.println("GETTING PAGE WITH GIVEN KEY, WHICH IS: " + currentPage);
             return(pages.get(currentPage));
         } else {
             String name = pageIDtoName(currentPage);
             if (pages.containsKey(name)) {
-                System.out.println("GETTING PAGE WITH NAME, WHICH IS: " + name);
+                //System.out.println("GETTING PAGE WITH NAME, WHICH IS: " + name);
             return (pages.get(name));
             } else {
-                System.out.println("GETTING STARTER, WHICH IS: " + starter);
+                //System.out.println("GETTING STARTER, WHICH IS: " + starter);
                 return pages.get(starter);
             }
         }

@@ -224,12 +224,6 @@ public class EditorActivity extends AppCompatActivity {
     }
 
     public void onDeletePage(View view) {
-//        System.out.println(currPage.isStarter());
-//        System.out.println(currPage.getPageId());
-//        System.out.println(currPage.getName());
-//        System.out.println(starterPage.isStarter());
-//        System.out.println(starterPage.getName());
-//        System.out.println(starterPage.getPageId());
         if (!currPage.isStarter()) {
             pageNamesList.remove(currPage.getName());//does nothing
             adapter.notifyDataSetChanged();

@@ -105,11 +105,11 @@ public class PlayerView extends View {
                         }
                         if (oldSelect.getY() >= oldPage.getHeight()* Page.percentMainPage
                                 && oldSelecty < oldPage.getHeight() * Page.percentMainPage) {
-                            System.out.println(oldPage.getName() + " is moving " + oldSelect.getName() + " to backpack");
+                            //System.out.println(oldPage.getName() + " is moving " + oldSelect.getName() + " to backpack");
                             oldPage.moveToBackpack(oldSelect.getName());
                         } else if (oldSelect.getY() < oldPage.getHeight()* Page.percentMainPage
                                 && oldSelecty >= oldPage.getHeight() * Page.percentMainPage) {
-                            System.out.println(oldPage.getName() + " is moving " + oldSelect.getName() + " from backpack");
+                            //System.out.println(oldPage.getName() + " is moving " + oldSelect.getName() + " from backpack");
                             oldPage.moveFromBackpack(oldSelect.getName());
                         }
                     }
@@ -169,7 +169,7 @@ public class PlayerView extends View {
             if (justentered) {
                 Page curr = game.getCurrentPage();
                 if (curr == null) {
-                    System.out.println("PAGE WAS NULL");
+                    //System.out.println("PAGE WAS NULL");
                     game.setCurrentPage(game.getStarter()); // Try going back to starter
                     if (game.getCurrentPage() == null) { // Starter is null - nowhere to go from here
                         giveToast("There was an error with this page. Make sure it has a starter page assigned!");
