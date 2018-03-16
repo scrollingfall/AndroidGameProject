@@ -453,9 +453,9 @@ public class Shape extends RectF {
 
     public boolean isTouched (float xq, float yq) {
         if (image.isEmpty() && !text.isEmpty()) {
-            return !hidden && xq >= x && xq <= x + textWidth && yq >= (y - textHeight) && yq <= y;
+            return (!hidden || editorMode) && xq >= x && xq <= x + textWidth && yq >= (y - textHeight) && yq <= y;
         }
-        return !hidden && xq >= x && xq <= x + width && yq >= y && yq <= y + height;
+        return (!hidden || editorMode) && xq >= x && xq <= x + width && yq >= y && yq <= y + height;
     }
 
     public String getTransition() {
