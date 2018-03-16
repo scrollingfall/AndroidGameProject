@@ -243,17 +243,21 @@ public class DatabaseInstance {
                 String pageId = cursor.getString(cursor.getColumnIndex("pages"));
                 starterPageId = cursor.getString(cursor.getColumnIndex("starterPage"));
 
-                System.out.println("starterPageId in GETGAME!!: " + starterPageId);
+//                System.out.println("starterPageId in GETGAME!!: " + starterPageId);
 
                 if (pageId !=null){
                     Page page = getPage(pageId);
-                    gameReturn.addPage(page.getName(), page );
+                    gameReturn.addPage(page.getName(), page);
+                    gameReturn.linkIDtoName(pageId, page.getName());
+//                    System.out.println("SAVING PAGE WITH NAME: " + page.getName());
                 }
                 cursor.moveToNext();
             }
         }
 
-        gameReturn.setStarter(starterPageId);
+        gameReturn.setStarter(gameReturn.pageIDtoName(starterPageId));
+        gameReturn.setCurrentPage(gameReturn.getStarter());
+
         return gameReturn;
     }
 
