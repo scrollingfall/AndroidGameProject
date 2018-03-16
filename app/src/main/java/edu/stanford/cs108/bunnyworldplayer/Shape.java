@@ -48,7 +48,7 @@ public class Shape extends RectF {
     private Canvas canvas;
     private Bitmap imagePic;
     private Context context;
-    private HashMap<String, ArrayList<String>> MapOfScripts = new HashMap<String, ArrayList<String>>();
+    private HashMap<String, ArrayList<ArrayList<String>>> MapOfScripts = new HashMap<String, ArrayList<ArrayList<String>>>();
     private String transitionPage = "";
     public ArrayList<String> actionShowShapes = new ArrayList<String>();
     public ArrayList<String> actionHideShapes = new ArrayList<String>();
@@ -284,7 +284,7 @@ public class Shape extends RectF {
 
     // if(editorMode && isHidden()) then draw things at 50% opacitiy
     public void draw(Canvas canvas) {
-
+        
         if (!editorMode && isHidden()) return;
         // (editor mode and is hidden) draw things in 50% opacity
         else {
@@ -402,48 +402,69 @@ public class Shape extends RectF {
 
                 i += 2;
             }
-            MapOfScripts.put(triggerWords, actions);
+
+            ArrayList<ArrayList<String>> val;
+            if (MapOfScripts.containsKey(triggerWords)) {
+                val = MapOfScripts.get(triggerWords);
+            } else {
+                val = new ArrayList<ArrayList<String>>();
+            }
+
+            val.add(actions);
+            MapOfScripts.put(triggerWords, val);
         }
     }
 
 
     public boolean performScriptAction(String triggerWords){
 
-//        System.out.println("Trigger words [arg0] are: " + triggerWords);
-//        System.out.println("Map is: " + MapOfScripts.toString());
+        System.out.println("Trigger words [arg0] are: " + triggerWords);
+        System.out.println("Map is: " + MapOfScripts.toString());
 
-        if (isHidden() || triggerWords == null || triggerWords.isEmpty() || !MapOfScripts.containsKey(triggerWords)) return false;
+        if (isHidden() || actionHideShapes.contains(name) || triggerWords == null || triggerWords.isEmpty() || !MapOfScripts.containsKey(triggerWords)) return false;
         triggerWords = triggerWords.trim().toLowerCase();
         if (!triggerWords.equals("on-click") && !triggerWords.equals("on-enter") && !(triggerWords.contains("on-drop"))) return false;
 
-        ArrayList<String> actions = MapOfScripts.get(triggerWords);
-        for (String action: actions) {
-            // execute action
-            String[] words = action.split(" ");
-            if (words[0].equals("goto")) {
-                transitionPage = words[1];
-            } else if (words[0].equals("hide")) {
-                actionHideShapes.add(words[1]);
-            }
-            else if (words[0].equals("show")) {
-                actionShowShapes.add(words[1]);
-            }
-            else if (words[0].equals("play")) {
-                MediaPlayer soundPlayer = MediaPlayer.create(context, context.getResources().getIdentifier(words[1], "raw", context.getPackageName()));
-                soundPlayer.start();
+        if (!MapOfScripts.containsKey(triggerWords)) return false;
 
-                // Citation: https://stackoverflow.com/questions/24326269/setoncompletionlistener-mediaplayer-oncompletionlistener-in-the-type-mediaplay
-                soundPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                    @Override
-                    public void onCompletion(MediaPlayer mediaPlayer) {
-                        mediaPlayer.release();
-                    }
-                });
+        ArrayList<ArrayList<String>> actions = MapOfScripts.get(triggerWords);
+
+        if (actions == null || actions.isEmpty()) return false;
+
+        boolean didSomething = false;
+
+        for (ArrayList<String> withinActions : actions) {
+            if (withinActions == null || withinActions.isEmpty()) continue;
+            for (String action: withinActions) {
+                if (action == null || action.isEmpty()) continue;
+                didSomething = true;
+                // execute action
+                String[] words = action.split(" ");
+                if (words[0].equals("goto")) {
+                    transitionPage = words[1];
+                } else if (words[0].equals("hide")) {
+                    actionHideShapes.add(words[1]);
+                }
+                else if (words[0].equals("show")) {
+                    actionShowShapes.add(words[1]);
+                }
+                else if (words[0].equals("play")) {
+                    MediaPlayer soundPlayer = MediaPlayer.create(context, context.getResources().getIdentifier(words[1], "raw", context.getPackageName()));
+                    soundPlayer.start();
+
+                    // Citation: https://stackoverflow.com/questions/24326269/setoncompletionlistener-mediaplayer-oncompletionlistener-in-the-type-mediaplay
+                    soundPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                        @Override
+                        public void onCompletion(MediaPlayer mediaPlayer) {
+                            mediaPlayer.release();
+                        }
+                    });
 
 
+                }
             }
         }
-        return true;
+        return didSomething;
     }
 
     public void setTextBounds(float textWidth, float textHeight) {
