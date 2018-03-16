@@ -34,6 +34,12 @@ public class EditorView extends View {
             currShape.draw(canvas);
             if (currShape.isSelected()) setFields(currShape.getName(), currShape.getX() + "", currShape.getY() + "", currShape.getWidth() + "", currShape.getHeight() + "");
         }
+        //draw delimiter line
+        Paint paint = new Paint();
+        paint.setColor(Color.BLACK);
+        paint.setStrokeWidth(1f);
+        canvas.drawLine(0, canvas.getHeight() * Page.percentMainPage,
+                canvas.getWidth(), canvas.getHeight() * Page.percentMainPage, paint);
     }
 
     public void drawPage(Page page) {
