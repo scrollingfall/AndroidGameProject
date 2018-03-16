@@ -287,13 +287,14 @@ public class Shape extends RectF {
 
         if (!editorMode && isHidden()) return;
         // (editor mode and is hidden) draw things in 50% opacity
+
         else {
             this.canvas = canvas;
 
             if (x < 0) x = 0;
             if (y < 0) y = 0;
 
-            if ((getText().isEmpty() && image.isEmpty()) || (!image.isEmpty())) {
+            if ((getText().isEmpty())) {
 
                 Paint grayPaintFill = new Paint();
                 grayPaintFill.setColor(Color.LTGRAY);
@@ -315,7 +316,30 @@ public class Shape extends RectF {
 
             }
 
-            if (!image.isEmpty()) {
+            if (!getText().isEmpty()){
+
+                Paint whitePaint = new Paint();
+                whitePaint.setColor(Color.WHITE);
+                whitePaint.setStyle(Paint.Style.FILL);
+
+                Paint textStyle = new Paint();
+                textStyle.setColor(Color.BLACK);
+                textStyle.setStyle(Paint.Style.FILL);
+                textStyle.setTextSize(fontSize);
+
+                if (selected) {
+                    Paint blackPaintBorder = new Paint();
+                    blackPaintBorder.setStrokeWidth(5.0f);
+                    blackPaintBorder.setColor(editorMode ? Color.BLACK : Color.GREEN);
+                    canvas.drawRect(x - 10f, y - textHeight - 10f, x + textWidth + 10f, y + 10f, blackPaintBorder);
+                }
+
+                canvas.drawRect(x, y - textHeight, x + textWidth, y, whitePaint);
+
+                canvas.drawText(getText(), getX(), getY(), textStyle);
+                return;
+
+            } else if (!image.isEmpty()) {
                 Resources resource = context.getResources();
                 int resourceIdentifier = resource.getIdentifier(image, "drawable", context.getPackageName());
                 BitmapDrawable bitmapImageDrawable = (BitmapDrawable) context.getResources().getDrawable(resourceIdentifier);
@@ -338,29 +362,6 @@ public class Shape extends RectF {
                 } else {
                     canvas.drawBitmap(imagePic, getX(), getY(), null);
                 }
-
-            }
-            else if (!getText().isEmpty()){
-
-                Paint whitePaint = new Paint();
-                whitePaint.setColor(Color.WHITE);
-                whitePaint.setStyle(Paint.Style.FILL);
-
-                Paint textStyle = new Paint();
-                textStyle.setColor(Color.BLACK);
-                textStyle.setStyle(Paint.Style.FILL);
-                textStyle.setTextSize(fontSize);
-
-                if (selected) {
-                    Paint blackPaintBorder = new Paint();
-                    blackPaintBorder.setStrokeWidth(5.0f);
-                    blackPaintBorder.setColor(editorMode ? Color.BLACK : Color.GREEN);
-                    canvas.drawRect(x - 10f, y - textHeight - 10f, x + textWidth + 10f, y + 10f, blackPaintBorder);
-                }
-
-                canvas.drawRect(x, y - textHeight, x + textWidth, y, whitePaint);
-
-                canvas.drawText(getText(), getX(), getY(), textStyle);
 
             }
         }
@@ -476,7 +477,7 @@ public class Shape extends RectF {
 
 
     public boolean isTouched (float xq, float yq) {
-        if (image.isEmpty() && !text.isEmpty()) {
+        if (!text.isEmpty()) {
             return (!hidden || editorMode) && xq >= x && xq <= x + textWidth && yq >= (y - textHeight) && yq <= y;
         }
         return (!hidden || editorMode) && xq >= x && xq <= x + width && yq >= y && yq <= y + height;
