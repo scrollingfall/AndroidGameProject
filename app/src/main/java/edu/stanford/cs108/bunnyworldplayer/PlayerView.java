@@ -99,14 +99,19 @@ public class PlayerView extends View {
                             oldSelect.move(startx, starty);
                         }
                         if (oldSelect.getY() >= oldPage.getHeight()* Page.percentMainPage
-                                && oldSelecty < oldPage.getHeight() * Page.percentMainPage)
+                                && oldSelecty < oldPage.getHeight() * Page.percentMainPage) {
+                            System.out.println(oldPage.getName() + " is moving " + oldSelect.getName() + " to backpack");
                             oldPage.moveToBackpack(oldSelect.getName());
-                        else if (oldSelect.getY() < oldPage.getHeight()* Page.percentMainPage
-                                && oldSelecty >= oldPage.getHeight() * Page.percentMainPage)
+                        } else if (oldSelect.getY() < oldPage.getHeight()* Page.percentMainPage
+                                && oldSelecty >= oldPage.getHeight() * Page.percentMainPage) {
+                            System.out.println(oldPage.getName() + " is moving " + oldSelect.getName() + " from backpack");
                             oldPage.moveFromBackpack(oldSelect.getName());
+                        }
                     }
                     currentlySelected = null;
                     currentlySelectedIndex = -1;
+                    oldSelectx = -1;
+                    oldSelecty = -1;
                     invalidate();
                 }
         }

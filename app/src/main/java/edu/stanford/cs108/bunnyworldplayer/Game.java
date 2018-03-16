@@ -18,7 +18,7 @@ public class Game {
     private ArrayList<Page> pageList = new ArrayList<>();
     private String starter;
     private String currentPage;
-    private Page posessions;
+    private HashMap<String, Shape> resources = new HashMap<String, Shape>();
     private Context context;
     private HashMap<String, BitmapDrawable> imgResources;
     private HashMap<String, Integer> musicResources;
@@ -52,7 +52,6 @@ public class Game {
 //        pageList = new ArrayList<>();
         pages.put(firstPage.getName(), firstPage);
         pageList.add(firstPage);
-        posessions = new Page("posessions", 100, 100, name); //random values
         this.editorMode = false;
         initResources();
     }
@@ -174,6 +173,10 @@ public class Game {
 
     public void setMusicResources(HashMap<String, Integer> musicResources) {
         this.musicResources = musicResources;
+    }
+
+    public HashMap<String, Shape> getResources() {
+        return resources;
     }
 
     //todo parsing collection

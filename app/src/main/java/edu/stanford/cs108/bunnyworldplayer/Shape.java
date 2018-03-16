@@ -467,4 +467,9 @@ public class Shape extends RectF {
         }
         return "";
     }
+
+    public String toString() {
+        return name;
+    }
+
 }
