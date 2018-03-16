@@ -18,6 +18,12 @@ public class PlayerActivity extends Activity {
         databaseInstance = DatabaseInstance.getDBinstance(getApplicationContext());
         String currgamename = databaseInstance.getCurrentGameName();
         currentgame = databaseInstance.getGame(currgamename);
+        System.out.println("game in player actvity");
+        System.out.println(currgamename);
+        System.out.println(currentgame.getName());
+
+
+
 
 
 
