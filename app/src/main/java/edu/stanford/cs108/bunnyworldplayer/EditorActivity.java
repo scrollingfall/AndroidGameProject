@@ -186,7 +186,14 @@ public class EditorActivity extends AppCompatActivity {
 
 
         String currPageName = pageNameField.getText().toString().trim();
-
+        
+        if (currPageName.length() == 0) {
+            giveToast("Please give the page a name");
+        } else if (newGame.getPages().containsKey(currPageName)) {
+            giveToast("Oops! Looks like there's already another page with that name...");
+        } else {
+            System.out.println("currPageName: " + currPageName);
+            System.out.println("currPage.getName(): " + currPage.getName());
             newGame.removePage(currPage.getName(), currPage);
 
             // update spinner
@@ -203,6 +210,7 @@ public class EditorActivity extends AppCompatActivity {
             }
 
             giveToast("Page \"" + currPage.getName() + "\" saved");
+        }
 
     }
 

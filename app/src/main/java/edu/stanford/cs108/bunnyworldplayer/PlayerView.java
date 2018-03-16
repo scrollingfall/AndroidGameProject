@@ -45,6 +45,7 @@ public class PlayerView extends View {
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()){
             case MotionEvent.ACTION_DOWN:
+                //System.out.println("down: "+event.getX() + " " +event.getY());
                 getTopAt(event.getX(), event.getY(), -1);
                 if (currentlySelected != null) {
                     startx = event.getX();
@@ -60,13 +61,16 @@ public class PlayerView extends View {
                 }
                 break;
             case MotionEvent.ACTION_MOVE:
+                //System.out.println("move: "+event.getX() + " " +event.getY());
                 if (currentlySelected != null && currentlySelected.isMoveable()) {
                     float dx = event.getX() - startx;
                     float dy = event.getY() - starty;
                     currentlySelected.move(oldSelectx + dx, oldSelecty + dy);
                     invalidate();
                 }
+                break;
             case MotionEvent.ACTION_UP:
+                //System.out.println("up: "+event.getX() + " " +event.getY());
                 if (currentlySelected != null) {
                     if (Math.abs(event.getX() - startx) < clickThreshold && Math.abs(event.getY() - starty) < clickThreshold) { //counts as click if little movement occurred
                         if (currentlySelected.performScriptAction("on click")) {
