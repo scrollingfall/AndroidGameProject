@@ -70,7 +70,7 @@ public class ShapeEditor extends AppCompatActivity {
 
         currPage = EditorActivity.currPage;
         selectedShape = currPage.getSelectedShape();
-        toastify("OUTPUT: Shape is " + selectedShape.isEditable());
+        //toastify("OUTPUT: Shape is " + selectedShape.isEditable());
 
         if (selectedShape == null) {
             toastify("Warning: No shape is selected");

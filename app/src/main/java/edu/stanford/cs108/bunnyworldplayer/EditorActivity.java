@@ -186,7 +186,7 @@ public class EditorActivity extends AppCompatActivity {
 
 
         String currPageName = pageNameField.getText().toString().trim();
-        
+
         if (currPageName.length() == 0) {
             giveToast("Please give the page a name");
         } else if (newGame.getPages().containsKey(currPageName)) {
@@ -230,7 +230,10 @@ public class EditorActivity extends AppCompatActivity {
     }
 
     public void onAddShape(View view) {
-        shapeCounter = currPage.getShapeList().size();
+        shapeCounter = 0;
+        for (Page p : newGame.getPageList()) {
+            shapeCounter += p.getShapeList().size();
+        }
         shapeCounter += 1;
         String shapeName = "shape" + Integer.toString(shapeCounter);
 
