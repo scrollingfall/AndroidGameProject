@@ -281,11 +281,11 @@ public class Shape extends RectF {
         return onDrop.containsKey(name);
     }
 
-    //todo: if(editorMode && isHidden()) then draw things at 50% opacitiy
+    // if(editorMode && isHidden()) then draw things at 50% opacitiy
     public void draw(Canvas canvas) {
 
         if (!editorMode && isHidden()) return;
-        //todo (editor mode and is hidden) draw things in 50% opacity
+        // (editor mode and is hidden) draw things in 50% opacity
         else {
             this.canvas = canvas;
 
