@@ -26,7 +26,7 @@ public class Page {
     private boolean starter;
     private static HashMap<String, Shape> resources = new HashMap<String, Shape>();
     private boolean editorMode;
-    private static float percentMainPage = 0.80f;
+    public static float percentMainPage = 0.80f;
     private String pageID;
 
     public Page(String name, float width, float height, String gameOwner) {
@@ -107,8 +107,11 @@ public class Page {
         return starter;
     }
 
+    //returns an interable list of all shapes on screen, including those in backpack
     public ArrayList<Shape> getShapeList() {
-        return shapeList;
+        ArrayList<Shape> newList = new ArrayList<Shape>(shapeList);
+        newList.addAll(resources.values());
+        return newList;
     }
 
     public boolean addShape(Shape s) {
