@@ -428,7 +428,11 @@ public class Shape extends RectF {
 
         if (!MapOfScripts.containsKey(triggerWords)) return false;
 
+        System.out.println("Got this far with " + triggerWords);
+
         ArrayList<ArrayList<String>> actions = MapOfScripts.get(triggerWords);
+
+        System.out.println("FIRST ACTION FOR " + triggerWords + " is: " + actions.get(0).toString());
 
         if (actions == null || actions.isEmpty()) return false;
 
@@ -437,6 +441,7 @@ public class Shape extends RectF {
         for (ArrayList<String> withinActions : actions) {
             if (withinActions == null || withinActions.isEmpty()) continue;
             for (String action: withinActions) {
+                System.out.println("Currently processing " + triggerWords + " " + action);
                 if (action == null || action.isEmpty()) continue;
                 didSomething = true;
                 // execute action
@@ -448,6 +453,8 @@ public class Shape extends RectF {
                 }
                 else if (words[0].equals("show")) {
                     actionShowShapes.add(words[1]);
+                    System.out.println("ASKING TO SHOW " + words[1]);
+
                 }
                 else if (words[0].equals("play")) {
                     MediaPlayer soundPlayer = MediaPlayer.create(context, context.getResources().getIdentifier(words[1], "raw", context.getPackageName()));
@@ -484,8 +491,7 @@ public class Shape extends RectF {
     }
 
     public String getTransition() {
-        if (!transitionPage.isEmpty())
-        {
+        if (!transitionPage.isEmpty()) {
             String result = transitionPage;
             transitionPage = "";
             return result;
@@ -494,16 +500,16 @@ public class Shape extends RectF {
     }
 
     public ArrayList<String> getHiddenShapes() {
-        if (this.actionShowShapes.isEmpty()) return this.actionHideShapes;
+        if (this.actionHideShapes.isEmpty()) return this.actionHideShapes;
         ArrayList<String> toReturn = this.actionHideShapes;
-        actionHideShapes.clear();
+        actionHideShapes = new ArrayList<String>();
         return toReturn;
     }
 
     public ArrayList<String> getShownShapes() {
         if (this.actionShowShapes.isEmpty()) return this.actionShowShapes;
         ArrayList<String> toReturn = this.actionShowShapes;
-        actionShowShapes.clear();
+        actionShowShapes = new ArrayList<String>();
         return toReturn;
     }
 

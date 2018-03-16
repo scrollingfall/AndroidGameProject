@@ -178,7 +178,33 @@ public class Page {
 
     public void onEnter() {
         for (Shape s : shapeList) {
-            s.performScriptAction("on-enter");
+
+            boolean action = s.performScriptAction("on-enter");
+            if (!action) continue;
+
+            System.out.println("ACTION TAKEN BY: " + s.getName());
+
+            ArrayList<String> toShow = s.getShownShapes();
+            System.out.println("TO SHOW IS: " + toShow.toString());
+
+            if (toShow != null && !toShow.isEmpty()) {
+                for (String currName : toShow) {
+                    System.out.println("SHOWING " + currName);
+                    Shape currShape = game.getShape(currName);
+                    if (currShape != null) currShape.setHidden(false);
+                }
+            }
+
+            ArrayList<String> toHide = s.getHiddenShapes();
+            System.out.println("TO HIDE IS: " + toHide.toString());
+
+            if (toHide != null && !toHide.isEmpty()) {
+                for (String currName : toHide) {
+                    Shape currShape = game.getShape(currName);
+                    if (currShape != null) currShape.setHidden(true);
+                }
+            }
+
         }
     }
 

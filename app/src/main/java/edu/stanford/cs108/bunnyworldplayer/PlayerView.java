@@ -12,6 +12,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -79,24 +80,11 @@ public class PlayerView extends View {
                     if (Math.abs(event.getX() - startx) <= clickThreshold && Math.abs(event.getY() - starty) <= clickThreshold) { //counts as click if little movement occurred
                         if (currentlySelected.performScriptAction("on-click")) {
                             String transition = currentlySelected.getTransition();
-                            ArrayList<String> shown = currentlySelected.getShownShapes();
-                            ArrayList<String> hidden = currentlySelected.getHiddenShapes();
                             if (!transition.isEmpty()) {
                                 game.setCurrentPage(transition); //are we doing error checking on valid pages?
                                 justentered = true;
                             }
-                            if (shown != null && !shown.isEmpty()) {
-                                for (String shapeName : shown) {
-                                    Shape toShow = game.getShape(shapeName);
-                                    if (toShow != null) toShow.setHidden(false);
-                                }
-                            }
-                            if (hidden != null && !hidden.isEmpty()) {
-                                for (String shapeName : hidden) {
-                                    Shape toHide = game.getShape(shapeName);
-                                    if (toHide != null) toHide.setHidden(true);
-                                }
-                            }
+                            hideOrShowShapes(currentlySelected);
                         }
                     } else if (currentlySelected.isMoveable()) { //otherwise counts as drag
                         Page oldPage = game.getCurrentPage();
@@ -111,6 +99,7 @@ public class PlayerView extends View {
                                 game.setCurrentPage(transition); //are we doing error checking on valid pages?
                                 justentered = true;
                             }
+                            hideOrShowShapes(currentlySelected);
                         } else if (currentlySelected != null){
                             oldSelect.move(startx, starty);
                         }
@@ -134,6 +123,24 @@ public class PlayerView extends View {
         return true;
     }
 
+    private void hideOrShowShapes (Shape current) {
+        if (current == null || game == null) return;
+        ArrayList<String> shown = current.getShownShapes();
+        ArrayList<String> hidden = current.getHiddenShapes();
+        if (shown != null && !shown.isEmpty()) {
+            for (String shapeName : shown) {
+                Shape toShow = game.getShape(shapeName);
+                if (toShow != null) toShow.setHidden(false);
+            }
+        }
+        if (hidden != null && !hidden.isEmpty()) {
+            for (String shapeName : hidden) {
+                Shape toHide = game.getShape(shapeName);
+                if (toHide != null) toHide.setHidden(true);
+            }
+        }
+    }
+
     private void getTopAt(float x, float y, int avoid) {
         for (int i = game.getCurrentPage().getShapeList().size() - 1; i >= 0; i--) {
             if (i != avoid && game.getCurrentPage().getShapeList().get(i).isTouched(x, y)) {
@@ -146,13 +153,31 @@ public class PlayerView extends View {
         currentlySelectedIndex = -1;
     }
 
+    private void giveToast(String msg) {
+        Toast toast = Toast.makeText(
+                getContext(),
+                msg,
+                Toast.LENGTH_LONG);
+        toast.show();
+    }
+
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         if (game != null) {
             if (justentered) {
-                game.getCurrentPage().onEnter();
+                Page curr = game.getCurrentPage();
+                if (curr == null) {
+                    System.out.println("PAGE WAS NULL");
+                    game.setCurrentPage(game.getStarter()); // Try going back to starter
+                    if (game.getCurrentPage() == null) { // Starter is null - nowhere to go from here
+                        giveToast("There was an error with this page. Make sure it has a starter page assigned!");
+                        ((Activity) getContext()).finish(); // Finish activity
+                        return;
+                    }
+                }
+                curr.onEnter();
                 justentered = false;
             }
             game.getCurrentPage().draw(canvas);
