@@ -24,6 +24,7 @@ public class EditorView extends View {
 
     public EditorView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        page.setGame(EditorActivity.newGame);
     }
 
     @Override
@@ -34,6 +35,12 @@ public class EditorView extends View {
             currShape.draw(canvas);
             if (currShape.isSelected()) setFields(currShape.getName(), currShape.getX() + "", currShape.getY() + "", currShape.getWidth() + "", currShape.getHeight() + "");
         }
+        //draw delimiter line
+        Paint paint = new Paint();
+        paint.setColor(Color.BLACK);
+        paint.setStrokeWidth(1f);
+        canvas.drawLine(0, canvas.getHeight() * Page.percentMainPage,
+                canvas.getWidth(), canvas.getHeight() * Page.percentMainPage, paint);
     }
 
     public void drawPage(Page page) {
@@ -116,15 +123,18 @@ public class EditorView extends View {
                 if (touchedShape != null) {
                     float deltaX = event.getX() - origTouchX;
                     float deltaY = deltaY = event.getY() - origTouchY;
+                    float bottom = viewHeight * Page.percentMainPage;
+
+                    // checking boundaries
                     if (origX + deltaX <= viewWidth - touchedShape.getWidth()
-                            && origY + deltaY <= viewHeight - touchedShape.getHeight()) {
+                            && origY + deltaY <= bottom - touchedShape.getHeight()) {
                         touchedShape.move(origX + deltaX, origY + deltaY);
                     } else if (origX + deltaX > viewWidth - touchedShape.getWidth()
-                            && origY + deltaY <= viewHeight - touchedShape.getHeight()) {
+                            && origY + deltaY <= bottom - touchedShape.getHeight()) {
                         touchedShape.move(viewWidth - touchedShape.getWidth(), origY + deltaY);
                     } else if (origX + deltaX <= viewWidth - touchedShape.getWidth()
-                            &&origY + deltaY > viewHeight - touchedShape.getHeight()) {
-                        touchedShape.move(origX + deltaX, viewHeight - touchedShape.getHeight());
+                            &&origY + deltaY > bottom - touchedShape.getHeight()) {
+                        touchedShape.move(origX + deltaX, bottom - touchedShape.getHeight());
                     } else {
                         break;
                     }
@@ -133,6 +143,7 @@ public class EditorView extends View {
                     String x;
                     String y;
 
+                    // updating text fields
                     if (origX + deltaX >= viewWidth - touchedShape.getWidth()) {
                         x = Float.toString(viewWidth - touchedShape.getWidth());
                     } else if (origX + deltaX > 0) {
@@ -140,8 +151,8 @@ public class EditorView extends View {
                     } else
                         x = "0";
 
-                    if (origY + deltaY >= viewHeight - touchedShape.getHeight()) {
-                        y = Float.toString(viewHeight - touchedShape.getHeight());
+                    if (origY + deltaY >= bottom - touchedShape.getHeight()) {
+                        y = Float.toString(bottom - touchedShape.getHeight());
                     } else if (origY + deltaY > 0) {
                         y = Float.toString(origY + deltaY);
                     } else {

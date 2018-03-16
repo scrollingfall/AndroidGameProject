@@ -18,11 +18,12 @@ public class Game {
     private ArrayList<Page> pageList = new ArrayList<>();
     private String starter;
     private String currentPage;
-    private Page posessions;
+    private HashMap<String, Shape> resources = new HashMap<String, Shape>();
     private Context context;
     private HashMap<String, BitmapDrawable> imgResources;
     private HashMap<String, Integer> musicResources;
     private boolean editorMode;
+    private HashMap<String, String> idToName = new HashMap<String, String>();;
 
 
     public Game(String name, Context context) {
@@ -30,6 +31,15 @@ public class Game {
         this.editorMode = false;
         this.context = context;
         initResources();
+    }
+
+    public String pageIDtoName (String pageID) {
+        if (idToName.containsKey(pageID)) return idToName.get(pageID);
+        return pageID;
+    }
+
+    public void linkIDtoName (String pageID, String pageName) {
+        idToName.put(pageID, pageName);
     }
 
     public Game(String name, Page firstPage, Context context) {
@@ -42,7 +52,6 @@ public class Game {
 //        pageList = new ArrayList<>();
         pages.put(firstPage.getName(), firstPage);
         pageList.add(firstPage);
-        posessions = new Page("posessions", 100, 100, name); //random values
         this.editorMode = false;
         initResources();
     }
@@ -139,7 +148,11 @@ public class Game {
     }
 
     public Page getCurrentPage() {
-        return pages.get(currentPage);
+        if (pages.containsKey(currentPage)) {
+            return(pages.get(currentPage));
+        } else {
+            return(pages.get(pageIDtoName(currentPage)));
+        }
     }
 
     public void setCurrentPage(String currentPage) {
@@ -160,6 +173,10 @@ public class Game {
 
     public void setMusicResources(HashMap<String, Integer> musicResources) {
         this.musicResources = musicResources;
+    }
+
+    public HashMap<String, Shape> getResources() {
+        return resources;
     }
 
     //todo parsing collection

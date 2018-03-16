@@ -16,6 +16,7 @@ import android.media.MediaPlayer;
 import android.support.annotation.Nullable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.StringTokenizer;
 import java.util.UUID;
@@ -86,7 +87,8 @@ public class Shape extends RectF {
     }
 
     public void setScriptList(String scriptString){
-        if (scriptString != null) {
+        if (scripts == null) scripts = new ArrayList<String>();
+        if (scriptString != null && !scriptString.isEmpty()) {
             StringTokenizer st = new StringTokenizer(scriptString, ";");
             while (st.hasMoreTokens()) scripts.add(st.nextToken());
         }
@@ -96,7 +98,7 @@ public class Shape extends RectF {
         if (scripts == null || scripts.isEmpty()) return "";
         String scriptString = "";
         for (String script : scripts ){
-            scriptString += script;
+            scriptString += script + ";";
         }
         return scriptString;
     }
@@ -280,11 +282,11 @@ public class Shape extends RectF {
         return onDrop.containsKey(name);
     }
 
-    //todo: if(editorMode && isHidden()) then draw things at 50% opacitiy
+    // if(editorMode && isHidden()) then draw things at 50% opacitiy
     public void draw(Canvas canvas) {
 
         if (!editorMode && isHidden()) return;
-        //todo (editor mode and is hidden) draw things in 50% opacity
+        // (editor mode and is hidden) draw things in 50% opacity
         else {
             this.canvas = canvas;
 
@@ -375,27 +377,30 @@ public class Shape extends RectF {
         setTextBounds(2*w, textSize);
     }
 
-    public void setScriptMap(){
+    public void setScriptMap() {
+        if (scripts == null || scripts.isEmpty()) return;
         for (String script: scripts) {
             ArrayList<String> scriptWords = new ArrayList<>();
+
             StringTokenizer st = new StringTokenizer(script, " ");
             while (st.hasMoreTokens()) scriptWords.add(st.nextToken());
-            String triggerWords = scriptWords.get(0) + " " + scriptWords.get(1);
+
+            String triggerWords = scriptWords.get(0);
             scriptWords.remove(scriptWords.get(0));
-            scriptWords.remove(scriptWords.get(0));
-            if (triggerWords.equals("on drop")){
+
+            if (triggerWords.equals("on-drop")) {
                 triggerWords += " " + scriptWords.get(0);
                 scriptWords.remove(scriptWords.get(0));
             }
 
-
-
             ArrayList<String> actions = new ArrayList<>();
-            for(int i = 0; i< scriptWords.size(); i++) {
-                String actionWord = scriptWords.get(i);
-                if (actionWord.equals("hide") || actionWord.equals("show") || actionWord.equals("goto") || actionWord.equals("play") || actionWord.equals("transform")) {
-                    actions.add(actionWord + " " + scriptWords.get(i + 1));
-                }
+            int i = 0;
+            while (i < scriptWords.size()) {
+
+                String actionWord = scriptWords.get(i).toLowerCase().trim();
+                actions.add(actionWord + " " + scriptWords.get(i + 1));
+
+                i += 2;
             }
             MapOfScripts.put(triggerWords, actions);
         }
@@ -403,8 +408,10 @@ public class Shape extends RectF {
 
 
     public boolean performScriptAction(String triggerWords){
-        if (isHidden() || !MapOfScripts.containsKey(triggerWords)) return false;
-        if (!triggerWords.equals("on click") || !triggerWords.equals("on enter") || !(triggerWords.contains("on drop"))) return false;
+
+        if (isHidden() || triggerWords == null || triggerWords.isEmpty() || !MapOfScripts.containsKey(triggerWords)) return false;
+        triggerWords = triggerWords.trim().toLowerCase();
+        if (!triggerWords.equals("on-click") && !triggerWords.equals("on-enter") && !(triggerWords.equals("on-drop"))) return false;
 
         ArrayList<String> actions = MapOfScripts.get(triggerWords);
         for (String action: actions) {
@@ -412,8 +419,12 @@ public class Shape extends RectF {
             String[] words = action.split(" ");
             if (words[0].equals("goto")) {
                 transitionPage = words[1];
-            } else if (words[0].equals("hide")) actionHideShapes.add(words[1]);
-            else if (words[0].equals("show")) actionShowShapes.add(words[1]);
+            } else if (words[0].equals("hide")) {
+                actionHideShapes.add(words[1]);
+            }
+            else if (words[0].equals("show")) {
+                actionShowShapes.add(words[1]);
+            }
             else if (words[0].equals("play")) {
                 MediaPlayer soundPlayer = MediaPlayer.create(context, context.getResources().getIdentifier(words[1], "raw", context.getPackageName()));
                 soundPlayer.start();
@@ -456,4 +467,9 @@ public class Shape extends RectF {
         }
         return "";
     }
+
+    public String toString() {
+        return name;
+    }
+
 }

@@ -70,7 +70,7 @@ public class ShapeEditor extends AppCompatActivity {
 
         currPage = EditorActivity.currPage;
         selectedShape = currPage.getSelectedShape();
-        toastify("OUTPUT: Shape is " + selectedShape.isEditable());
+        //toastify("OUTPUT: Shape is " + selectedShape.isEditable());
 
         if (selectedShape == null) {
             toastify("Warning: No shape is selected");
@@ -236,6 +236,7 @@ public class ShapeEditor extends AppCompatActivity {
     // Hides shapes from second spinner
     private void hideShapes() {
         Spinner shapes = (Spinner) findViewById(R.id.shapeSpinner);
+        shapeSelected = "";
         shapes.setEnabled(false);
         shapes.setClickable(false);
     }
@@ -351,7 +352,7 @@ public class ShapeEditor extends AppCompatActivity {
         }
 
         toAdd += (action + " ");
-        toAdd += (res + ";");
+        toAdd += (res);
 
         overallScript.add(toAdd);
         previewScript();
@@ -360,7 +361,7 @@ public class ShapeEditor extends AppCompatActivity {
     private String listToString(ArrayList<String> arr) {
         StringBuilder s = new StringBuilder();
         for (int i = 0; i < arr.size(); i++) {
-            s.append(arr.get(i));
+            s.append(arr.get(i) + ";");
             if (i != arr.size() - 1) {
                 s.append(" ");
             }
@@ -394,6 +395,19 @@ public class ShapeEditor extends AppCompatActivity {
         if (name.isEmpty() || x.isEmpty() || y.isEmpty() || width.isEmpty() || height.isEmpty()) {
             toastify ("Please fill out all fields");
             return;
+        }
+
+        // perform shape name error checking
+        ArrayList<Page> pageList = currGame.getPageList();
+        for (Page p : pageList) {
+            if (p.getShapes().containsKey(name)) {
+                for (Shape s : p.getShapeList()) {
+                    if (s.getName().equals(name) && s != selectedShape) {
+                        toastify("Oops! Looks like another shape has that name...");
+                        return;
+                    }
+                }
+            }
         }
 
         String shapeText = ((EditText) findViewById(R.id.shapeText)).getText().toString();

@@ -20,7 +20,7 @@ public class EditorActivity extends AppCompatActivity {
     ArrayList<String> pageNamesList = new ArrayList<>();
     Spinner pageSpinner;
     int pageCounter;
-    int shapeCounter = 0;
+    int shapeCounter;
     ArrayAdapter<String> adapter;
     EditText gameNameField;
     EditText pageNameField;
@@ -47,14 +47,13 @@ public class EditorActivity extends AppCompatActivity {
         newGame = databaseinstance.getGame(currentGameName);
         newGame.setEditorMode(true);
 
-        System.out.println("new Game starter from onCreate in EA: "+ newGame.getStarter());
-
-        System.out.println("databaseinstance.getPageid() in onCreate: " + databaseinstance.getPageid());
-
         starterPage = databaseinstance.getPage(databaseinstance.getPageid());
 
+        starterPage.setStarter(true, starterPage.getWidth(), starterPage.getHeight());
+        newGame.setStarter(starterPage.getName());
         currPage = starterPage;
-        //starterPage.setStarter(true, starterPage.getWidth(), starterPage.getHeight());
+        System.out.println(currPage.isStarter());
+        System.out.println(currPage.getName());
 
 
         gameNameField.setText(databaseinstance.getCurrentGameName());
@@ -104,7 +103,9 @@ public class EditorActivity extends AppCompatActivity {
             }
 
         });
-
+        System.out.println(currPage.isStarter());
+        System.out.println(currPage.getName());
+        System.out.println(currPage.getPageId());
     }
 
 
@@ -144,7 +145,6 @@ public class EditorActivity extends AppCompatActivity {
     }
 
     public void onDeleteGame(View view) {
-        // todo: delete game from db
         databaseinstance.removeGame(currentGameName);
         giveToast("Game \"" + newGame.getName() + "\" deleted");
         Intent intent = new Intent(EditorActivity.this, GameListEdit.class);
@@ -167,9 +167,6 @@ public class EditorActivity extends AppCompatActivity {
 
     public void onMakeStarter(View view) {
         String prevStarterId = starterPage.getPageId();
-
-        System.out.println("newGame starter from onMakeStarter: " + prevStarterId);
-        System.out.println(currPage.getPageId());
 
         if (!prevStarterId.equals(currPage.getPageId())) {
             // undo old starter
@@ -194,36 +191,63 @@ public class EditorActivity extends AppCompatActivity {
 
         String currPageName = pageNameField.getText().toString().trim();
 
-            newGame.removePage(currPage.getName(), currPage);
+        if (currPageName.length() == 0) {
+            giveToast("Please give the page a name");
+            return;
+        }
 
-            // update spinner
-            int index = pageNamesList.indexOf(currPage.getName());
-//            System.out.println("Index: " + index);
-//            System.out.println("currPage name: " + currPage.getName());
-            pageNamesList.set(index, currPageName);
-
-            // add page with new name
-            currPage.setName(currPageName);
-            newGame.addPage(currPage.getName(), currPage);
-
-            // update name for Game's starter page if currPage is a starter page
-            if (currPage.isStarter()) {
-                newGame.setStarter(currPage.getPageId());
+        // perform page name error checking
+        ArrayList<Page> pageList = newGame.getPageList();
+        for (Page p : pageList) {
+            if (p.getName().equals(currPageName) && p != currPage) {
+                giveToast("Oops! Looks like there's another page with that name...");
             }
+        }
 
-            giveToast("Page \"" + currPage.getName() + "\" saved");
+        System.out.println("currPageName: " + currPageName);
+        System.out.println("currPage.getName(): " + currPage.getName());
+        newGame.removePage(currPage.getName(), currPage);
+
+        // update spinner
+        int index = pageNamesList.indexOf(currPage.getName());
+        pageNamesList.set(index, currPageName);
+
+        // add page with new name
+        currPage.setName(currPageName);
+        newGame.addPage(currPage.getName(), currPage);
+
+        // update name for Game's starter page if currPage is a starter page
+        if (currPage.isStarter()) {
+            newGame.setStarter(currPage.getPageId());
+        }
+
+        giveToast("Page \"" + currPage.getName() + "\" saved");
 
     }
 
     public void onDeletePage(View view) {
+        System.out.println(currPage.isStarter());
+        System.out.println(currPage.getPageId());
+        System.out.println(currPage.getName());
+        System.out.println(starterPage.isStarter());
+        System.out.println(starterPage.getName());
+        System.out.println(starterPage.getPageId());
         if (!currPage.isStarter()) {
+            System.out.println(pageNamesList);
+            pageNamesList.remove(currPage);//does nothing
+            System.out.println(pageNamesList);
+            adapter.notifyDataSetChanged();
             // go back to starter page and draw it; remove currPage from Game
+            System.out.println(newGame.getPages());
             newGame.removePage(currPage.getName(), currPage);
+            System.out.println(newGame.getPages());
             giveToast("Page \"" + currPage.getName() + "\" deleted");
             currPage = starterPage;
 
             EditorView editorview = (EditorView) findViewById(R.id.previewArea);
             editorview.drawPage(currPage);
+
+            pageNameField.setText(starterPage.getName());
 
         } else {
             giveToast("Cannot delete starter page");
@@ -231,8 +255,13 @@ public class EditorActivity extends AppCompatActivity {
     }
 
     public void onAddShape(View view) {
+        shapeCounter = 0;
+        for (Page p : newGame.getPageList()) {
+            shapeCounter += p.getShapeList().size();
+        }
         shapeCounter += 1;
         String shapeName = "shape" + Integer.toString(shapeCounter);
+
         float randX = (float) Math.random() * 1000 + 350;
         float randY = (float) Math.random() * 500 + 150;
         Shape newShape = new Shape(this, shapeName, currPage.toString(), randX, randY, 200, 200);

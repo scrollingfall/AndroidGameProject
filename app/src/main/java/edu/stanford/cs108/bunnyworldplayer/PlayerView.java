@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
 //import android.support.annotation.Nullable;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -45,6 +47,7 @@ public class PlayerView extends View {
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()){
             case MotionEvent.ACTION_DOWN:
+                //System.out.println("down: "+event.getX() + " " +event.getY());
                 getTopAt(event.getX(), event.getY(), -1);
                 if (currentlySelected != null) {
                     startx = event.getX();
@@ -60,16 +63,19 @@ public class PlayerView extends View {
                 }
                 break;
             case MotionEvent.ACTION_MOVE:
+                //System.out.println("move: "+event.getX() + " " +event.getY());
                 if (currentlySelected != null && currentlySelected.isMoveable()) {
                     float dx = event.getX() - startx;
                     float dy = event.getY() - starty;
                     currentlySelected.move(oldSelectx + dx, oldSelecty + dy);
                     invalidate();
                 }
+                break;
             case MotionEvent.ACTION_UP:
+                //System.out.println("up: "+event.getX() + " " +event.getY());
                 if (currentlySelected != null) {
-                    if (Math.abs(event.getX() - startx) < clickThreshold && Math.abs(event.getY() - starty) < clickThreshold) { //counts as click if little movement occurred
-                        if (currentlySelected.performScriptAction("on click")) {
+                    if (Math.abs(event.getX() - startx) <= clickThreshold && Math.abs(event.getY() - starty) <= clickThreshold) { //counts as click if little movement occurred
+                        if (currentlySelected.performScriptAction("on-click")) {
                             String transition = currentlySelected.getTransition();
                             if (!transition.isEmpty()) {
                                 game.setCurrentPage(transition); //are we doing error checking on valid pages?
@@ -83,7 +89,7 @@ public class PlayerView extends View {
                         }
                         Shape oldSelect = currentlySelected;
                         getTopAt(event.getX(), event.getY(), currentlySelectedIndex);
-                        if (currentlySelected != null && currentlySelected.performScriptAction("on drop " + oldSelect.getName())) {
+                        if (currentlySelected != null && currentlySelected.performScriptAction("on-drop " + oldSelect.getName())) {
                             String transition = currentlySelected.getTransition();
                             if (!transition.isEmpty()) {
                                 game.setCurrentPage(transition); //are we doing error checking on valid pages?
@@ -93,14 +99,19 @@ public class PlayerView extends View {
                             oldSelect.move(startx, starty);
                         }
                         if (oldSelect.getY() >= oldPage.getHeight()* Page.percentMainPage
-                                && oldSelecty < oldPage.getHeight() * Page.percentMainPage)
+                                && oldSelecty < oldPage.getHeight() * Page.percentMainPage) {
+                            System.out.println(oldPage.getName() + " is moving " + oldSelect.getName() + " to backpack");
                             oldPage.moveToBackpack(oldSelect.getName());
-                        else if (oldSelect.getY() < oldPage.getHeight()* Page.percentMainPage
-                                && oldSelecty >= oldPage.getHeight() * Page.percentMainPage)
+                        } else if (oldSelect.getY() < oldPage.getHeight()* Page.percentMainPage
+                                && oldSelecty >= oldPage.getHeight() * Page.percentMainPage) {
+                            System.out.println(oldPage.getName() + " is moving " + oldSelect.getName() + " from backpack");
                             oldPage.moveFromBackpack(oldSelect.getName());
+                        }
                     }
                     currentlySelected = null;
                     currentlySelectedIndex = -1;
+                    oldSelectx = -1;
+                    oldSelecty = -1;
                     invalidate();
                 }
         }
@@ -129,11 +140,16 @@ public class PlayerView extends View {
                 justentered = false;
             }
             game.getCurrentPage().draw(canvas);
+            //Paint paint = new Paint();
+            //paint.setColor(Color.BLACK);
+            //paint.setStrokeWidth(10f);
+            //canvas.drawLine(0, canvas.getHeight() * Page.percentMainPage, canvas.getWidth(), canvas.getHeight() * Page.percentMainPage, paint);
         }
     }
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
+        setSize(w,h);
     }
 }

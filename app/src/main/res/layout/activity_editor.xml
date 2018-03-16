@@ -6,100 +6,117 @@
     android:layout_height="match_parent"
     tools:context="edu.stanford.cs108.bunnyworldplayer.EditorActivity">
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerInParent="true"
-            android:id="@+id/topGrid">
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_alignParentLeft="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Game: "/>
-                <EditText
-                    android:id="@+id/gameNameField"
-                    android:layout_width="350px"
-                    android:layout_height="wrap_content"
-                    android:maxLength="30"
-                    android:hint="Name"
-                    />
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="SAVE\nGAME"
-                    android:onClick="onSaveGame"/>
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="DELETE\nGAME"
-                    android:onClick="onDeleteGame"/>
-            </LinearLayout>
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_alignParentRight="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Page: "/>
-                <EditText
-                    android:id="@+id/pageNameField"
-                    android:layout_width="180px"
-                    android:layout_height="wrap_content"
-                    android:maxLength="15"
-                    android:hint="Name"
-                    android:text="page1"/>
-                <Button
-                    android:id="@+id/makeStarterBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:text="MAKE\nSTARTER"
-                    android:onClick="onMakeStarter"/>
-                <Button
-                    android:id="@+id/savePageBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:text="SAVE\nPAGE"
-                    android:onClick="onSavePage"/>
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="DELETE\nPAGE"
-                    android:onClick="onDeletePage"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Select a page:"/>
-                <Spinner
-                    android:id="@+id/pageSpinner"
-                    android:layout_width="80px"
-                    android:layout_height="wrap_content" />
-                <Button
-                    android:id="@+id/addPageBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="ADD\nPAGE"
-                    android:onClick="onAddPage"/>
-            </LinearLayout>
-        </RelativeLayout>
 
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerInParent="true">
         <edu.stanford.cs108.bunnyworldplayer.EditorView
             android:id="@+id/previewArea"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-    </LinearLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerInParent="true"
+        android:id="@+id/topGrid">
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_alignParentLeft="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Game: "/>
+            <EditText
+                android:id="@+id/gameNameField"
+                android:layout_width="350px"
+                android:layout_height="wrap_content"
+                android:maxLength="30"
+                android:hint="Name"
+                />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alpha="0.80"
+                android:textColor="#000000"
+                android:text="SAVE\nGAME"
+                android:onClick="onSaveGame"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alpha="0.80"
+                android:textColor="#000000"
+                android:background="#867979"
+                android:text="DELETE\nGAME"
+                android:onClick="onDeleteGame"/>
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Page: "/>
+            <EditText
+                android:id="@+id/pageNameField"
+                android:layout_width="180px"
+                android:layout_height="wrap_content"
+                android:maxLength="15"
+                android:hint="Name"
+                android:text="page1"/>
+            <Button
+                android:id="@+id/makeStarterBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:alpha="0.80"
+                android:textColor="#000000"
+                android:background="#595959"
+                android:text="MAKE\nSTARTER"
+                android:onClick="onMakeStarter"/>
+            <Button
+                android:id="@+id/savePageBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:alpha="0.80"
+                android:textColor="#000000"
+                android:text="SAVE\nPAGE"
+                android:onClick="onSavePage"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alpha="0.80"
+                android:textColor="#000000"
+                android:background="#867979"
+                android:text="DELETE\nPAGE"
+                android:onClick="onDeletePage"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Select a page:"/>
+            <Spinner
+                android:id="@+id/pageSpinner"
+                android:layout_width="80px"
+                android:layout_height="wrap_content" />
+            <Button
+                android:id="@+id/addPageBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alpha="0.80"
+                android:textColor="#000000"
+                android:text="ADD\nPAGE"
+                android:onClick="onAddPage"/>
+        </LinearLayout>
+    </RelativeLayout>
 
     <GridLayout
         android:layout_width="match_parent"
@@ -109,18 +126,22 @@
         android:columnCount="13"
         android:rowCount="1"
         android:id="@+id/bottom_grid">
-        <Button
+        <ImageView
             android:id="@+id/addShapeBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:src="@drawable/addshape"
+            android:layout_width="100px"
+            android:layout_height="100px"
             android:layout_columnWeight="2"
+            android:paddingBottom="30px"
             android:text="ADD\nSHAPE"
             android:onClick="onAddShape"/>
-        <Button
+        <ImageView
             android:id="@+id/editShapeBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:src="@drawable/editshape"
+            android:layout_width="100px"
+            android:layout_height="100px"
             android:layout_columnWeight="2"
+            android:paddingBottom="30px"
             android:text="EDIT\nSHAPE"
             android:onClick="onEditShape"/>
 
@@ -180,12 +201,13 @@
             android:layout_columnWeight="2"
             android:text="--"/>
 
-        <Button
+        <ImageView
+            android:src="@drawable/deleteshape"
             android:id="@+id/deleteShapeBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="100px"
+            android:layout_height="100px"
             android:layout_columnWeight="2"
-            android:text="DELETE\nSHAPE"
+            android:paddingBottom="30px"
             android:onClick="onDeleteShape"/>
 
     </GridLayout>

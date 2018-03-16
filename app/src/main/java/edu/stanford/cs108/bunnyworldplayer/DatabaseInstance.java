@@ -170,6 +170,7 @@ public class DatabaseInstance {
             shapeReturn.setHidden(visibleValue);
             shapeReturn.setMoveable(movableValue);
             shapeReturn.setScriptList(cursor.getString(cursor.getColumnIndex("actionScript")));
+            shapeReturn.setScriptMap();
             shapeReturn.setFontSize(cursor.getInt(cursor.getColumnIndex("fontSize")));
             shapeReturn.setHeight(cursor.getInt(cursor.getColumnIndex("height")));
             shapeReturn.setWidth(cursor.getInt(cursor.getColumnIndex("width")));
@@ -244,17 +245,19 @@ public class DatabaseInstance {
                 String pageId = cursor.getString(cursor.getColumnIndex("pages"));
                 starterPageId = cursor.getString(cursor.getColumnIndex("starterPage"));
 
-                System.out.println("starterPageId in GETGAME!!: " + starterPageId);
-
                 if (pageId !=null){
                     Page page = getPage(pageId);
-                    gameReturn.addPage(page.getName(), page );
+                    page.setGame(gameReturn);
+                    gameReturn.addPage(page.getName(), page);
+                    gameReturn.linkIDtoName(pageId, page.getName());
                 }
                 cursor.moveToNext();
             }
         }
 
-        gameReturn.setStarter(starterPageId);
+        gameReturn.setStarter(gameReturn.pageIDtoName(starterPageId));
+        gameReturn.setCurrentPage(gameReturn.getStarter());
+
         return gameReturn;
     }
 
