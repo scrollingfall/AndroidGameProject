@@ -44,6 +44,7 @@ public class Page {
         this.height = height; //how to pass these on?
         this.x = 0;
         this.y = 0;
+        System.out.println("page constructor called with " + name);
         this.starter = false;
         this.editorMode = false;
     }
@@ -151,6 +152,7 @@ public class Page {
     }
 
     public void setStarter(boolean starter, float x, float y) {
+        System.out.println("starter set " + (starter?"true ":"false ") + "on page " + name);
         this.starter = starter;
         this.x = x;
         this.y = y;
@@ -215,6 +217,10 @@ public class Page {
         System.out.println("backpack: "+game.getResources());
         s.setInBackpack(false);
         return true;
+    }
+
+    public String toString() {
+        return name;
     }
 
     private void removeFromList(String name) {
