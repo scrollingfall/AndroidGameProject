@@ -30,8 +30,8 @@ public class GameListPlay extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.game_list_edit);
-        list1 = (ListView) findViewById(R.id.game_list_edit);
+        setContentView(R.layout.game_list_play);
+        list1 = (ListView) findViewById(R.id.game_list_play);
         databaseinstance = (DatabaseInstance) DatabaseInstance.getDBinstance(getApplicationContext());
         ArrayList<String> gameString = databaseinstance.getAllGamesString();
 
@@ -51,6 +51,11 @@ public class GameListPlay extends AppCompatActivity{
                 startActivity(intent);
             }
         });
+    }
+
+    public void onMainMenu(View view) {
+        Intent intent = new Intent(GameListPlay.this, MainActivity.class);
+        startActivity(intent);
     }
 
 }
