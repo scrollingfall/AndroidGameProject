@@ -19,7 +19,7 @@ import static android.content.Context.MODE_PRIVATE;
 public class DatabaseInstance {
 
     private SQLiteDatabase database;
-    private String database_name = "newDatabase.db";
+    private String database_name = "gameDatabase.db";
     private String shape_table_name = "Shapes";
     private String page_table_name = "Pages";
     private String game_table_name = "Games";
@@ -29,47 +29,46 @@ public class DatabaseInstance {
     private String gameName = "";
     private static DatabaseInstance databaseInstance;
     private ArrayList<String> nameOfImages;
-    private int totalGameCount;
-
 
     private DatabaseInstance(Context context){
-        System.out.println("beginning constructor");
         pageNumber = 1;
         this.context = context;
         database = context.openOrCreateDatabase(database_name, MODE_PRIVATE, null);
-        database.execSQL("CREATE TABLE IF NOT EXISTS "+shape_table_name+" (id REAL PRIMARY KEY NOT NULL, name TEXT NOT NULL, x REAL, y REAL, text TEXT, image TEXT, movable BOOLEAN, visible BOOLEAN, actionScript TEXT, fontSize INTEGER);");
+        database.execSQL("CREATE TABLE IF NOT EXISTS "+shape_table_name+" (id TEXT PRIMARY KEY NOT NULL, name TEXT NOT NULL, x REAL, y REAL, text TEXT, image TEXT, movable BOOLEAN, visible BOOLEAN, actionScript TEXT, fontSize INTEGER, height REAL, width REAL);");
         database.execSQL("CREATE TABLE IF NOT EXISTS "+page_table_name+" (id TEXT, name TEXT NOT NULL, shapes TEXT);");
-        database.execSQL("CREATE TABLE IF NOT EXISTS "+game_table_name+"(gameName TEXT NOT NULL, pages TEXT);");
+        database.execSQL("CREATE TABLE IF NOT EXISTS "+game_table_name+"(gameName TEXT NOT NULL, pages TEXT, starterPage TEXT);");
         nameOfImages = new ArrayList<String>(Arrays.asList("carrot","carrot2","death","duck","fire","mystic"));
-        System.out.println("ending constructor");
+
     }
 
     public static DatabaseInstance getDBinstance(Context context) {
-        System.out.println("beg of db constructor");
         if (databaseInstance == null){
             databaseInstance = new DatabaseInstance(context);
         }
-        System.out.println("end of db constructor");
         return databaseInstance;
     }
 
     public void addShape(Shape shape) {
-        String queryString1 = "INSERT INTO Shapes (id, name, x, y, text, image, movable, visible, actionScript, fontSize) VALUES ";
-        queryString1 += shape.getShapeId() + "," + shape.getName() + "," + shape.getX() + "," + shape.getY() + "," + shape.getText() + "," + shape.getImage() + "," + shape.isMoveable() + "," + shape.isHidden() + "," + shape.getScript() + "," + shape.getFontSize();
-        database.execSQL(queryString1 + ";");
-        // add this shape to the page also.
+        ContentValues vals = new ContentValues();
+        vals.put("id", shape.getShapeId());
+        vals.put("name", shape.getName());
+        vals.put("x", shape.getX());
+        vals.put("y", shape.getY());
+        vals.put("text", shape.getText());
+        vals.put("image", shape.getImage());
+        vals.put("movable", shape.isMoveable());
+        vals.put("visible", shape.isHidden());
+        vals.put("actionScript", shape.getScript());
+        vals.put("fontSize", shape.getFontSize());
+        vals.put("height", shape.getHeight());
+        vals.put("width", shape.getWidth());
+        database.insert(this.shape_table_name, null, vals);
+
     }
 
     public int getTotalGameCount() {
         Cursor cursor = database.rawQuery("Select * from Games; ", null);
         return cursor.getCount();
-    }
-
-    public void updateShape(Shape shape){
-
-        String queryString1 = "UPDATE  Shapes SET name=" + shape.getName() + ", x=" + shape.getX() + ", y=" + shape.getY() + ", text=" + shape.getText() + ", image=" + shape.getImage() + ", moveable =" + shape.isMoveable() + ", visible=" + shape.isHidden() + ", actionScript=" + shape.getScript() + ", fontSize=" + shape.getFontSize() ;
-        queryString1 += "where shapeId=" + shape.getShapeId();
-        database.execSQL(queryString1 + ";");
     }
 
     public String getPageid() {
@@ -80,7 +79,7 @@ public class DatabaseInstance {
         this.pageID = pageid;
     }
 
-    public Boolean isShape(int id){
+    public Boolean isShape(String id){
         Cursor cursor = database.rawQuery("SELECT * FROM SHAPES WHERE id = '"+ id+"';", null);
         boolean returnVal = true;
         if (cursor.getCount() <= 0){
@@ -90,68 +89,31 @@ public class DatabaseInstance {
         return returnVal;
     }
 
-    public Boolean isPage(int id){
-        Cursor cursor = database.rawQuery("SELECT * FROM Pages WHERE id = '"+ id+"';", null);
-        boolean returnVal = true;
-        if (cursor.getCount() <= 0){
-            returnVal= false;
-        }
-        cursor.close();
-        return returnVal;
-    }
-
-
-
     public void addPage(Page page, boolean addToGame){
-
-//        if (addToGame) {
-//            String gameName = page.getOwner();
-//            ContentValues vals1 = new ContentValues();
-//            vals1.put("pages", page.getPageId());
-//            database.update(game_table_name, vals1, "gameName='" + gameName + "'", null);
-//        }
-//
-//        ArrayList<Shape> shapeList = page.getShapeList();
-//        database.execSQL("INSERT INTO PAGES VALUES id = " + page.getPageId() + " name = " + page.getName() + ";");
-//        if (!shapeList.isEmpty()){
-//            for (Shape shape : shapeList){
-//                ContentValues vals = new ContentValues();
-//                vals.put("shapes", shape.getShapeId());
-//                database.insert(this.page_table_name, null, vals);
-//                if (!this.isShape(shape.getShapeId())){
-//                    this.addShape(shape);
-//                }
-//
-//            }
-//
-//        }
-        System.out.println("beg of add page");
-
-        if (page.getShapes().isEmpty()){
-            System.out.println("enter if statement");
-            ContentValues insertValues = new ContentValues();
-            insertValues.put("id", page.getPageId().toString());
-            System.out.println("end of add page");
-            insertValues.put("name", page.getName());
-            database.insert(this.page_table_name, null, insertValues);
-            System.out.println("end of add page");
-            return;
-        }
-        for (Shape s: page.getShapes().values()){
-            System.out.println("didnt enter if statement");
-            if (!this.isShape(s.getShapeId())){
-                System.out.println("enter if statement");
-                this.addShape(s);
+        ContentValues vals = new ContentValues();
+        if (!page.getShapeList().isEmpty()){
+            for (Shape s: page.getShapes().values()){
+                if (!this.isShape(s.getShapeId())){
+                    addShape(s);
+                    vals.put("id", page.getPageId().toString());
+                    vals.put("name", page.getName());
+                    vals.put("shapes", s.getShapeId());
+                    database.insert(this.page_table_name, null, vals);
+                }
+                else{
+                    vals.put("id", page.getPageId().toString());
+                    vals.put("name", page.getName());
+                    vals.put("shapes", s.getShapeId());
+                    database.insert(this.page_table_name, null, vals);
+                }
             }
-            ContentValues insertValues = new ContentValues();
-            insertValues.put("id", page.getPageId().toString());
-            insertValues.put("name", page.getName());
-            insertValues.put("shapes", s.getShapeId());
-            database.insert(this.page_table_name, null, insertValues);
-
         }
 
-        System.out.println("end of add page");
+        else {
+            vals.put("id", page.getPageId().toString());
+            vals.put("name", page.getName());
+            database.insert(this.page_table_name, null, vals);
+        }
 
 
     }
@@ -169,125 +131,129 @@ public class DatabaseInstance {
     }
 
     public void addGame(Game game){
-
-//        System.out.println("beg of add game");
-////        database.execSQL("DELETE From Games where exists gameName = " + game.getName());
-//        ArrayList<Page> pagesList = game.getPageList();
-//        database.execSQL("INSERT INTO Games VALUES gameName = " + game.getName() +";");
-//        System.out.println("inserted add game");
-//        if (!pagesList.isEmpty()){
-//            for (Page page : pagesList){
-//                ContentValues vals = new ContentValues();
-//                vals.put("pages", page.getPageId());
-//                database.insert(this.game_table_name, null, vals);
-//                if (!this.isPage(page.getPageId())){
-//                    this.addPage(page, false);
-//                }
-//
-//            }
-//
-//        }
-
-
-        System.out.println("beg of add game");
+        ContentValues vals = new ContentValues();
         String gameName = game.getName();
-        System.out.println("the game name in add game is " + game.getName());
-        if (game.getPages().isEmpty()){
-            System.out.println("enter if statement");
-            ContentValues insertValues = new ContentValues();
-            insertValues.put("gameName", gameName);
-            database.insert(this.game_table_name, null, insertValues);
-            System.out.println("beg of end game");
-            return;
+        if (!game.getPages().isEmpty()){
+            for (Page p: game.getPages().values()){
+                addPage(p, false);
+                vals.put("gameName", gameName);
+                vals.put("pages", p.getPageId());
+                vals.put("starterPage", game.getStarter());
+                System.out.println("LOOK HERE: " + game.getStarter());
+                database.insert(this.game_table_name, null, vals);
+            }
         }
-
-        // Add an entry for each Page, Shape in Pages table & Shapes table
-        int numpages = 0;
-        for (Page p: game.getPages().values()){
-            System.out.println("didnt enter if statement");
-            numpages++;
-            addPage(p, false);
-            // Add world to world table
-            ContentValues insertValues = new ContentValues();
-            insertValues.put("gameName", gameName);
-
-            insertValues.put("pages", p.getPageId());
-//            System.out.println("page id while adding game is " + p.getPageId());
-
-            database.insert(this.game_table_name, null, insertValues);
+        else{
+            vals.put("starterPage", game.getStarter());
+            vals.put("gameName", gameName);
+            database.insert(this.game_table_name, null, vals);
         }
-//        System.out.println("beg of end game");
-
     }
 
     public Shape getShape(String shapeId){
-//        System.out.println("beg of get SHape");
-        Shape shapeReturn = null;
+        Shape shapeReturn = new Shape(context,"temp name", "temp owner",0, 0, 100, 100);;
         Cursor cursor = database.rawQuery("SELECT * FROM SHAPES "+" WHERE id = '"+shapeId+"';", null);
         if (cursor.moveToFirst()) {
-            String pageOwner = "temp";
-            shapeReturn = new Shape(context, cursor.getString(cursor.getColumnIndex("name")), pageOwner, cursor.getFloat(cursor.getColumnIndex("x")), cursor.getFloat(cursor.getColumnIndex("y")), 100, 100);
-            shapeReturn.setShapeId(Integer.parseInt(shapeId));
-            shapeReturn.setScriptList(cursor.getString(cursor.getColumnIndex("scripts")));
-            shapeReturn.setFontSize(cursor.getInt(cursor.getColumnIndex("fontSize")));
+            shapeReturn.setShapeId(shapeId);
+            shapeReturn.setName(cursor.getString(cursor.getColumnIndex("name")));
+            shapeReturn.setText(cursor.getString(cursor.getColumnIndex("text")));
+            shapeReturn.setImage(cursor.getString(cursor.getColumnIndex("image")));
+            shapeReturn.setX(cursor.getInt(cursor.getColumnIndex("x")));
+            shapeReturn.setY(cursor.getInt(cursor.getColumnIndex("y")));
 
-            if(Integer.parseInt(shapeId) == 0){
-                cursor.close();
-                return null;
+            //source: https://stackoverflow.com/questions/4088080/get-boolean-from-database-using-android-and-sqlite
+            boolean visibleValue = cursor.getInt(cursor.getColumnIndex("visible")) > 0;
+            boolean movableValue = cursor.getInt(cursor.getColumnIndex("movable")) > 0;
+
+
+            shapeReturn.setHidden(visibleValue);
+            shapeReturn.setMoveable(movableValue);
+            shapeReturn.setScriptList(cursor.getString(cursor.getColumnIndex("actionScript")));
+            shapeReturn.setFontSize(cursor.getInt(cursor.getColumnIndex("fontSize")));
+            shapeReturn.setHeight(cursor.getInt(cursor.getColumnIndex("height")));
+            shapeReturn.setWidth(cursor.getInt(cursor.getColumnIndex("width")));
+            shapeReturn.setSelected(false);
+            shapeReturn.updateTextBounds();
+        }
+        cursor.close();
+        return shapeReturn;
+    }
+
+    public void removeGame(String gameName){
+        Cursor cursor = database.rawQuery("SELECT * FROM Games WHERE gameName = '"+gameName+"';", null);
+        if (cursor.moveToFirst()) {
+            for (int i=0; i<cursor.getCount(); i++){
+
+
+                // remove the page
+                Page page = getPage(cursor.getString(cursor.getColumnIndex("pages")));
+                ArrayList<Shape> shapeList = page.getShapeList();
+                for (Shape s: shapeList){
+
+                    // remove the shapes
+                    String query = "DELETE FROM Shapes WHERE id = '"+s.getShapeId()+"';";
+                    database.execSQL(query);
+                    String queryPage = "DELETE FROM Pages WHERE shapes = '"+pageID+"';";
+                    database.execSQL(queryPage);
+
+                }
+                database.execSQL("DELETE FROM Pages WHERE id = '"+pageID+"';");
+
+
+
+                database.execSQL("DELETE FROM Games WHERE pages = '"+cursor.getString(cursor.getColumnIndex("pages"))+"';");
+                cursor.moveToNext();
             }
         }
         cursor.close();
-//        System.out.println("end of get SHape");
-        return shapeReturn;
+        database.execSQL("DELETE FROM Games WHERE gameName = '"+gameName+"';");
     }
 
 
     public Page getPage(String pageId){
 
-        if (pageId == null) return null;
         Page pageReturn = new Page ("Temp page", 100 ,  100, "temp owner");
-        String pageName = "";
-//        System.out.println("before gettin cursor");
+        pageReturn.setPageId(pageId);
         Cursor cursor = database.rawQuery("SELECT * FROM Pages WHERE id = '"+pageId +"';", null);
 
         if (cursor.moveToFirst()) {
-//            System.out.println("in if  cursor");
             for (int i=0; i<cursor.getCount(); i++){
-//                System.out.println("in for loop of   cursor");
-                pageName = cursor.getString(cursor.getColumnIndex("name"));
+                pageReturn.setName(cursor.getString(cursor.getColumnIndex("name")));
                 String shapes = cursor.getString(cursor.getColumnIndex("shapes"));
-//                System.out.println("before getting shape ");
-                Shape shape = this.getShape(shapes);
-                if(shape != null) pageReturn.addShape(shape);
+                if (shapes != null) {
+                    Shape shape = this.getShape(shapes);
+                    pageReturn.addShape(shape);
+                }
                 cursor.moveToNext();
             }
         }
         cursor.close();
-        pageReturn.setName(pageName);
-        pageReturn.setPageId(pageId);
         return pageReturn;
     }
 
     public Game getGame(String gameName){
         Game gameReturn = new Game(gameName, context);
-//        System.out.println("the game name is " + gameReturn.getName());
-        String finalName = null;
+        String starterPageId = "";
+
         String query = "SELECT * FROM Games WHERE gameName = '"+gameName+"';";
         Cursor cursor = database.rawQuery(query, null);
         if (cursor.moveToFirst()) {
-//            System.out.println("the cursoe is" + DatabaseUtils.dumpCursorToString(cursor));
             for (int i=0; i<cursor.getCount(); i++){
+
                 String pageId = cursor.getString(cursor.getColumnIndex("pages"));
-                Page page = getPage(pageId);
-//                System.out.println("page id while getting game is " + page.getPageId());
-//                System.out.println("page name while getting game is " + page.getName());
+                starterPageId = cursor.getString(cursor.getColumnIndex("starterPage"));
 
+                System.out.println("starterPageId in GETGAME!!: " + starterPageId);
 
-                if(page!=null) gameReturn.addPage(page.getName(),page );
+                if (pageId !=null){
+                    Page page = getPage(pageId);
+                    gameReturn.addPage(page.getName(), page );
+                }
                 cursor.moveToNext();
             }
         }
-        gameReturn.setName(finalName);
+
+        gameReturn.setStarter(starterPageId);
         return gameReturn;
     }
 
@@ -317,6 +283,7 @@ public class DatabaseInstance {
 
 
     public void setCurrentGameName(String gamename) { this.gameName = gamename;}
+
     public String getCurrentGameName() { return this.gameName; }
 
 }

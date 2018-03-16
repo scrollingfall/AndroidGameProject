@@ -26,7 +26,6 @@ import java.util.HashMap;
 public class GameListPlay extends AppCompatActivity{
 
     private ListView list1;
-    private SQLiteDatabase currentDatabase;
     private DatabaseInstance databaseinstance;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,19 +33,20 @@ public class GameListPlay extends AppCompatActivity{
         setContentView(R.layout.game_list_edit);
         list1 = (ListView) findViewById(R.id.game_list_edit);
         databaseinstance = (DatabaseInstance) DatabaseInstance.getDBinstance(getApplicationContext());
-        currentDatabase = databaseinstance.getCurrentDatabase();
         ArrayList<String> gameString = databaseinstance.getAllGamesString();
+
+        // source: https://medium.com/mindorks/custom-array-adapters-made-easy-b6c4930560dd
         ListAdapter adapter = new ArrayAdapter<>(this, R.layout.games_row, R.id.rowList, gameString);
         list1.setAdapter(adapter);
 
 
+        //source: https://stackoverflow.com/questions/8615417/how-can-i-set-onclicklistener-on-arrayadapter
         list1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 TextView text = (TextView) view.findViewById(R.id.rowList);
-                String gameName = text.getText().toString();
-
-                // reset inventory
+                databaseinstance.setCurrentGameName(text.getText().toString());
+                databaseinstance.setPageid(databaseinstance.getGame(text.getText().toString()).getPageList().get(0).getPageId());
                 Intent intent = new Intent (getApplicationContext(), PlayerActivity.class);
                 startActivity(intent);
             }

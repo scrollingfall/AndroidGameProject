@@ -5,14 +5,22 @@ import android.os.Bundle;
 
 public class PlayerActivity extends Activity {
 
+
+
     private PlayerView player;
+    Game currentgame;
+    DatabaseInstance databaseInstance;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_player);
         player = (PlayerView)findViewById(R.id.playerView);
-        // todo
-        //player.setGame(<game passed in from intent>) important this goes before the next line
+        databaseInstance = DatabaseInstance.getDBinstance(getApplicationContext());
+        String currgamename = databaseInstance.getCurrentGameName();
+        currentgame = databaseInstance.getGame(currgamename);
+
+
+
         player.setSize(player.getWidth(), player.getHeight());
     }
 }

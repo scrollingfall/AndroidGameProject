@@ -73,8 +73,8 @@ public class Game {
 
     public void addPage(String name, Page p) {
 
-        System.out.println("page id while getting game is " + name);
-        System.out.println("page name while getting game is " + p.getPageId());
+        System.out.println("page name while getting game is " + name);
+        System.out.println("page id while getting game is " + p.getPageId());
 
         pages.put(name, p);
         pageList.add(p);

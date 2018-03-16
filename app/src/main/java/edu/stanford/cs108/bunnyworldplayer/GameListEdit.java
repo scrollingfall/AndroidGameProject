@@ -32,53 +32,32 @@ public class GameListEdit extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game_list_edit);
         list = (ListView) findViewById(R.id.game_list_edit);
-        System.out.println("created list");
 
 
         databaseinstance = (DatabaseInstance) DatabaseInstance.getDBinstance(getApplicationContext());
-        System.out.println("got db instance");
         currentDatabase = databaseinstance.getCurrentDatabase();
-        System.out.println("got db ");
 
         ArrayList<String> gameString = databaseinstance.getAllGamesString();
-        System.out.println("got all game names ");
-
 
         for (String gameName : gameString) System.out.println(gameName);
 
-
+        // source: https://medium.com/mindorks/custom-array-adapters-made-easy-b6c4930560dd
         ListAdapter adapter = new ArrayAdapter<>(this, R.layout.games_row, R.id.rowList, gameString);
-        System.out.println("here ");
         list.setAdapter(adapter);
-        System.out.println("set the adapter ");
 
-        // todo find the source for this code. 
+        // source: https://stackoverflow.com/questions/8615417/how-can-i-set-onclicklistener-on-arrayadapter
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 TextView text = (TextView) view.findViewById(R.id.rowList);
-                String gameName = text.getText().toString();
-
-                databaseinstance.setCurrentGameName(gameName);
-                databaseinstance.setPageid(databaseinstance.getGame(gameName).getPageList().get(0).getPageId());
-
-                // reset inventory
+                databaseinstance.setCurrentGameName(text.getText().toString());
+                databaseinstance.setPageid(databaseinstance.getGame(text.getText().toString()).getStarter());
                 Intent intent = new Intent (getApplicationContext(), EditorActivity.class);
                 startActivity(intent);
             }
         });
     }
 
-//    public void editGame(View view){
-//        TextView text = (TextView) view.findViewById(R.id.rowList);
-//        String gameName = text.getText().toString();
-//
-//        databaseinstance.setCurrentGameName(gameName);
-//        databaseinstance.setPageid(databaseinstance.getGame(gameName).getPageList().get(0).getPageId());
-//        Intent intent = new Intent (getApplicationContext(), EditorActivity.class);
-//        startActivity(intent);
-//
-//    }
 
 
 }
