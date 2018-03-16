@@ -73,9 +73,11 @@ public class PlayerView extends View {
                             String transition = currentlySelected.getTransition();
                             if (!transition.isEmpty()) {
                                 game.setCurrentPage(transition); //are we doing error checking on valid pages?
+                                justentered = true;
                             }
                         }
                     } else if (currentlySelected.isMoveable()) { //otherwise counts as drag
+                        Page oldPage = game.getCurrentPage();
                         for (Shape s : game.getCurrentPage().getDropTargets(currentlySelected)) {
                             s.setSelected(false);
                         }
@@ -85,12 +87,17 @@ public class PlayerView extends View {
                             String transition = currentlySelected.getTransition();
                             if (!transition.isEmpty()) {
                                 game.setCurrentPage(transition); //are we doing error checking on valid pages?
+                                justentered = true;
                             }
                         } else if (currentlySelected != null){
                             oldSelect.move(startx, starty);
-                        } else {
-                            oldSelect.move(oldSelectx + event.getX() - startx, oldSelecty + event.getY() - starty);
                         }
+                        if (oldSelect.getY() >= oldPage.getHeight()* Page.percentMainPage
+                                && oldSelecty < oldPage.getHeight() * Page.percentMainPage)
+                            oldPage.moveToBackpack(oldSelect.getName());
+                        else if (oldSelect.getY() < oldPage.getHeight()* Page.percentMainPage
+                                && oldSelecty >= oldPage.getHeight() * Page.percentMainPage)
+                            oldPage.moveFromBackpack(oldSelect.getName());
                     }
                     currentlySelected = null;
                     currentlySelectedIndex = -1;
