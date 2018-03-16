@@ -79,6 +79,7 @@ public class Page {
         editorMode = editable;
         for (Shape s : shapeList)
             s.setEditorMode(editable);
+        if (game!=null)
         for (Shape s: game.getResources().values()) {
             s.setEditorMode(editable);
         }
