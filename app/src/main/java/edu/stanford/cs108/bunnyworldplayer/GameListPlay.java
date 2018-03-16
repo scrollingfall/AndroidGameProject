@@ -46,7 +46,7 @@ public class GameListPlay extends AppCompatActivity{
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 TextView text = (TextView) view.findViewById(R.id.rowList);
                 databaseinstance.setCurrentGameName(text.getText().toString());
-                databaseinstance.setPageid(databaseinstance.getGame(text.getText().toString()).getPageList().get(0).getPageId());
+                databaseinstance.setPageid(databaseinstance.getGame(text.getText().toString()).getStarter());
                 Intent intent = new Intent (getApplicationContext(), PlayerActivity.class);
                 startActivity(intent);
             }
