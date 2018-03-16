@@ -62,9 +62,11 @@ public class Page {
             s.draw(canvas);
         }
         //draw delimiter line
-//        Paint paint = new Paint();
-//        paint.setColor(Color.BLACK);
-//        canvas.drawLine(0, height * percentMainPage, width, height * percentMainPage, paint);
+        Paint paint = new Paint();
+        paint.setColor(Color.BLACK);
+        paint.setStrokeWidth(1f);
+        canvas.drawLine(0, canvas.getHeight() * percentMainPage,
+                canvas.getWidth(), canvas.getHeight() * percentMainPage, paint);
     }
     public void setEditorMode (boolean editable) {
         editorMode = editable;

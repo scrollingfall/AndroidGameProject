@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
 //import android.support.annotation.Nullable;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -133,11 +135,16 @@ public class PlayerView extends View {
                 justentered = false;
             }
             game.getCurrentPage().draw(canvas);
+            //Paint paint = new Paint();
+            //paint.setColor(Color.BLACK);
+            //paint.setStrokeWidth(10f);
+            //canvas.drawLine(0, canvas.getHeight() * Page.percentMainPage, canvas.getWidth(), canvas.getHeight() * Page.percentMainPage, paint);
         }
     }
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
+        setSize(w,h);
     }
 }

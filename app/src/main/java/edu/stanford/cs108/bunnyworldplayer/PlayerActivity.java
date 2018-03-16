@@ -19,8 +19,7 @@ public class PlayerActivity extends Activity {
         String currgamename = databaseInstance.getCurrentGameName();
         currentgame = databaseInstance.getGame(currgamename);
         player.setGame(currentgame);
-
-
+        
         player.setSize(player.getWidth(), player.getHeight());
     }
 }
