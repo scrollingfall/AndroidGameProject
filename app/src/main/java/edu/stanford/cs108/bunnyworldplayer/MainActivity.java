@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
         databaseinstance.setPageid(page.getPageId());
 
         Game newGame = new Game(currGameName, page, this);
+        page.setGame(newGame);
         newGame.addPage("page1", page);
         newGame.setStarter(page.getPageId());
         databaseinstance.addGame(newGame);

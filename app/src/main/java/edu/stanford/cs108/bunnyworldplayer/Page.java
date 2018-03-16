@@ -122,7 +122,8 @@ public class Page {
     //returns an interable list of all shapes on screen, including those in backpack
     public ArrayList<Shape> getShapeList() {
         ArrayList<Shape> newList = new ArrayList<Shape>(shapeList);
-        newList.addAll(game.getResources().values());
+        if(game!=null)
+            newList.addAll(game.getResources().values());
         return newList;
     }
 

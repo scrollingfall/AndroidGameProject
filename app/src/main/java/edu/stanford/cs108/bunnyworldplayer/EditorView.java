@@ -24,6 +24,7 @@ public class EditorView extends View {
 
     public EditorView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        page.setGame(EditorActivity.newGame);
     }
 
     @Override
