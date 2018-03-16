@@ -11,36 +11,45 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Welcome to BunnyWorld! Choose one of the following options to proceed! "
+        android:layout_marginTop="30sp"
+        android:text="BUNNY WORLD"
         android:layout_gravity="center"
-        android:textSize="50sp"/>
+        android:layout_marginBottom="50dp"
+        android:textSize="130sp"/>
 
     <Button
         android:id="@+id/create_game"
-        android:layout_width="wrap_content"
+        android:layout_width="350sp"
         android:layout_height="wrap_content"
-        android:text="Create New Game"
+        android:layout_margin="15sp"
+        android:text="Create Game"
         android:onClick="createGame"
         android:layout_gravity="center"
-        android:textSize="50sp"/>
+        android:textSize="43sp"
+        android:background="#E7E7E7"/>
 
     <Button
         android:id="@+id/edit_game"
-        android:layout_width="wrap_content"
+        android:layout_width="350sp"
         android:layout_height="wrap_content"
-        android:text="Edit Existing Game"
+        android:layout_margin="15sp"
+        android:text="Edit Game"
         android:onClick="editGame"
         android:layout_gravity="center"
-        android:textSize="50sp"/>
+        android:textSize="43sp"
+        android:background="#CBCBCB"/>
 
     <Button
         android:id="@+id/play_game"
-        android:layout_width="wrap_content"
+        android:layout_width="350sp"
         android:layout_height="wrap_content"
+        android:layout_margin="15sp"
+        android:padding="10sp"
         android:text="PLAY!"
         android:onClick="playGame"
         android:layout_gravity="center"
-        android:textSize="50sp"/>
+        android:textSize="65sp"
+        android:background="#A9A9A9"/>
 
 
 </LinearLayout>
