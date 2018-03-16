@@ -397,10 +397,22 @@ public class ShapeEditor extends AppCompatActivity {
             return;
         }
 
-        if (currPage.getShapes().containsKey(name)) {
-            toastify("Oops! Looks like another shape has that name...");
-            return;
+        // perform shape name error checking
+        ArrayList<Page> pageList = currGame.getPageList();
+        for (Page p : pageList) {
+            if (p.getShapes().containsKey(name)) {
+                for (Shape s : p.getShapeList()) {
+                    if (s.getName().equals(name) && s != selectedShape) {
+                        toastify("Oops! Looks like another shape has that name...");
+                        return;
+                    }
+                }
+            }
         }
+//        if (currPage.getShapes().containsKey(name)) {
+//            toastify("Oops! Looks like another shape has that name...");
+//            return;
+//        }
 
         String shapeText = ((EditText) findViewById(R.id.shapeText)).getText().toString();
         String fontSize = ((EditText) findViewById(R.id.shapeFont)).getText().toString();
