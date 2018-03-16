@@ -154,6 +154,7 @@ public class EditorActivity extends AppCompatActivity {
     public void onAddPage(View view) {
         // add to arraylist, create new spinner
         pageCounter += 1;
+
         String pageName = "page" + Integer.toString(pageCounter);
         pageNamesList.add(pageName);
 
@@ -226,12 +227,15 @@ public class EditorActivity extends AppCompatActivity {
     }
 
     public void onDeletePage(View view) {
-        System.out.println(currPage.isStarter());
+        System.out.println("curre page in on delete is" + currPage.isStarter());
         System.out.println(currPage.getPageId());
         System.out.println(currPage.getName());
-        System.out.println(starterPage.isStarter());
+        System.out.println("starter page in on delete is" + starterPage.isStarter());
         System.out.println(starterPage.getName());
         System.out.println(starterPage.getPageId());
+
+        if (currPage.getName().equals(starterPage.getName())) currPage.setStarter(true, currPage.getWidth(), currPage.getHeight());
+
         if (!currPage.isStarter()) {
             System.out.println(pageNamesList);
             pageNamesList.remove(currPage);//does nothing
