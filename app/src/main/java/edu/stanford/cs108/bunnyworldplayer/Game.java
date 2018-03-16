@@ -23,7 +23,8 @@ public class Game {
     private HashMap<String, BitmapDrawable> imgResources;
     private HashMap<String, Integer> musicResources;
     private boolean editorMode;
-    private HashMap<String, String> idToName = new HashMap<String, String>();;
+    private HashMap<String, String> idToName = new HashMap<String, String>();
+    private HashMap<String, Shape> allShapes = new HashMap<String, Shape>();
 
 
     public Game(String name, Context context) {
@@ -119,6 +120,22 @@ public class Game {
         for (Page page : pages.values()) {
             this.pageList.add(page);
         }
+    }
+
+    public void setAllShapes() {
+        for (Page currPage : getPageList()) {
+            if (currPage == null) continue;
+            if (allShapes == null) allShapes = new HashMap<String, Shape>();
+            for (Shape currShape : currPage.getShapeList()) {
+                if (currShape == null) continue;
+                allShapes.put(currShape.getName(), currShape);
+            }
+        }
+    }
+
+    public Shape getShape(String name) {
+        if (allShapes != null && allShapes.containsKey(name)) return allShapes.get(name);
+        return null;
     }
 
 

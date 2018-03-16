@@ -13,6 +13,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 
+import java.util.ArrayList;
+
 /**
  * Created by Jerry Chen on 3/6/2018.
  */
@@ -77,9 +79,23 @@ public class PlayerView extends View {
                     if (Math.abs(event.getX() - startx) <= clickThreshold && Math.abs(event.getY() - starty) <= clickThreshold) { //counts as click if little movement occurred
                         if (currentlySelected.performScriptAction("on-click")) {
                             String transition = currentlySelected.getTransition();
+                            ArrayList<String> shown = currentlySelected.getShownShapes();
+                            ArrayList<String> hidden = currentlySelected.getHiddenShapes();
                             if (!transition.isEmpty()) {
                                 game.setCurrentPage(transition); //are we doing error checking on valid pages?
                                 justentered = true;
+                            }
+                            if (shown != null && !shown.isEmpty()) {
+                                for (String shapeName : shown) {
+                                    Shape toShow = game.getShape(shapeName);
+                                    if (toShow != null) toShow.setHidden(false);
+                                }
+                            }
+                            if (hidden != null && !hidden.isEmpty()) {
+                                for (String shapeName : hidden) {
+                                    Shape toHide = game.getShape(shapeName);
+                                    if (toHide != null) toHide.setHidden(true);
+                                }
                             }
                         }
                     } else if (currentlySelected.isMoveable()) { //otherwise counts as drag

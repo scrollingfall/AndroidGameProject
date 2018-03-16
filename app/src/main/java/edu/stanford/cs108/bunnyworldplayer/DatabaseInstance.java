@@ -257,6 +257,7 @@ public class DatabaseInstance {
 
         gameReturn.setStarter(gameReturn.pageIDtoName(starterPageId));
         gameReturn.setCurrentPage(gameReturn.getStarter());
+        gameReturn.setAllShapes();
 
         return gameReturn;
     }

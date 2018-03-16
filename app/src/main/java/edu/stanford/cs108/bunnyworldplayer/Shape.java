@@ -284,7 +284,7 @@ public class Shape extends RectF {
 
     // if(editorMode && isHidden()) then draw things at 50% opacitiy
     public void draw(Canvas canvas) {
-        
+
         if (!editorMode && isHidden()) return;
         // (editor mode and is hidden) draw things in 50% opacity
         else {
@@ -490,6 +490,20 @@ public class Shape extends RectF {
             return result;
         }
         return "";
+    }
+
+    public ArrayList<String> getHiddenShapes() {
+        if (this.actionShowShapes.isEmpty()) return this.actionHideShapes;
+        ArrayList<String> toReturn = this.actionHideShapes;
+        actionHideShapes.clear();
+        return toReturn;
+    }
+
+    public ArrayList<String> getShownShapes() {
+        if (this.actionShowShapes.isEmpty()) return this.actionShowShapes;
+        ArrayList<String> toReturn = this.actionShowShapes;
+        actionShowShapes.clear();
+        return toReturn;
     }
 
     public String toString() {
