@@ -18,6 +18,7 @@ import java.util.UUID;
 public class Page {
     private String name;
     private String owner;
+    private Game game;
     private HashMap<String,Shape> shapes;
     private ArrayList<Shape> shapeList;
     private Shape selectedShape;
@@ -26,7 +27,7 @@ public class Page {
     private float width;
     private float height;
     private boolean starter;
-    private static HashMap<String, Shape> resources = new HashMap<String, Shape>();
+    //private static HashMap<String, Shape> resources = new HashMap<String, Shape>();
     private boolean editorMode;
     public static float percentMainPage = 0.80f;
     private String pageID;
@@ -46,6 +47,9 @@ public class Page {
         this.starter = false;
         this.editorMode = false;
     }
+    public void setGame(Game game) {
+        this.game = game;
+    }
 
     public String getPageId() { return pageID; }
     public void setPageId(String pageid) { this.pageID = pageid; }
@@ -57,9 +61,11 @@ public class Page {
     public void draw (Canvas canvas) {
         for (Shape s: shapeList) {
             s.draw(canvas);
+            //System.out.println(name + " is drawing shape " + s.getName());
         }
-        for (Shape s: resources.values()) {
+        for (Shape s: game.getResources().values()) {
             s.draw(canvas);
+            //System.out.println(name + " is drawing backpack shape " + s.getName());
         }
         //draw delimiter line
         Paint paint = new Paint();
@@ -72,7 +78,7 @@ public class Page {
         editorMode = editable;
         for (Shape s : shapeList)
             s.setEditorMode(editable);
-        for (Shape s: resources.values()) {
+        for (Shape s: game.getResources().values()) {
             s.setEditorMode(editable);
         }
     }
@@ -116,7 +122,7 @@ public class Page {
     //returns an interable list of all shapes on screen, including those in backpack
     public ArrayList<Shape> getShapeList() {
         ArrayList<Shape> newList = new ArrayList<Shape>(shapeList);
-        newList.addAll(resources.values());
+        newList.addAll(game.getResources().values());
         return newList;
     }
 
@@ -158,20 +164,6 @@ public class Page {
         shapes.put(s, shape);
     }
 
-    public boolean removeFromBackpack(String name){
-        if (!resources.containsKey(name))
-            return false;
-        resources.remove(name);
-        return true;
-    }
-
-    public boolean addToBackpack(String name, Shape shape) {
-        if (resources.containsKey(name))
-            return false;
-        resources.put(name, shape);
-        return true;
-    }
-
     public ArrayList<Shape> getDropTargets(Shape s) {
         ArrayList<Shape> targets = new ArrayList<Shape>();
         for (Shape s2 : shapeList)
@@ -187,23 +179,48 @@ public class Page {
     }
 
     public boolean moveToBackpack(String name) {
+        System.out.println("before");
+        System.out.println("shapes: " +shapes);
+        System.out.println("shapelist: "+shapeList);
+        System.out.println("backpack: "+game.getResources());
+        System.out.println("after");
         if (!shapes.containsKey(name))
             return false;
         Shape s = shapes.remove(name);
-        shapeList.remove(s);
-        resources.put(name, s);
+        System.out.println(s.getName() +" is moved TO Backpack");
+        removeFromList(s.getName());
+        System.out.println("shapes: " +shapes);
+        System.out.println("shapelist: "+shapeList);
+        game.getResources().put(name, s);
+        System.out.println("backpack: "+game.getResources());
         s.setInBackpack(true);
         return true;
     }
 
     public boolean moveFromBackpack(String name) {
-        if (!resources.containsKey(name))
+        System.out.println("before");
+        System.out.println("shapes: " +shapes);
+        System.out.println("shapelist: "+shapeList);
+        System.out.println("backpack: "+game.getResources());
+        System.out.println("after");
+        if (!game.getResources().containsKey(name))
             return false;
-        Shape s = resources.remove(name);
+        Shape s = game.getResources().remove(name);
+        System.out.println(s.getName() +" is moved FROM Backpack");
         shapes.put(name, s);
         shapeList.add(s);
+        System.out.println("shapes: " +shapes);
+        System.out.println("shapelist: "+shapeList);
+        System.out.println("backpack: "+game.getResources());
         s.setInBackpack(false);
         return true;
     }
 
+    private void removeFromList(String name) {
+        for (int i = 0; i < shapeList.size(); i ++)
+            if (shapeList.get(i).getName().equals(name)) {
+                shapeList.remove(i);
+                return;
+            }
+    }
 }

@@ -246,6 +246,7 @@ public class DatabaseInstance {
 
                 if (pageId !=null){
                     Page page = getPage(pageId);
+                    page.setGame(gameReturn);
                     gameReturn.addPage(page.getName(), page);
                     gameReturn.linkIDtoName(pageId, page.getName());
                 }
