@@ -236,6 +236,7 @@ public class ShapeEditor extends AppCompatActivity {
     // Hides shapes from second spinner
     private void hideShapes() {
         Spinner shapes = (Spinner) findViewById(R.id.shapeSpinner);
+        shapeSelected = "";
         shapes.setEnabled(false);
         shapes.setClickable(false);
     }
@@ -360,7 +361,7 @@ public class ShapeEditor extends AppCompatActivity {
     private String listToString(ArrayList<String> arr) {
         StringBuilder s = new StringBuilder();
         for (int i = 0; i < arr.size(); i++) {
-            s.append(arr.get(i));
+            s.append(arr.get(i) + ";");
             if (i != arr.size() - 1) {
                 s.append(" ");
             }

@@ -169,6 +169,7 @@ public class DatabaseInstance {
             shapeReturn.setHidden(visibleValue);
             shapeReturn.setMoveable(movableValue);
             shapeReturn.setScriptList(cursor.getString(cursor.getColumnIndex("actionScript")));
+            shapeReturn.setScriptMap();
             shapeReturn.setFontSize(cursor.getInt(cursor.getColumnIndex("fontSize")));
             shapeReturn.setHeight(cursor.getInt(cursor.getColumnIndex("height")));
             shapeReturn.setWidth(cursor.getInt(cursor.getColumnIndex("width")));
