@@ -68,8 +68,8 @@ public class PlayerView extends View {
                 }
             case MotionEvent.ACTION_UP:
                 if (currentlySelected != null) {
-                    if (Math.abs(event.getX() - startx) < clickThreshold && Math.abs(event.getY() - starty) < clickThreshold) { //counts as click if little movement occurred
-                        if (currentlySelected.performScriptAction("on click")) {
+                    if (Math.abs(event.getX() - startx) <= clickThreshold && Math.abs(event.getY() - starty) <= clickThreshold) { //counts as click if little movement occurred
+                        if (currentlySelected.performScriptAction("on-click")) {
                             String transition = currentlySelected.getTransition();
                             if (!transition.isEmpty()) {
                                 game.setCurrentPage(transition); //are we doing error checking on valid pages?
@@ -83,7 +83,7 @@ public class PlayerView extends View {
                         }
                         Shape oldSelect = currentlySelected;
                         getTopAt(event.getX(), event.getY(), currentlySelectedIndex);
-                        if (currentlySelected != null && currentlySelected.performScriptAction("on drop " + oldSelect.getName())) {
+                        if (currentlySelected != null && currentlySelected.performScriptAction("on-drop " + oldSelect.getName())) {
                             String transition = currentlySelected.getTransition();
                             if (!transition.isEmpty()) {
                                 game.setCurrentPage(transition); //are we doing error checking on valid pages?

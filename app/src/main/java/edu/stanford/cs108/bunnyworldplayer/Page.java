@@ -176,7 +176,7 @@ public class Page {
 
     public void onEnter() {
         for (Shape s : shapeList) {
-            s.performScriptAction("on enter");
+            s.performScriptAction("on-enter");
         }
     }
 
