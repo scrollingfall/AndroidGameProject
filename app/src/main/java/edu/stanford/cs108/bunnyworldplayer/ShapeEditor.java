@@ -352,7 +352,7 @@ public class ShapeEditor extends AppCompatActivity {
         }
 
         toAdd += (action + " ");
-        toAdd += (res + ";");
+        toAdd += (res);
 
         overallScript.add(toAdd);
         previewScript();

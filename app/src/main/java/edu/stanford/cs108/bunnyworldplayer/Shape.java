@@ -16,6 +16,7 @@ import android.media.MediaPlayer;
 import android.support.annotation.Nullable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.StringTokenizer;
 import java.util.UUID;
@@ -377,7 +378,7 @@ public class Shape extends RectF {
     }
 
     public void setScriptMap() {
-
+        if (scripts == null || scripts.isEmpty()) return;
         for (String script: scripts) {
             ArrayList<String> scriptWords = new ArrayList<>();
 
@@ -393,15 +394,13 @@ public class Shape extends RectF {
             }
 
             ArrayList<String> actions = new ArrayList<>();
-            for(int i = 0; i< scriptWords.size(); i++) {
-                String actionWord = scriptWords.get(i).toLowerCase().trim();
-//                System.out.println("ACTION WORD IS " + actionWord);
+            int i = 0;
+            while (i < scriptWords.size()) {
 
-                if (actionWord.equals("hide") || actionWord.equals("show") || actionWord.equals("goto") || actionWord.equals("play") || actionWord.equals("transform")) {
-                    actions.add(actionWord + " " + scriptWords.get(i + 1));
-                } else {
-                    actions.add(actionWord);
-                }
+                String actionWord = scriptWords.get(i).toLowerCase().trim();
+                actions.add(actionWord + " " + scriptWords.get(i + 1));
+
+                i += 2;
             }
             MapOfScripts.put(triggerWords, actions);
         }
@@ -418,11 +417,14 @@ public class Shape extends RectF {
         for (String action: actions) {
             // execute action
             String[] words = action.split(" ");
-            System.out.println("WORDS: " + words.toString());
             if (words[0].equals("goto")) {
                 transitionPage = words[1];
-            } else if (words[0].equals("hide")) actionHideShapes.add(words[1]);
-            else if (words[0].equals("show")) actionShowShapes.add(words[1]);
+            } else if (words[0].equals("hide")) {
+                actionHideShapes.add(words[1]);
+            }
+            else if (words[0].equals("show")) {
+                actionShowShapes.add(words[1]);
+            }
             else if (words[0].equals("play")) {
                 MediaPlayer soundPlayer = MediaPlayer.create(context, context.getResources().getIdentifier(words[1], "raw", context.getPackageName()));
                 soundPlayer.start();
