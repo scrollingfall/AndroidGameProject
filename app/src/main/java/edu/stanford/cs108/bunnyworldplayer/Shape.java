@@ -76,7 +76,7 @@ public class Shape extends RectF {
         this.onDrop = new HashMap<String, String>();
         this.editorMode = true;
         this.context = context;
-        this.fontSize = 20;
+        this.fontSize = 30;
     }
     public String getShapeId() { return shapeID; }
     public void setShapeId(String shapeid) { this.shapeID = shapeid; }
@@ -230,6 +230,7 @@ public class Shape extends RectF {
     }
 
     public void setFontSize(int size) {
+        if (size < 1) size = 1;
         this.fontSize = size;
     }
 
@@ -238,6 +239,8 @@ public class Shape extends RectF {
     }
 
     public void resize(float width, float height) {
+        if (width < 1) width = 1;
+        if (height < 1) height = 1;
         this.width = width;
         this.height = height;
     }
