@@ -53,6 +53,7 @@ public class PlayerView extends View {
                 //System.out.println("down: "+event.getX() + " " +event.getY());
                 getTopAt(event.getX(), event.getY(), -1);
                 if (currentlySelected != null) {
+                    System.out.println(currentlySelected.getName());
                     startx = event.getX();
                     starty = event.getY();
                     oldSelectx = currentlySelected.getX();

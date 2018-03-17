@@ -253,6 +253,7 @@ public class EditorActivity extends AppCompatActivity {
         float randX = (float) Math.random() * 1000 + 350;
         float randY = (float) Math.random() * 500 + 150;
         Shape newShape = new Shape(this, shapeName, currPage.toString(), randX, randY, 200, 200);
+        newShape.setEditorMode(true);
         currPage.addShape(newShape);
 
         // unselect the previously selected shape if there was one
