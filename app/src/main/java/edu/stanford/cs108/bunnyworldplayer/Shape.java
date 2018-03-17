@@ -399,7 +399,10 @@ public class Shape extends RectF {
             while (i < scriptWords.size()) {
 
                 String actionWord = scriptWords.get(i).toLowerCase().trim();
-                actions.add(actionWord + " " + scriptWords.get(i + 1));
+                String s = actionWord;
+                if (i+1 < scriptWords.size())
+                    s += " " + scriptWords.get(i + 1);
+                actions.add(s);
 
                 i += 2;
             }
