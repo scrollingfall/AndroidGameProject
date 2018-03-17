@@ -182,10 +182,15 @@ public class PlayerView extends View {
                 justentered = false;
             }
             game.getCurrentPage().draw(canvas);
+
             //Paint paint = new Paint();
             //paint.setColor(Color.BLACK);
             //paint.setStrokeWidth(10f);
             //canvas.drawLine(0, canvas.getHeight() * Page.percentMainPage, canvas.getWidth(), canvas.getHeight() * Page.percentMainPage, paint);
+
+        } else { // If game == null
+            giveToast("There was an error loading this game. It might not have been saved properly.");
+            ((Activity) getContext()).finish(); // Finish activity
         }
     }
 
