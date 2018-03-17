@@ -110,12 +110,12 @@ public class MainActivity extends AppCompatActivity {
         fireRoom.addShape(fire);
 
         Shape door2 = new Shape(getApplicationContext(), "door2", "fireRoom", 800, 250, 100, 150);
-        door2.setScriptList("on-click goto starterPage;");
+        door2.setScriptList("on-click goto mysticRoom;");
         fireRoom.addShape(door2);
 
-        Shape shapeFireRoom = new Shape(getApplicationContext(), "shapeFireRoom", "fireRoom", 0, 0, 100, 100);
-        shapeFireRoom.setScriptList("on click goto mysticRoom;");
-        fireRoom.addShape(shapeFireRoom);
+//        Shape shapeFireRoom = new Shape(getApplicationContext(), "shapeFireRoom", "fireRoom", 0, 0, 100, 100);
+//        shapeFireRoom.setScriptList("on click goto mysticRoom;");
+//        fireRoom.addShape(shapeFireRoom);
 
         Shape carrot1 = new Shape(getApplicationContext(), "carrot1", "fireRoom", 100, 100, 200, 200);
         carrot1.setMoveable(true);
