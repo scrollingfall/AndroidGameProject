@@ -48,7 +48,7 @@ public class Shape extends RectF {
     private Canvas canvas;
     private Bitmap imagePic;
     private Context context;
-    private HashMap<String, ArrayList<String>> MapOfScripts = new HashMap<String, ArrayList<String>>();
+    private HashMap<String, ArrayList<ArrayList<String>>> MapOfScripts = new HashMap<String, ArrayList<ArrayList<String>>>();
     private String transitionPage = "";
     public ArrayList<String> actionShowShapes = new ArrayList<String>();
     public ArrayList<String> actionHideShapes = new ArrayList<String>();
@@ -287,13 +287,14 @@ public class Shape extends RectF {
 
         if (!editorMode && isHidden()) return;
         // (editor mode and is hidden) draw things in 50% opacity
+
         else {
             this.canvas = canvas;
 
             if (x < 0) x = 0;
             if (y < 0) y = 0;
 
-            if ((getText().isEmpty() && image.isEmpty()) || (!image.isEmpty())) {
+            if ((getText().isEmpty())) {
 
                 Paint grayPaintFill = new Paint();
                 grayPaintFill.setColor(Color.LTGRAY);
@@ -315,7 +316,30 @@ public class Shape extends RectF {
 
             }
 
-            if (!image.isEmpty()) {
+            if (!getText().isEmpty()){
+
+                Paint whitePaint = new Paint();
+                whitePaint.setColor(Color.WHITE);
+                whitePaint.setStyle(Paint.Style.FILL);
+
+                Paint textStyle = new Paint();
+                textStyle.setColor(Color.BLACK);
+                textStyle.setStyle(Paint.Style.FILL);
+                textStyle.setTextSize(fontSize);
+
+                if (selected) {
+                    Paint blackPaintBorder = new Paint();
+                    blackPaintBorder.setStrokeWidth(5.0f);
+                    blackPaintBorder.setColor(editorMode ? Color.BLACK : Color.GREEN);
+                    canvas.drawRect(x - 10f, y - textHeight - 10f, x + textWidth + 10f, y + 10f, blackPaintBorder);
+                }
+
+                canvas.drawRect(x, y - textHeight, x + textWidth, y, whitePaint);
+
+                canvas.drawText(getText(), getX(), getY(), textStyle);
+                return;
+
+            } else if (!image.isEmpty()) {
                 Resources resource = context.getResources();
                 int resourceIdentifier = resource.getIdentifier(image, "drawable", context.getPackageName());
                 BitmapDrawable bitmapImageDrawable = (BitmapDrawable) context.getResources().getDrawable(resourceIdentifier);
@@ -338,29 +362,6 @@ public class Shape extends RectF {
                 } else {
                     canvas.drawBitmap(imagePic, getX(), getY(), null);
                 }
-
-            }
-            else if (!getText().isEmpty()){
-
-                Paint whitePaint = new Paint();
-                whitePaint.setColor(Color.WHITE);
-                whitePaint.setStyle(Paint.Style.FILL);
-
-                Paint textStyle = new Paint();
-                textStyle.setColor(Color.BLACK);
-                textStyle.setStyle(Paint.Style.FILL);
-                textStyle.setTextSize(fontSize);
-
-                if (selected) {
-                    Paint blackPaintBorder = new Paint();
-                    blackPaintBorder.setStrokeWidth(5.0f);
-                    blackPaintBorder.setColor(editorMode ? Color.BLACK : Color.GREEN);
-                    canvas.drawRect(x - 10f, y - textHeight - 10f, x + textWidth + 10f, y + 10f, blackPaintBorder);
-                }
-
-                canvas.drawRect(x, y - textHeight, x + textWidth, y, whitePaint);
-
-                canvas.drawText(getText(), getX(), getY(), textStyle);
 
             }
         }
@@ -402,45 +403,76 @@ public class Shape extends RectF {
 
                 i += 2;
             }
-            MapOfScripts.put(triggerWords, actions);
+
+            ArrayList<ArrayList<String>> val;
+            if (MapOfScripts.containsKey(triggerWords)) {
+                val = MapOfScripts.get(triggerWords);
+            } else {
+                val = new ArrayList<ArrayList<String>>();
+            }
+
+            val.add(actions);
+            MapOfScripts.put(triggerWords, val);
         }
     }
 
 
     public boolean performScriptAction(String triggerWords){
 
-        if (isHidden() || triggerWords == null || triggerWords.isEmpty() || !MapOfScripts.containsKey(triggerWords)) return false;
+//        System.out.println("Trigger words [arg0] are: " + triggerWords);
+//        System.out.println("Map is: " + MapOfScripts.toString());
+
+        if (isHidden() || actionHideShapes.contains(name) || triggerWords == null || triggerWords.isEmpty() || !MapOfScripts.containsKey(triggerWords)) return false;
         triggerWords = triggerWords.trim().toLowerCase();
-        if (!triggerWords.equals("on-click") && !triggerWords.equals("on-enter") && !(triggerWords.equals("on-drop"))) return false;
+        if (!triggerWords.equals("on-click") && !triggerWords.equals("on-enter") && !(triggerWords.contains("on-drop"))) return false;
 
-        ArrayList<String> actions = MapOfScripts.get(triggerWords);
-        for (String action: actions) {
-            // execute action
-            String[] words = action.split(" ");
-            if (words[0].equals("goto")) {
-                transitionPage = words[1];
-            } else if (words[0].equals("hide")) {
-                actionHideShapes.add(words[1]);
-            }
-            else if (words[0].equals("show")) {
-                actionShowShapes.add(words[1]);
-            }
-            else if (words[0].equals("play")) {
-                MediaPlayer soundPlayer = MediaPlayer.create(context, context.getResources().getIdentifier(words[1], "raw", context.getPackageName()));
-                soundPlayer.start();
+        if (!MapOfScripts.containsKey(triggerWords)) return false;
 
-                // Citation: https://stackoverflow.com/questions/24326269/setoncompletionlistener-mediaplayer-oncompletionlistener-in-the-type-mediaplay
-                soundPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                    @Override
-                    public void onCompletion(MediaPlayer mediaPlayer) {
-                        mediaPlayer.release();
-                    }
-                });
+        //System.out.println("Got this far with " + triggerWords);
+
+        ArrayList<ArrayList<String>> actions = MapOfScripts.get(triggerWords);
+
+        //System.out.println("FIRST ACTION FOR " + triggerWords + " is: " + actions.get(0).toString());
+
+        if (actions == null || actions.isEmpty()) return false;
+
+        boolean didSomething = false;
+
+        for (ArrayList<String> withinActions : actions) {
+            if (withinActions == null || withinActions.isEmpty()) continue;
+            for (String action: withinActions) {
+                //System.out.println("Currently processing " + triggerWords + " " + action);
+                if (action == null || action.isEmpty()) continue;
+                didSomething = true;
+                // execute action
+                String[] words = action.split(" ");
+                if (words[0].equals("goto")) {
+                    transitionPage = words[1];
+                } else if (words[0].equals("hide")) {
+                    actionHideShapes.add(words[1]);
+                }
+                else if (words[0].equals("show")) {
+                    actionShowShapes.add(words[1]);
+                    //System.out.println("ASKING TO SHOW " + words[1]);
+
+                }
+                else if (words[0].equals("play")) {
+                    MediaPlayer soundPlayer = MediaPlayer.create(context, context.getResources().getIdentifier(words[1], "raw", context.getPackageName()));
+                    soundPlayer.start();
+
+                    // Citation: https://stackoverflow.com/questions/24326269/setoncompletionlistener-mediaplayer-oncompletionlistener-in-the-type-mediaplay
+                    soundPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                        @Override
+                        public void onCompletion(MediaPlayer mediaPlayer) {
+                            mediaPlayer.release();
+                        }
+                    });
 
 
+                }
             }
         }
-        return true;
+        return didSomething;
     }
 
     public void setTextBounds(float textWidth, float textHeight) {
@@ -452,20 +484,33 @@ public class Shape extends RectF {
 
 
     public boolean isTouched (float xq, float yq) {
-        if (image.isEmpty() && !text.isEmpty()) {
-            return !hidden && xq >= x && xq <= x + textWidth && yq >= (y - textHeight) && yq <= y;
+        if (!text.isEmpty()) {
+            return (!hidden || editorMode) && xq >= x && xq <= x + textWidth && yq >= (y - textHeight) && yq <= y;
         }
-        return !hidden && xq >= x && xq <= x + width && yq >= y && yq <= y + height;
+        return (!hidden || editorMode) && xq >= x && xq <= x + width && yq >= y && yq <= y + height;
     }
 
     public String getTransition() {
-        if (!transitionPage.isEmpty())
-        {
+        if (!transitionPage.isEmpty()) {
             String result = transitionPage;
             transitionPage = "";
             return result;
         }
         return "";
+    }
+
+    public ArrayList<String> getHiddenShapes() {
+        if (this.actionHideShapes.isEmpty()) return this.actionHideShapes;
+        ArrayList<String> toReturn = this.actionHideShapes;
+        actionHideShapes = new ArrayList<String>();
+        return toReturn;
+    }
+
+    public ArrayList<String> getShownShapes() {
+        if (this.actionShowShapes.isEmpty()) return this.actionShowShapes;
+        ArrayList<String> toReturn = this.actionShowShapes;
+        actionShowShapes = new ArrayList<String>();
+        return toReturn;
     }
 
     public String toString() {

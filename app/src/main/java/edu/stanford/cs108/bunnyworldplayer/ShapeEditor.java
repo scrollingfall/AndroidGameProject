@@ -42,7 +42,7 @@ public class ShapeEditor extends AppCompatActivity {
 
         currGame = EditorActivity.newGame;
         if (currGame == null) {
-            System.out.println("WARNING: newGame object is NULL");
+            //System.out.println("WARNING: newGame object is NULL");
             return;
         }
 
@@ -203,7 +203,7 @@ public class ShapeEditor extends AppCompatActivity {
     // For debugging purposes
     private void toastify(String str) {
         if (!DEBUG) return;
-        System.out.println("Output: " + str);
+        //System.out.println("Output: " + str);
         Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
     }
 
@@ -296,7 +296,7 @@ public class ShapeEditor extends AppCompatActivity {
                     new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, pageNames);
             resources.setAdapter(resourceOptions);
         } else {
-            System.out.println("WARNING: Attempting to set fourth spinner to " + option + ", which is not a valid option.");
+            //System.out.println("WARNING: Attempting to set fourth spinner to " + option + ", which is not a valid option.");
         }
 
         resources.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -327,7 +327,6 @@ public class ShapeEditor extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapter, View view, int pos, long id) {
                 imageSelected = adapter.getItemAtPosition(pos).toString();
-//                toastify(imageSelected);
             }
 
         });
@@ -416,7 +415,7 @@ public class ShapeEditor extends AppCompatActivity {
         boolean movable = ((CheckBox) findViewById(R.id.movable)).isChecked();
         boolean visible = ((CheckBox) findViewById(R.id.visible)).isChecked();
 
-        System.out.println("OUTPUT: name = " + name + ", x = " + x + ", y = " + y + ", width = " + width + ", height = " + height);
+        //System.out.println("OUTPUT: name = " + name + ", x = " + x + ", y = " + y + ", width = " + width + ", height = " + height);
 
         float xVal = Float.parseFloat(x);
         if (xVal <= 0) xVal = 1f;

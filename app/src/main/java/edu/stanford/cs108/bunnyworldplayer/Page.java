@@ -44,7 +44,7 @@ public class Page {
         this.height = height; //how to pass these on?
         this.x = 0;
         this.y = 0;
-        System.out.println("page constructor called with " + name);
+        //System.out.println("page constructor called with " + name);
         this.starter = false;
         this.editorMode = false;
     }
@@ -153,7 +153,7 @@ public class Page {
     }
 
     public void setStarter(boolean starter, float x, float y) {
-        System.out.println("starter set " + (starter?"true ":"false ") + "on page " + name);
+        //System.out.println("starter set " + (starter?"true ":"false ") + "on page " + name);
         this.starter = starter;
         this.x = x;
         this.y = y;
@@ -178,44 +178,70 @@ public class Page {
 
     public void onEnter() {
         for (Shape s : shapeList) {
-            s.performScriptAction("on-enter");
+
+            boolean action = s.performScriptAction("on-enter");
+            if (!action) continue;
+
+            //System.out.println("ACTION TAKEN BY: " + s.getName());
+
+            ArrayList<String> toShow = s.getShownShapes();
+            //System.out.println("TO SHOW IS: " + toShow.toString());
+
+            if (toShow != null && !toShow.isEmpty()) {
+                for (String currName : toShow) {
+                    //System.out.println("SHOWING " + currName);
+                    Shape currShape = game.getShape(currName);
+                    if (currShape != null) currShape.setHidden(false);
+                }
+            }
+
+            ArrayList<String> toHide = s.getHiddenShapes();
+            //System.out.println("TO HIDE IS: " + toHide.toString());
+
+            if (toHide != null && !toHide.isEmpty()) {
+                for (String currName : toHide) {
+                    Shape currShape = game.getShape(currName);
+                    if (currShape != null) currShape.setHidden(true);
+                }
+            }
+
         }
     }
 
     public boolean moveToBackpack(String name) {
-        System.out.println("before");
-        System.out.println("shapes: " +shapes);
-        System.out.println("shapelist: "+shapeList);
-        System.out.println("backpack: "+game.getResources());
-        System.out.println("after");
+//        System.out.println("before");
+//        System.out.println("shapes: " +shapes);
+//        System.out.println("shapelist: "+shapeList);
+//        System.out.println("backpack: "+game.getResources());
+//        System.out.println("after");
         if (!shapes.containsKey(name))
             return false;
         Shape s = shapes.remove(name);
-        System.out.println(s.getName() +" is moved TO Backpack");
+        //System.out.println(s.getName() +" is moved TO Backpack");
         removeFromList(s.getName());
-        System.out.println("shapes: " +shapes);
-        System.out.println("shapelist: "+shapeList);
+        //System.out.println("shapes: " +shapes);
+        //System.out.println("shapelist: "+shapeList);
         game.getResources().put(name, s);
-        System.out.println("backpack: "+game.getResources());
+        //System.out.println("backpack: "+game.getResources());
         s.setInBackpack(true);
         return true;
     }
 
     public boolean moveFromBackpack(String name) {
-        System.out.println("before");
-        System.out.println("shapes: " +shapes);
-        System.out.println("shapelist: "+shapeList);
-        System.out.println("backpack: "+game.getResources());
-        System.out.println("after");
+//        System.out.println("before");
+//        System.out.println("shapes: " +shapes);
+//        System.out.println("shapelist: "+shapeList);
+//        System.out.println("backpack: "+game.getResources());
+//        System.out.println("after");
         if (!game.getResources().containsKey(name))
             return false;
         Shape s = game.getResources().remove(name);
-        System.out.println(s.getName() +" is moved FROM Backpack");
+        //System.out.println(s.getName() +" is moved FROM Backpack");
         shapes.put(name, s);
         shapeList.add(s);
-        System.out.println("shapes: " +shapes);
-        System.out.println("shapelist: "+shapeList);
-        System.out.println("backpack: "+game.getResources());
+        //System.out.println("shapes: " +shapes);
+        //System.out.println("shapelist: "+shapeList);
+        //System.out.println("backpack: "+game.getResources());
         s.setInBackpack(false);
         return true;
     }

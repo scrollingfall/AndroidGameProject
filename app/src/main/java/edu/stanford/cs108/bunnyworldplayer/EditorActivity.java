@@ -49,12 +49,15 @@ public class EditorActivity extends AppCompatActivity {
 
         starterPage = databaseinstance.getPage(databaseinstance.getPageid());
 
+        for(Page page: newGame.getPageList()){
+            if (newGame.getStarter().equals(page.getName())) {
+                page.setStarter(true, page.getWidth(), page.getHeight());
+            }
+        }
+
         starterPage.setStarter(true, starterPage.getWidth(), starterPage.getHeight());
         newGame.setStarter(starterPage.getName());
         currPage = starterPage;
-        System.out.println(currPage.isStarter());
-        System.out.println(currPage.getName());
-
 
         gameNameField.setText(databaseinstance.getCurrentGameName());
 
@@ -103,9 +106,6 @@ public class EditorActivity extends AppCompatActivity {
             }
 
         });
-        System.out.println(currPage.isStarter());
-        System.out.println(currPage.getName());
-        System.out.println(currPage.getPageId());
     }
 
 
@@ -154,7 +154,6 @@ public class EditorActivity extends AppCompatActivity {
     public void onAddPage(View view) {
         // add to arraylist, create new spinner
         pageCounter += 1;
-
         String pageName = "page" + Integer.toString(pageCounter);
         pageNamesList.add(pageName);
 
@@ -205,8 +204,6 @@ public class EditorActivity extends AppCompatActivity {
             }
         }
 
-        System.out.println("currPageName: " + currPageName);
-        System.out.println("currPage.getName(): " + currPage.getName());
         newGame.removePage(currPage.getName(), currPage);
 
         // update spinner
@@ -227,24 +224,11 @@ public class EditorActivity extends AppCompatActivity {
     }
 
     public void onDeletePage(View view) {
-        System.out.println("curre page in on delete is" + currPage.isStarter());
-        System.out.println(currPage.getPageId());
-        System.out.println(currPage.getName());
-        System.out.println("starter page in on delete is" + starterPage.isStarter());
-        System.out.println(starterPage.getName());
-        System.out.println(starterPage.getPageId());
-
-        if (currPage.getName().equals(starterPage.getName())) currPage.setStarter(true, currPage.getWidth(), currPage.getHeight());
-
         if (!currPage.isStarter()) {
-            System.out.println(pageNamesList);
-            pageNamesList.remove(currPage);//does nothing
-            System.out.println(pageNamesList);
+            pageNamesList.remove(currPage.getName());//does nothing
             adapter.notifyDataSetChanged();
             // go back to starter page and draw it; remove currPage from Game
-            System.out.println(newGame.getPages());
             newGame.removePage(currPage.getName(), currPage);
-            System.out.println(newGame.getPages());
             giveToast("Page \"" + currPage.getName() + "\" deleted");
             currPage = starterPage;
 

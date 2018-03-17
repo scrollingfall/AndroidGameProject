@@ -32,27 +32,29 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8sp"
+                android:layout_marginLeft="10sp"
                 android:text="Game: "/>
             <EditText
                 android:id="@+id/gameNameField"
                 android:layout_width="350px"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8sp"
                 android:maxLength="30"
-                android:hint="Name"
-                />
+                android:hint="Name"/>
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:alpha="0.80"
+                android:alpha="0.70"
                 android:textColor="#000000"
                 android:text="SAVE\nGAME"
                 android:onClick="onSaveGame"/>
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:alpha="0.80"
+                android:alpha="0.70"
                 android:textColor="#000000"
-                android:background="#867979"
+                android:background="#ACACAC"
                 android:text="DELETE\nGAME"
                 android:onClick="onDeleteGame"/>
         </LinearLayout>
@@ -61,14 +63,22 @@
             android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Page: "/>
+                android:layout_marginTop="8sp"
+                android:text="  Select a page:"/>
+            <Spinner
+                android:id="@+id/pageSpinner"
+                android:layout_width="75px"
+                android:layout_marginTop="9sp"
+                android:layout_height="wrap_content" />
             <EditText
                 android:id="@+id/pageNameField"
-                android:layout_width="180px"
+                android:layout_width="170px"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8sp"
                 android:maxLength="15"
                 android:hint="Name"
                 android:text="page1"/>
@@ -77,9 +87,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:alpha="0.80"
+                android:alpha="0.70"
                 android:textColor="#000000"
-                android:background="#595959"
+                android:background="#ACACAC"
                 android:text="MAKE\nSTARTER"
                 android:onClick="onMakeStarter"/>
             <Button
@@ -87,129 +97,139 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:alpha="0.80"
+                android:alpha="0.70"
                 android:textColor="#000000"
                 android:text="SAVE\nPAGE"
                 android:onClick="onSavePage"/>
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:alpha="0.80"
+                android:alpha="0.70"
                 android:textColor="#000000"
-                android:background="#867979"
+                android:background="#ACACAC"
                 android:text="DELETE\nPAGE"
                 android:onClick="onDeletePage"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Select a page:"/>
-            <Spinner
-                android:id="@+id/pageSpinner"
-                android:layout_width="80px"
-                android:layout_height="wrap_content" />
             <Button
                 android:id="@+id/addPageBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:alpha="0.80"
+                android:layout_marginRight="10sp"
+                android:alpha="0.70"
                 android:textColor="#000000"
                 android:text="ADD\nPAGE"
                 android:onClick="onAddPage"/>
         </LinearLayout>
     </RelativeLayout>
 
-    <GridLayout
+    <LinearLayout
+        android:gravity="center"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerInParent="true"
-        android:columnCount="13"
-        android:rowCount="1"
         android:id="@+id/bottom_grid">
-        <ImageView
-            android:id="@+id/addShapeBtn"
-            android:src="@drawable/addshape"
-            android:layout_width="100px"
-            android:layout_height="100px"
-            android:layout_columnWeight="2"
-            android:paddingBottom="30px"
-            android:text="ADD\nSHAPE"
-            android:onClick="onAddShape"/>
-        <ImageView
-            android:id="@+id/editShapeBtn"
-            android:src="@drawable/editshape"
-            android:layout_width="100px"
-            android:layout_height="100px"
-            android:layout_columnWeight="2"
-            android:paddingBottom="30px"
-            android:text="EDIT\nSHAPE"
-            android:onClick="onEditShape"/>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Shape: "/>
-        <TextView
-            android:id="@+id/shapeNameField"
-            android:inputType="numberDecimal"
-            android:layout_width="30px"
-            android:layout_height="wrap_content"
-            android:layout_columnWeight="2"
-            android:text="--"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="X: "/>
-        <TextView
-            android:id="@+id/xField"
-            android:inputType="numberDecimal"
-            android:layout_width="30px"
-            android:layout_height="wrap_content"
-            android:layout_columnWeight="2"
-            android:text="--"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Y: "/>
-        <TextView
-            android:id="@+id/yField"
-            android:inputType="numberDecimal"
-            android:layout_width="30px"
-            android:layout_height="wrap_content"
-            android:layout_columnWeight="2"
-            android:text="--"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Width: "/>
-        <TextView
-            android:id="@+id/widthField"
-            android:inputType="numberDecimal"
-            android:layout_width="30px"
-            android:layout_height="wrap_content"
-            android:layout_columnWeight="2"
-            android:text="--"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Height: "/>
-        <TextView
-            android:id="@+id/heightField"
-            android:inputType="numberDecimal"
-            android:layout_width="30px"
-            android:layout_height="wrap_content"
-            android:layout_columnWeight="2"
-            android:text="--"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Shape: "/>
+            <TextView
+                android:id="@+id/shapeNameField"
+                android:inputType="numberDecimal"
+                android:layout_width="170px"
+                android:layout_height="wrap_content"
+                android:text="--"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="X: "/>
+            <TextView
+                android:id="@+id/xField"
+                android:inputType="numberDecimal"
+                android:layout_width="170px"
+                android:layout_height="wrap_content"
+                android:text="--"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Y: "/>
+            <TextView
+                android:id="@+id/yField"
+                android:inputType="numberDecimal"
+                android:layout_width="170px"
+                android:layout_height="wrap_content"
+                android:text="--"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Width: "/>
+            <TextView
+                android:id="@+id/widthField"
+                android:inputType="numberDecimal"
+                android:layout_width="170px"
+                android:layout_height="wrap_content"
+                android:text="--"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Height: "/>
+            <TextView
+                android:id="@+id/heightField"
+                android:inputType="numberDecimal"
+                android:layout_width="170px"
+                android:layout_height="wrap_content"
+                android:text="--"/>
 
-        <ImageView
-            android:src="@drawable/deleteshape"
-            android:id="@+id/deleteShapeBtn"
-            android:layout_width="100px"
-            android:layout_height="100px"
-            android:layout_columnWeight="2"
-            android:paddingBottom="30px"
-            android:onClick="onDeleteShape"/>
+        </LinearLayout>
 
-    </GridLayout>
+        <LinearLayout
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/addShapeBtn"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="15dp"
+                android:onClick="onAddShape"
+                android:src="@drawable/addshape"
+                android:text="ADD\nSHAPE" />
+
+            <ImageView
+                android:id="@+id/editShapeBtn"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="15dp"
+                android:onClick="onEditShape"
+                android:src="@drawable/editshape"
+                android:text="EDIT\nSHAPE" />
+
+            <ImageView
+                android:id="@+id/deleteShapeBtn"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="15dp"
+                android:onClick="onDeleteShape"
+                android:src="@drawable/deleteshape" />
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </RelativeLayout>

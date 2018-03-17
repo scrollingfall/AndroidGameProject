@@ -23,7 +23,8 @@ public class Game {
     private HashMap<String, BitmapDrawable> imgResources;
     private HashMap<String, Integer> musicResources;
     private boolean editorMode;
-    private HashMap<String, String> idToName = new HashMap<String, String>();;
+    private HashMap<String, String> idToName = new HashMap<String, String>();
+    private HashMap<String, Shape> allShapes = new HashMap<String, Shape>();
 
 
     public Game(String name, Context context) {
@@ -47,7 +48,6 @@ public class Game {
         this.starter = firstPage.getName();
         this.currentPage = firstPage.getName();
         this.context = context;
-        System.out.println("helo");
 //        pages = new HashMap<String, Page>();
 //        pageList = new ArrayList<>();
         pages.put(firstPage.getName(), firstPage);
@@ -81,9 +81,6 @@ public class Game {
     }
 
     public void addPage(String name, Page p) {
-
-        System.out.println("page name while getting game is " + name);
-        System.out.println("page id while getting game is " + p.getPageId());
 
         pages.put(name, p);
         pageList.add(p);
@@ -121,6 +118,22 @@ public class Game {
         }
     }
 
+    public void setAllShapes() {
+        for (Page currPage : getPageList()) {
+            if (currPage == null) continue;
+            if (allShapes == null) allShapes = new HashMap<String, Shape>();
+            for (Shape currShape : currPage.getShapeList()) {
+                if (currShape == null) continue;
+                allShapes.put(currShape.getName(), currShape);
+            }
+        }
+    }
+
+    public Shape getShape(String name) {
+        if (allShapes != null && allShapes.containsKey(name)) return allShapes.get(name);
+        return null;
+    }
+
 
 
     public String getName() {
@@ -149,9 +162,17 @@ public class Game {
 
     public Page getCurrentPage() {
         if (pages.containsKey(currentPage)) {
+            //System.out.println("GETTING PAGE WITH GIVEN KEY, WHICH IS: " + currentPage);
             return(pages.get(currentPage));
         } else {
-            return(pages.get(pageIDtoName(currentPage)));
+            String name = pageIDtoName(currentPage);
+            if (pages.containsKey(name)) {
+                //System.out.println("GETTING PAGE WITH NAME, WHICH IS: " + name);
+            return (pages.get(name));
+            } else {
+                //System.out.println("GETTING STARTER, WHICH IS: " + starter);
+                return pages.get(starter);
+            }
         }
     }
 
