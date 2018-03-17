@@ -111,8 +111,9 @@ public class ShapeEditor extends AppCompatActivity {
             overallScript = new ArrayList<String>();
         }
 
+        TextView nameField = (TextView) findViewById(R.id.shapeName);
+
         if (name != null && !name.isEmpty()) {
-            TextView nameField = (TextView) findViewById(R.id.shapeName);
             nameField.setText(name);
         }
 
@@ -132,6 +133,13 @@ public class ShapeEditor extends AppCompatActivity {
         TextView heightField = (TextView) findViewById(R.id.shapeHeight);
         heightField.setText(height + "");
 
+        // Bounding max widths -> Citation: https://stackoverflow.com/questions/1408781/how-do-i-prevent-an-edittext-from-resizing-itself-when-the-user-is-typing
+        nameField.setMaxWidth(nameField.getWidth());
+        xField.setMaxWidth(xField.getWidth());
+        yField.setMaxWidth(yField.getWidth());
+        widthField.setMaxWidth(widthField.getWidth());
+        heightField.setMaxWidth(heightField.getWidth());
+
         // Setting image, if available
         String imageText = shape.getImage();
         if (imageText != null && !imageText.isEmpty()) {
@@ -141,12 +149,16 @@ public class ShapeEditor extends AppCompatActivity {
         String text = shape.getText();
         int fontSize = shape.getFontSize();
 
+        TextView textField = (TextView) findViewById(R.id.shapeText);
+        TextView fontField = (TextView) findViewById(R.id.shapeFont);
+
         if (text != null && !text.isEmpty()) {
-            TextView textField = (TextView) findViewById(R.id.shapeText);
             textField.setText(text);
-            TextView fontField = (TextView) findViewById(R.id.shapeFont);
             fontField.setText(fontSize + "");
         }
+
+        textField.setMaxWidth(textField.getWidth());
+        fontField.setMaxWidth(fontField.getWidth());
 
         CheckBox visible = (CheckBox) findViewById(R.id.visible);
         visible.setChecked(!selectedShape.isHidden());
