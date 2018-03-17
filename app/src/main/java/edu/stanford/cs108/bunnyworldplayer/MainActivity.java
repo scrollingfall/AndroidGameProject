@@ -77,12 +77,12 @@ public class MainActivity extends AppCompatActivity {
         Page mysticRoom = new Page("mysticRoom", 100, 100,"Bunnyworld Default Game" );
 
         Shape bunnyShape = new Shape(getApplicationContext(), "bunnyShape", "mysticRoom", 1000, 100, 400, 400);
-        bunnyShape.setScriptList("on-click hide carrotdeath play munching;on-enter show hidden_door;");
+        bunnyShape.setScriptList("on-click hide carrot1 play munching;on-enter show door;");
         bunnyShape.setImage("mystic");
         starterPage.addShape(bunnyShape);
 
         Shape door = new Shape(getApplicationContext(), "door", "mysticRoom", 800, 250, 100, 150);
-        door.setScriptList("on-click goto Page1");
+        door.setScriptList("on-click goto starterPage");
         starterPage.addShape(door);
 
         Shape bunnyText = new Shape(getApplicationContext(), "bunnyText", "mysticRoom", 700, 700, 350, 350);
@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
         fireRoom.addShape(fire);
 
         Shape door2 = new Shape(getApplicationContext(), "door2", "fireRoom", 800, 250, 100, 150);
-        door2.setScriptList("on-click goto Page1");
+        door2.setScriptList("on-click goto starterPage");
         fireRoom.addShape(door2);
 
         Shape shapeFireRoom = new Shape(getApplicationContext(), "shapeFireRoom", "fireRoom", 0, 0, 100, 100);
@@ -123,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
         Page deathRoom = new Page("deathRoom", 100, 100,"Bunnyworld Default Game" );
 
         Shape bunny2 = new Shape(getApplicationContext(), "fire", "deathRoom", 500, 200, 500, 350);
-        bunny2.setScriptList("on-enter play evillaugh;on-drop carrot1 hide carrot1 play munching hide death show door3;on-click play evillaugh;");
+        bunny2.setScriptList("on-enter play evillaugh;on-drop carrot1 hide carrot1 play munching hide bunny2 show door3;on-click play evillaugh;");
         deathRoom.addShape(bunny2);
 
         Shape door3 = new Shape(getApplicationContext(), "door3", "deathRoom", 0, 0, 100, 150);
